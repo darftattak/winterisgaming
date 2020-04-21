@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,6 +56,16 @@ class Order
      * @ORM\JoinColumn(nullable=false)
      */
     private $billingAddress;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderHasProduct", mappedBy="orderId")
+     */
+    private $orderHasProducts;
+
+    public function __construct()
+    {
+        $this->orderHasProducts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,6 +152,37 @@ class Order
     public function setBillingAddress(?Address $billingAddress): self
     {
         $this->billingAddress = $billingAddress;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderHasProduct[]
+     */
+    public function getOrderHasProducts(): Collection
+    {
+        return $this->orderHasProducts;
+    }
+
+    public function addOrderHasProduct(OrderHasProduct $orderHasProduct): self
+    {
+        if (!$this->orderHasProducts->contains($orderHasProduct)) {
+            $this->orderHasProducts[] = $orderHasProduct;
+            $orderHasProduct->setOrderId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderHasProduct(OrderHasProduct $orderHasProduct): self
+    {
+        if ($this->orderHasProducts->contains($orderHasProduct)) {
+            $this->orderHasProducts->removeElement($orderHasProduct);
+            // set the owning side to null (unless already changed)
+            if ($orderHasProduct->getOrderId() === $this) {
+                $orderHasProduct->setOrderId(null);
+            }
+        }
 
         return $this;
     }
