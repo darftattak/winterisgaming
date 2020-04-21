@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +27,22 @@ class Product
      * @ORM\Column(type="text")
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="product")
+     */
+    private $photos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\State", mappedBy="product")
+     */
+    private $states;
+
+    public function __construct()
+    {
+        $this->photos = new ArrayCollection();
+        $this->states = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,6 +69,68 @@ class Product
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Photo[]
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos[] = $photo;
+            $photo->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photos->contains($photo)) {
+            $this->photos->removeElement($photo);
+            // set the owning side to null (unless already changed)
+            if ($photo->getProduct() === $this) {
+                $photo->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|State[]
+     */
+    public function getStates(): Collection
+    {
+        return $this->states;
+    }
+
+    public function addState(State $state): self
+    {
+        if (!$this->states->contains($state)) {
+            $this->states[] = $state;
+            $state->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeState(State $state): self
+    {
+        if ($this->states->contains($state)) {
+            $this->states->removeElement($state);
+            // set the owning side to null (unless already changed)
+            if ($state->getProduct() === $this) {
+                $state->setProduct(null);
+            }
+        }
 
         return $this;
     }
