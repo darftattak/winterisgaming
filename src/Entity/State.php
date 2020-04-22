@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,6 +20,7 @@ class State
     private $id;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez saisir un prix" )
      * @ORM\Column(type="float")
      */
     private $price;
@@ -34,6 +36,7 @@ class State
     private $state;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez sélectionner un produit" )
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="states")
      * @ORM\JoinColumn(nullable=false)
      */

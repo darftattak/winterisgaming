@@ -4,11 +4,15 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
+ * @UniqueEntity("username", message="Ce nom d'utilisateur est déjà pris")
+ * @UniqueEntity("email", message="Cette adresse mail est déjà prise")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
@@ -21,21 +25,46 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez saisir un prénom" )
+     * @Assert\Length (
+     *      min = 2,
+     *      max = 50,
+     *      minMessage ="Le prénom doit comporter au minimum {{limit}} caractères.",
+     *      maxMessage ="Le prénom doit comporter au maximum {{limit}} caractères.",
+     * )
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $firstname;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez saisir un nom" )
+     * @Assert\Length (
+     *      min = 2,
+     *      max = 50,
+     *      minMessage ="Le nom doit comporter au minimum {{limit}} caractères.",
+     *      maxMessage ="Le nom doit comporter au maximum {{limit}} caractères.",
+     * )
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $lastname;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez saisir un pseudo" )
+     * @Assert\Length (
+     *      min = 3,
+     *      max = 25,
+     *      minMessage ="Le pseudo doit comporter au minimum {{limit}} caractères.",
+     *      maxMessage ="Le pseudo doit comporter au maximum {{limit}} caractères.",
+     * )
      * @ORM\Column(type="string", length=50)
      */
     private $username;
 
     /**
+     * @Assert\NotBlank( message = "Vous devez saisir une adresse mail" )
+     * @Assert\Email (
+     *      message="L'adresse mail n'est pas valide"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $email;
@@ -69,6 +98,27 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user")
      */
     private $orders;
+
+    /**
+     * @Assert\NotBlank( message = "Vous devez saisir un mot de passe" )
+     * @Assert\Length (
+     *      min = 6,
+     *      max = 16,
+     *      minMessage ="Votre mot de passe doit comporter au minimum {{limit}} caractères.",
+     *      maxMessage ="Votre mot de passe doit comporter au maximum {{limit}} caractères.",
+     * )
+     */
+    private $plainPassword;
+
+    /**
+     * @Assert\File(
+     *      maxSize = "2M",
+     *      maxSizeMessage = "Votre fichier est trop lourd, il ne doit pas dépasser {{ limit }}{{ suffix }}.",
+     *      mimeTypes = {"image/png", "image/jpeg"},
+     *      mimeTypesMessage = "Seules les images PNG et JPEG/JPG sont autorisées.",
+     * )
+     */
+    private $avatarFile;
 
     public function __construct()
     {
@@ -238,12 +288,33 @@ class User implements UserInterface
 
         return $this;
     }
-    
-    public function getSalt()
+
+    public function getPlainPassword(): ?string
     {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function getAvatarFile(): ?File
+    {
+        return $this->avatarFile;
+    }
+
+    public function setAvatarFile(File $avatarFile): self
+    {
+        $this->avatarFile = $avatarFile;
+
+        return $this;
+    }
+    public function getSalt() {
         return null;
     }
 
-    public function eraseCredentials(){}
-
+    public function eraseCredentials() {}
 }
