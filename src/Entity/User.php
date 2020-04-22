@@ -8,13 +8,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @UniqueEntity("username", message="Ce nom d'utilisateur est déjà pris")
  * @UniqueEntity("email", message="Cette adresse mail est déjà prise")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -202,7 +203,7 @@ class User
         return $this;
     }
 
-    public function getRole(): ?array
+    public function getRoles(): ?array
     {
         return $this->role;
     }
@@ -305,10 +306,15 @@ class User
         return $this->avatarFile;
     }
 
-    public function setAvatarFile(?string $avatarFile): self
+    public function setAvatarFile(File $avatarFile): self
     {
         $this->avatarFile = $avatarFile;
 
         return $this;
     }
+    public function getSalt() {
+        return null;
+    }
+
+    public function eraseCredentials() {}
 }
