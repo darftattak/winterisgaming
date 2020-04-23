@@ -19,6 +19,27 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+
+    public function searchByName( $query ) {
+        $stmt = $this->createQueryBuilder('e');
+        $stmt->where( 'e.name LIKE :query' );
+        $stmt->setParameter('query', '%' . $query . '%');
+
+        return $stmt->getQuery()->getResult();
+    }
+
+    public function getRandom() {
+        $stmt = $this->createQueryBuilder('e');
+        $stmt->select('e.id');
+        //TODO
+        // Installer https://github.com/beberlei/DoctrineExtensions
+        // Ajouter une séléction aléatoire
+        $stmt->orderBy('RAND()');
+        $stmt->setMaxResults(1);
+
+        return $stmt->getQuery()->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */
