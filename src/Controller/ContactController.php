@@ -2,36 +2,51 @@
 
 namespace App\Controller;
 
-use App\Form\ContactType;
 use App\Model\Contact;
+use App\Form\ContactType;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Routing\Annotation\Route;
-
 
 class ContactController extends AbstractController
 {
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact( Contact $contact, MailerInterface $mailer, GmailSmtpTransport $smtp )
+    public function contact( MailerInterface $mailer, Request $request )
     {
+        $contact = new Contact;
         $form = $this->createForm( ContactType::class, $contact );
 
+        $form->handleRequest( $request);
+
         if( $form->isSubmitted() AND $form->isValid() ) {
-            $transport = new GmailSmtpTransport("winterisgaming2020", "WinterIsGaming2020");
-            $mailer = new Mailer($transport);
+            if($contact->getOrderNumber()) {
+                $order = $contact->getOrderNumber();
+            }
+
+            $message = $contact->getFirstname() ." ". $contact->getLastname(). " nous a contacté sur le sujet suivant : ";
+            if($contact->getOrderNumber()) {
+                $message .= $contact->getTopic();
+            }else{
+                $message .= $contact->getTopic();
+            }
+            $message .= "\n";
+            $message .= $contact->getMessage();
+            $message .= "\n";
+            $message .= "Voici son mail : " . $contact->getEmail();
 
             $email = (new Email())
                 ->from("winterisgaming2020@gmail.com")
                 ->to("winterisgaming2020@gmail.com")
-                ->replyTo($form->email)
-                ->subject($form->topic)
-                ->text($form->message);
-                
+                ->replyTo($contact->getEmail())
+                ->subject($contact->getTopic())
+                ->text($message);
+
             $mailer->send($email);
         }
 
