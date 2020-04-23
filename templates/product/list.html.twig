@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos événements - {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="events">
+    <h1>Jeux, Bundles, Rétro-gaming</h1>
+  
+    <div class="row">
+        {% for product in products %}
+            <div class="col-12 col-lg-4">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ product.name }}</h2>
+                        <p class="card-text">{{ product.description|slice(0, 120) }}</p>
+                        <img src="{{ product.photos[0].picture }}" alt="image1">
+                        {% for i in product.states  %}
+                        {% for a in i  %}
+                        
+                        <p class="card-text">{{a}}</p> 
+                        {% endfor %}
+                        {% endfor %}
+                       
+                        {# <p class="card-text">{{ product.states.stock }}</p>
+                        <p class="card-text">{{ product.states.state }}</p> #}
+                        {# <a href="{{ path( 'event_show', {id: product.id} ) }}" class="btn btn-primary">En savoir plus</a> #}
+                    </div>
+                </div>
+            </div>
+            
+        {% endfor %}
+    </div>
+    <div class="pagination">
+        {% if page > 1 %}
+            <a href="?page={{ page - 1 }}" class="btn btn-outline-primary">Précédent</a>
+        {% endif %}
+        {% if page < maxPage %}
+            <a href="?page={{ page + 1 }}" class="btn btn-outline-primary">Suivant</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
