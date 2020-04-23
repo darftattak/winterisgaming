@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos événements - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <img src="{{ product.photos[0].picture }}" alt="image1">
+        <p>{{ product.states.0.price }} €</p>
+        <p>Quantité : {{ product.states.0.stock }}</p>
+        <p>Etat : {{ product.states.0.state }}</p>
+    
+{% endblock %}
