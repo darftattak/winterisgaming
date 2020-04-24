@@ -28,7 +28,7 @@ easy_admin:
         Categories:
             class: App\Entity\Category
         Utilisateurs:
-            class: App\Entity\User
+            class: App\Entity\Userfi
             form:
                 fields:
                     - username
