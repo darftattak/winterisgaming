@@ -15,7 +15,9 @@
                         <p class="card-text">Prix : {{ product.states.0.price }} €</p>
                         <p class="card-text">Quantité : {{ product.states.0.stock }}</p>
                         <p class="card-text">Etat : {{ product.states.0.state }}</p>
-                        <img src="{{ product.photos[0].picture }}" alt="image1">
+                        {% if product.photos is not empty %}
+                            <img src="{{ product.photos[0].picture }}" alt="image1">
+                        {% endif %}
                     </div>
                         <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-primary">En savoir plus</a>
                         <a href="{{ path( 'cart_add', {id: product.id} ) }}" class="btn btn-primary">Ajouter au panier</a>

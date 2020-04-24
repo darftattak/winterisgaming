@@ -20,7 +20,6 @@ class ProductController extends AbstractController
     
         public function __construct( ProductService $productService) {
             $this->productService = $productService;
-           
         }
     /**
      * @Route("/product", name="product")
