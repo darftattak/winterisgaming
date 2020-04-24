@@ -19,7 +19,6 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-<<<<<<< HEAD
 
     public function searchByName( $query ) {
         $stmt = $this->createQueryBuilder('e');
@@ -41,8 +40,6 @@ class ProductRepository extends ServiceEntityRepository
         return $stmt->getQuery()->getSingleScalarResult();
     }
 
-=======
->>>>>>> d75ca8bc80921d0ef7745426dd6ff7af713c3c31
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */
