@@ -27,5 +27,4 @@ security:
 
     access_control:
         - { path: ^/(register|login)$, allow_if: "is_anonymous()" }
-        - { path: ^/event/new$, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }

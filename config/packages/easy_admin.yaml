@@ -1,0 +1,43 @@
+easy_admin:
+    design:
+        menu:
+            - { label : Produits }
+            - Produits
+            - Etats
+            - Photos
+            - Categories
+            - { label : Utilisateurs }
+            - Utilisateurs
+            - Commandes
+            - { label : Stocks }
+    user: 
+        name_property_path: username
+    entities:
+        Produits:
+            class: App\Entity\Product
+        Etats:
+            class: App\Entity\State
+            form:
+                fields:
+                    - price
+                    - stock
+                    - state
+                    - product
+        Photos:
+            class: App\Entity\Photo
+        Categories:
+            class: App\Entity\Category
+        Utilisateurs:
+            class: App\Entity\User
+            form:
+                fields:
+                    - username
+                    - email
+                    - firstname
+                    - lastname
+                    - roles
+            new:
+                fields:
+                    - plainPassword
+        Commandes: 
+            class: App\Entity\Order
