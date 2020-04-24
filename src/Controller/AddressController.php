@@ -21,12 +21,15 @@ class AddressController extends AbstractController
         $form = $this->createForm( AddressType::class, $address );
 
         $form->handleRequest( $request);
+        $user = $this->getUser();
 
         if( $form ->isSubmitted() AND $form->isValid() ) {
-            $address->setUser($this->getUser());
+            $address->setUser($user);
 
             $em->persist( $address );
             $em->flush();
+
+            return $this->redirectToRoute( 'home' );
         }
 
         return $this->render('address/form.html.twig', [
@@ -36,18 +39,21 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/address/{id}/update", name="update_address", requirements={"id"="\d+"})
+     * @Route("/address/{id}/update", name="new_address")
      */
     public function update( Address $address, Request $request, EntityManagerInterface $em )  {
         if( $this->getUser() !== $address->getUser()) {
-            //Return to main menu
+            return $this->redirectToRoute("home");
         }
 
         $form = $this->createForm( AddressType::class, $address );
 
         $form->handleRequest( $request);
+        
         if( $form ->isSubmitted() AND $form->isValid() ) {
-
+            $em->flush();
+            $this->addFlash('success', "Votre adresse a bien été modifiée.");
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('address/form.html.twig', array(

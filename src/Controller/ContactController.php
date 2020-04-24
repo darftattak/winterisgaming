@@ -54,6 +54,10 @@ class ContactController extends AbstractController
                 ->text($message);
 
             $mailer->send($email);
+
+            $this->addFlash( 'success', "Votre compte à bien été créé." );
+
+            return $this->redirectToRoute( 'home' );
         }
         
 
