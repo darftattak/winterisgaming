@@ -1,0 +1,40 @@
+.nav-item{
+    color: white;
+    
+}
+.background {
+    
+    background-image: url(./../img/header.jpg);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    
+  
+}
+.navbar-top{
+    padding: 0.2px;
+    text-transform: none;
+    color: white;
+    text-decoration: white;
+}
+.bg-blue{
+background-color:#2D2D61; 
+
+}
+
+.logo{
+    max-width: 20em;
+    margin-block: -6em;
+   
+}
+.navesecondary{
+background-color: rgba(45, 45, 97, 0.486);
+margin-block: 0.2em
+
+}
+
+
+.backend{
+    background-color: black;
+}
