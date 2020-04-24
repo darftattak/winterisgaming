@@ -18,6 +18,7 @@
                         <img src="{{ product.photos[0].picture }}" alt="image1">
                     </div>
                         <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-primary">En savoir plus</a>
+                        <a href="{{ path( 'cart_add', {id: product.id} ) }}" class="btn btn-primary">Ajouter au panier</a>
             </div>
     </div>
         {% endfor %}
