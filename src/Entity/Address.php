@@ -22,8 +22,8 @@ class Address
      * @Assert\Length(
      *      min = 6,
      *      max = 255,
-     *      minMessage ="L'adresse doit comporter au minimum {{limit}} caractères.",
-     *      maxMessage ="L'adresse doit comporter au maximum {{limit}} caractères.",
+     *      minMessage ="L'adresse doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="L'adresse doit comporter au maximum {{ limit }} caractères.",
      * )
      * @ORM\Column(type="string", length=255)
      */

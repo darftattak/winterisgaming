@@ -11,8 +11,8 @@ class Contact
      * @Assert\Length (
      *      min = 2,
      *      max = 50,
-     *      minMessage ="Le prénom doit comporter au minimum {{limit}} caractères.",
-     *      maxMessage ="Le prénom doit comporter au maximum {{limit}} caractères.",
+     *      minMessage ="Le prénom doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="Le prénom doit comporter au maximum {{ limit }} caractères.",
      * )
      */
     private $firstname;
@@ -22,8 +22,8 @@ class Contact
      * @Assert\Length (
      *      min = 2,
      *      max = 50,
-     *      minMessage ="Le nom doit comporter au minimum {{limit}} caractères.",
-     *      maxMessage ="Le nom doit comporter au maximum {{limit}} caractères.",
+     *      minMessage = "Le nom doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le nom doit comporter au maximum {{ limit }} caractères.",
      * )
      */
     private $lastname;
@@ -31,7 +31,7 @@ class Contact
     /**
      * @Assert\NotBlank( message = "Vous devez saisir une adresse mail" )
      * @Assert\Email (
-     *      message="L'adresse mail n'est pas valide"
+     *      message = "L'adresse mail n'est pas valide"
      * )
      */
     private $email;
@@ -51,8 +51,8 @@ class Contact
      * @Assert\Length (
      *      min = 100,
      *      max = 2500,
-     *      minMessage ="votre message doit comporter au minimum {{limit}} caractères.",
-     *      maxMessage ="votre message doit comporter au maximum {{limit}} caractères.",
+     *      minMessage = "Votre message doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage = "Votre message doit comporter au maximum {{ limit }} caractères.",
      * )
      */
     private $message;

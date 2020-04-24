@@ -29,16 +29,24 @@ class ContactController extends AbstractController
                 $order = $contact->getOrderNumber();
             }
 
+            $user = $this->getUser();
+            
+            //Gère le message et le réécrit pour une meilleure clareté, un meilleur traitement, et au cas où replyTo ne serait pas pris en charge. 
             $message = $contact->getFirstname() ." ". $contact->getLastname(). " nous a contacté sur le sujet suivant : ";
             if($contact->getOrderNumber()) {
-                $message .= $contact->getTopic();
+                $message .= $contact->getTopic() . ", commande numéro : ". $contact->getOrderNumber();
             }else{
                 $message .= $contact->getTopic();
             }
             $message .= "\n";
+            if($this->getUser()) {
+                $message .= "Pseudo : " . $user->getUsername() ."\n"; 
+            }
+            
             $message .= $contact->getMessage();
             $message .= "\n";
             $message .= "Voici son mail : " . $contact->getEmail();
+            //Fin du traitement
 
             $email = (new Email())
                 ->from("winterisgaming2020@gmail.com")
@@ -49,10 +57,12 @@ class ContactController extends AbstractController
 
             $mailer->send($email);
         }
+        
 
         return $this->render('contact/form.html.twig', [
             'form' => $form->createView(),
-            'isNew' => false,
+            "user" => $this->getUser(),
+            
         ]);
     }
 }

@@ -2,17 +2,24 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Form\RegisterType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Service\MediaService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
+    private $mediaService;
+
+    public function __construct( MediaService $mediaService )
+    {
+        $this->mediaService = $mediaService;
+    }
     /**
      * @Route("/register", name="user_register")
      */
@@ -23,9 +30,20 @@ class UserController extends AbstractController
 
         $form->handleRequest( $request );
         if( $form->isSubmitted() && $form->isValid() ){
-            $plain = $user->getPassword();
+
+            //Password 
+            $plain = $user->getPlainPassword();
             $password = $encoder->encodePassword( $user, $plain );
             $user->setPassword( $password );
+
+            //Avatar Upload
+            if($user->getAvatarFile()){
+                $file = $user->getAvatarFile();
+                $filename = $this->mediaService->upload( $file );
+                $user->setAvatar($filename);
+            }
+
+            //Set Role
             $user->setRole( ['ROLE_USER'] );
             $user->setLoyalty( 0 );;
 

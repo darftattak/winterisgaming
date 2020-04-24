@@ -6,6 +6,8 @@
 parameters:
     pagination:
         itemPerPage: 20
+    media:
+        directory: '%kernel.project_dir%/public/data'
 
 services:
     # default configuration for services in *this* file
