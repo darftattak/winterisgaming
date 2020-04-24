@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\OrderHasProduct;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StateRepository")
@@ -134,5 +135,15 @@ class State
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {   
+        if($this->getStock() == 0) {
+            return "Epuisé - " .$this->state . ' - ' . $this->price .'€';
+        } else {
+            return $this->state . ' - ' . $this->price .'€ - '. $this->stock. ' copies restantes';
+        }
+        
     }
 }
