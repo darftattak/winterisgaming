@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contactez-nous{% endblock %}
+
+{% block body %}
+
+{{form_start(form)}}
+
+    {{form_row(form.firstname)}}
+    {{form_row(form.lastname)}}
+    {{form_row(form.email)}}
+    {{form_row(form.topic)}}
+    <div id="orderNumber">
+        {{form_row(form.orderNumber)}}
+    </div>
+    
+    {{form_row(form.message)}}
+    
+
+    <button type="submit">Nous contacter</button>
+
+{{form_end(form)}}
+
+<pre>
+    {{ dump(user) }}
+</pre>
+{% endblock %}

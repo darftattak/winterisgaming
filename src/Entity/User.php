@@ -29,8 +29,8 @@ class User implements UserInterface
      * @Assert\Length (
      *      min = 2,
      *      max = 50,
-     *      minMessage ="Le prénom doit comporter au minimum {{limit}} caractères.",
-     *      maxMessage ="Le prénom doit comporter au maximum {{limit}} caractères.",
+     *      minMessage ="Le prénom doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="Le prénom doit comporter au maximum {{ limit }} caractères.",
      * )
      * @ORM\Column(type="string", length=50, nullable=true)
      */
@@ -41,8 +41,8 @@ class User implements UserInterface
      * @Assert\Length (
      *      min = 2,
      *      max = 50,
-     *      minMessage ="Le nom doit comporter au minimum {{limit}} caractères.",
-     *      maxMessage ="Le nom doit comporter au maximum {{limit}} caractères.",
+     *      minMessage ="Le nom doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="Le nom doit comporter au maximum {{ limit }} caractères.",
      * )
      * @ORM\Column(type="string", length=50, nullable=true)
      */
@@ -53,8 +53,8 @@ class User implements UserInterface
      * @Assert\Length (
      *      min = 3,
      *      max = 25,
-     *      minMessage ="Le pseudo doit comporter au minimum {{limit}} caractères.",
-     *      maxMessage ="Le pseudo doit comporter au maximum {{limit}} caractères.",
+     *      minMessage ="Le pseudo doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="Le pseudo doit comporter au maximum {{ limit }} caractères.",
      * )
      * @ORM\Column(type="string", length=50)
      */
@@ -104,8 +104,8 @@ class User implements UserInterface
      * @Assert\Length (
      *      min = 6,
      *      max = 16,
-     *      minMessage ="Votre mot de passe doit comporter au minimum {{limit}} caractères.",
-     *      maxMessage ="Votre mot de passe doit comporter au maximum {{limit}} caractères.",
+     *      minMessage ="Votre mot de passe doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="Votre mot de passe doit comporter au maximum {{ limit }} caractères.",
      * )
      */
     private $plainPassword;
