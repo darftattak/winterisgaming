@@ -11,6 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class UserController extends AbstractController
 {
@@ -23,7 +25,7 @@ class UserController extends AbstractController
     /**
      * @Route("/register", name="user_register")
      */
-    public function register( Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em )
+    public function register( Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, MailerInterface $mailer )
     {
         $user = new User();
         $form = $this->createForm( RegisterType::class, $user );
@@ -44,14 +46,29 @@ class UserController extends AbstractController
             }
 
             //Set Role
-            $user->setRole( ['ROLE_USER'] );
+            $user->setRoles( ['ROLE_USER'] );
             $user->setLoyalty( 0 );;
 
             $em->persist( $user );
             $em->flush();
 
             $this->addFlash( 'success', "Votre compte à bien été créé" );
-           /*  return $this->redirectToRoute( 'event_list' ); */
+
+            //Mail de confirmation
+
+            $message = "Bonjour ". $user->getFirstname() . " " . $user->getLastname() . " et merci d'avoir créé un compte Winter Is Gaming !\n";
+            $message .= "Vous pouvez vous connecter dès à présent via votre addresse mail, et le mot de passe que vous avez entré lors de la création de votre compte.\n";
+            $message .= "Nous espérons vous voir bientôt commencer à accumuler des points de fidélité chez nous. \n Toute l'équipe de Winter Is Gaming";
+
+            $email = (new Email())
+                ->from("winterisgaming2020@gmail.com")
+                ->to($user->getEmail())
+                ->subject("Création de votre compte Winter Is Gaming")
+                ->text($message);
+
+            $mailer->send($email);
+
+            return $this->redirectToRoute( 'home' );
         }
 
         return $this->render('user/register.html.twig', array(

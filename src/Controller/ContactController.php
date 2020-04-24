@@ -5,12 +5,10 @@ namespace App\Controller;
 use App\Model\Contact;
 use App\Form\ContactType;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 
 class ContactController extends AbstractController
 {
