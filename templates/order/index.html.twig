@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement{% endblock %}
+
+{% block body %}
+<div class="container">
+<div class="row mt-2">
+
+<h4 class="text-uppercase">Nom:{{user.lastname}}  Prénom:{{user.firstname}}</h4>
+ 
+
+ {{ form_start( form, {
+        'attr': {
+            'class': 'container-fluid my-2',
+            'novalidate': 'novalidate',
+        }
+    } ) }}
+    
+ {# {{ form_row(form.shippingAddress) }} #}
+ {# {{ form_row(form.billingAddress) }} #}
+{{ form_end( form ) }}
+
+
+</div>
+</div>
+
+
+
+<!--Paiement-->
+<form method="post" id="payment-form">
+  <div class="form-row">
+    <label for="card-element">
+      Credit or debit card
+    </label>
+    <div id="card-element">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+
+    <!-- Used to display Element errors. -->
+    <div id="card-errors" role="alert"></div>
+  </div>
+
+  <button>Submit Payment</button>
+</form>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script> 
+var stripe = Stripe('pk_test_i0owDQKVS941OjJBhfTXttY200C9cMzpZY');
+var elements = stripe.elements();
+
+// Custom styling can be passed to options when creating an Element.
+var style = {
+  base: {
+    // Add your base input styles here. For example:
+    fontSize: '16px',
+    color: '#32325d',
+  },
+};
+
+// Create an instance of the card Element.
+var card = elements.create('card', {style: style});
+
+// Add an instance of the card Element into the `card-element` <div>.
+card.mount('#card-element');
+
+</script>
+{% endblock %}

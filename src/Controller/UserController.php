@@ -44,7 +44,7 @@ class UserController extends AbstractController
             }
 
             //Set Role
-            $user->setRole( ['ROLE_USER'] );
+            $user->setRoles( ['ROLE_USER'] );
             $user->setLoyalty( 0 );;
 
             $em->persist( $user );
