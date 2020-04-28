@@ -6,10 +6,15 @@
 
         <h1>{{ product.name }}</h1>
         <p>{{ product.description }}</p>
-        <img src="{{ product.photos[0].picture }}" alt="image1">
+        {% if product.photos is not empty %}
+                <img src="{{ product.photos[0].picture }}" alt="image1">
+        {% endif %}
         <p>{{ product.states.0.price }} €</p>
         <p>Quantité : {{ product.states.0.stock }}</p>
         <p>Etat : {{ product.states.0.state }}</p>
         <a href="{{ path( 'cart_add', {id: product.id} ) }}" class="btn btn-primary">Ajouter au panier</a>
     
+        <pre>
+                {{ dump(data) }}
+        </pre>
 {% endblock %}

@@ -1,0 +1,103 @@
+/* UNSET ORIGINAL PROPERTIES */
+
+.wrapper {
+    margin: unset;
+    width: 100%;
+    grid-row-gap: unset;
+    grid-column-gap: unset;
+    max-width: unset!important;
+    max-height: unset;
+}
+
+/* CUSTOM STYLE */
+
+.user {
+    margin: 50% 0;
+    padding: 0.5em;
+    border-radius: 2em;
+    transition: all 0.2s ease-out;
+}
+
+.logo {
+    font-size: 1.5em;
+    color: black!important;
+}
+
+.main-header {
+    background-color: rgba(45, 45, 97, 0.8); 
+    padding-right: 2em;
+    border-bottom: 1px black solid;
+}
+
+.content-wrapper {
+    background-color: white;
+    padding: 1.5em;
+}
+
+.main-sidebar {
+    padding: 1em;
+    background-color:white;
+    border-right: 1px #515151 solid;
+    border-image: linear-gradient(transparent, #515151, transparent ) 3;
+}
+
+li.header {
+    color: #515151!important;
+}
+
+#navigation-toggler {
+    margin: 1em;
+}
+
+.navbar-custom-menu .user:hover {
+    background-color: rgba(254, 243, 208, 0.2);
+    color: black;
+}
+
+.navlink {
+    transition: all 0.2s ease-out;
+}
+.navlink:hover {
+    background-color: rgba(81, 81, 81, 0.25);
+    padding: 0.75em;
+    border-radius: 0.5em;
+    
+}
+
+/* MAIN DASHBOARD STYLE */
+
+.widget-board {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    padding: 1em;
+}
+
+.widget-board > h3 {
+    width: 100%;
+    text-align: center;
+}
+
+.round-widget {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px black;
+    margin: 2em;
+    background-color: white;
+}
+
+.round-widget > h4 {
+    padding: 0.5em 1em 0.1em 1em;
+    font-size: 3em;
+    text-align: center;
+    margin: 0;
+}
+
+.round-widget > p {
+    padding: 0.25em 1em 1em 1em;
+    font-size: 1.1em;
+    text-align: center;
+}

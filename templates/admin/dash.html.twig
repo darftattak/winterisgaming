@@ -1,0 +1,35 @@
+{% extends '@EasyAdmin/page/blank.html.twig' %}
+
+
+{% block content %}
+
+    <title>Dashboard Admin</title>
+
+    <h2>Bonjour {{ user.username }}</h2>
+    <hr>
+
+    <section class="widget-board">
+        <h3>Statistiques</h3>
+
+        <div class="round-widget">
+            <h4>{{nWaitingOrders}}</h4>
+            <p>Commandes actuellement sont en attente de traitement</p>
+        </div>
+
+        <div class="round-widget">
+
+        </div>
+
+        <div class="round-widget">
+
+        </div>
+
+        <div class="round-widget">
+
+        </div>
+
+    </section>
+    
+    
+
+{% endblock %}
