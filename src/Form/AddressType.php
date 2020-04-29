@@ -35,4 +35,5 @@ class AddressType extends AbstractType
             'data_class' => Address::class,
         ]);
     }
+
 }

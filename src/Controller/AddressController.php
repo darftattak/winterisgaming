@@ -48,7 +48,7 @@ class AddressController extends AbstractController
 
         $form = $this->createForm( AddressType::class, $address );
 
-        $form->handleRequest( $request);
+        $form->handleRequest( $request );
         
         if( $form ->isSubmitted() AND $form->isValid() ) {
             $em->flush();

@@ -40,6 +40,21 @@ class ProductRepository extends ServiceEntityRepository
         return $stmt->getQuery()->getSingleScalarResult();
     }
 
+    public function countByHasNoPhoto() {
+        $stmt = $this->createQueryBuilder('p');
+        $stmt->select("count(p.id)");
+        $stmt->where("p.photos IS EMPTY");
+
+        return $stmt->getQuery()->getSingleScalarResult();
+    }
+
+    public function countByHasNoState() {
+        $stmt = $this->createQueryBuilder('p');
+        $stmt->select("count(p.id)");
+        $stmt->where("p.states IS EMPTY");
+
+        return $stmt->getQuery()->getSingleScalarResult();
+    }
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

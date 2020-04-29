@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use App\Service\MediaService;
 use App\Service\ProductService;
+use App\Controller\AjaxController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,10 +71,18 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/{id}", name="product_show", requirements={"id"="\d+"})
      */
-    public function show( $id )
+    public function show( Request $request, $id )
     {
+        $game = $this->productService->get( $id ) ;
+
+        $slug = $game->getSlug();
+        $data = new AjaxController;
+
+        $gamedata = $data->gamedata( $slug );
+
         return $this->render( 'product/show.html.twig', array(
             'product' => $this->productService->get( $id ),
+            'data' => $gamedata,
         ));
     }
 

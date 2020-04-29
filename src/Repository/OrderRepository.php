@@ -19,6 +19,30 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    public function findByUser($user) {
+        $stmt = $this->createQueryBuilder('o');
+        $stmt->where("o.user = :user");
+        $stmt->setParameter("user", $user);
+
+        return $stmt->getQuery()->getResult();
+    }
+
+    public function findByStatus(int $status) {
+        $stmt = $this->createQueryBuilder('o');
+        $stmt->where("o.status = :status");
+        $stmt->setParameter("status", $status);
+
+        return $stmt->getQuery()->getResult();
+    }
+
+    public function countByStatus(int $status) {
+        $stmt = $this->createQueryBuilder('o');
+        $stmt->select("count(o.id)");
+        $stmt->where("o.status = :status");
+        $stmt->setParameter("status", $status);
+
+        return $stmt->getQuery()->getSingleScalarResult();
+    }
     // /**
     //  * @return Order[] Returns an array of Order objects
     //  */

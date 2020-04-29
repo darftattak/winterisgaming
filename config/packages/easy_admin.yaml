@@ -1,43 +1,104 @@
 easy_admin:
+    site_name: '<img src="/build/img/logo_admin.png" height="125"/>Dashboard Administrateur'
     design:
         menu:
-            - { label : Produits }
-            - Produits
-            - Etats
-            - Photos
-            - Categories
-            - { label : Utilisateurs }
-            - Utilisateurs
-            - Commandes
+            - { label: 'Dashboard', route: 'admin_dashboard', default: true, icon: "desktop", css_class: "navlink", controller: App\Controller\AdminController }
             - { label : Stocks }
+            - { entity: Stocks, icon: "box-open", css_class: "navlink", children: ['Rupture']}
+            - { label : Utilisateurs }
+            - { entity: Utilisateurs, icon: "users", css_class: "navlink" }
+            - { entity: Commandes, icon: "file-invoice", css_class: "navlink", children: ['Standby'] }
+            - { label : Produits }
+            - { entity: Produits, icon: "dolly", css_class: "navlink", children: ["Sans_Photos", "Sans_Etats"]}
+            - { entity: Etats, icon: "shopping-cart", css_class: "navlink"}
+            - { entity: Photos, icon: "images", css_class: "navlink" }
+            - { entity: Categories, icon: "tags", css_class: "navlink" }
+        assets:
+            css:
+                - 'build/admin.css'
+            js:
+                - 'build/admin.js'
     user: 
         name_property_path: username
     entities:
         Produits:
             class: App\Entity\Product
+        Sans_Photos:
+            label: "Sans Photos"
+            class: App\Entity\Product
+            list:
+                dql_filter: 'entity.photos IS EMPTY'
+            disabled_actions: ['new', 'delete', 'edit']
+        Sans_Etats:
+            label: "Sans Etats"
+            class: App\Entity\Product
+            list:
+                dql_filter: 'entity.states IS EMPTY'
+            disabled_actions: ['new', 'delete', 'edit']
         Etats:
             class: App\Entity\State
-            form:
+            list:
                 fields:
                     - price
                     - stock
                     - state
+                    - product
+            form:
+                fields:
+                    - price
+                    - stock
+                    - { property: "state", type: 'choice', type_options: {choices: {"Neuf":'Neuf', 'Comme Neuf':'Comme Neuf', 'Bon':'Bon', 'Moyen':'Moyen'} }}
                     - product
         Photos:
             class: App\Entity\Photo
         Categories:
             class: App\Entity\Category
         Utilisateurs:
-            class: App\Entity\Userfi
+            class: App\Entity\User
             form:
                 fields:
                     - username
                     - email
                     - firstname
                     - lastname
-                    - roles
+                    - { property: "roles", type: 'collection', type_options: {entry_type: "choice", entry_options: {choices: {"User":"ROLE_USER", "Admin":"ROLE_ADMIN" }}}}
             new:
                 fields:
-                    - plainPassword
+                    - { property: "plainPassword", type: 'password'}
+
         Commandes: 
             class: App\Entity\Order
+        Standby:
+            class: App\Entity\Order
+            list:
+                dql_filter: 'entity.status = 1'
+            disabled_actions: ['new', 'delete']
+            form:
+                fields:
+                    - { property: "status", type: 'choice', type_options: {choices: {"Cancelled": 0, 1: 1, 2: 2, 3: 3, 4: 4} }}
+        Stocks:
+            class: App\Entity\State
+            list:
+                dql_filter: 'entity.stock < 10'
+                fields:
+                    - product
+                    - price
+                    - stock
+                    - state
+                    
+            form:
+                fields:
+                    - stock
+        Rupture:
+            class: App\Entity\State
+            list:
+                dql_filter: 'entity.stock = 0'
+                fields:
+                    - product
+                    - price
+                    - stock
+                    - state
+                    
+            form:
+                fields:
+                    - stock

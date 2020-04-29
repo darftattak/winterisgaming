@@ -1,0 +1,71 @@
+{% extends '@EasyAdmin/page/blank.html.twig' %}
+
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+
+    <h2>Bonjour {{ user.username }}</h2>
+    <hr>
+
+    <section class="widget-board">
+        <h3>Statistiques</h3>
+
+        <a href="{{ path('easyadmin', {entity: "Standby", action: "list", menuIndex: 5, submenuIndex: 0}) }}">
+            <div class="round-widget">
+                <h4>{{nWaitingOrders}}</h4>
+                {% if nLowStockAndNew == 1 %}
+                    <p>Commandes est actuellement en attente de traitement</p>
+                {% else %}
+                    <p>Commandes sont actuellement en attente de traitement</p>
+                {% endif %}
+            </div>
+        </a>   
+        
+        <a href="{{ path('easyadmin', {entity: "Stocks", action: "list", menuIndex: 2, submenuIndex: -1}) }}">
+            <div class="round-widget">
+                <h4>{{nLowStockAndNew}}</h4>
+                {% if nLowStockAndNew == 1 %}
+                    <p>Produit neuf a moins de {{nLowLimit}} articles en stock</p>
+                {% else %}
+                    <p>Produits neufs ont moins de {{nLowLimit}} articles en stock</p>
+                {% endif %}
+            </div>
+        </a>   
+
+        <a href="{{ path('easyadmin', {entity: "Rupture", action: "list", menuIndex: 2, submenuIndex: 0}) }}">
+            <div class="round-widget">
+                <h4>{{nUnavailable}}</h4>
+                {% if nUnavailable == 1 %}
+                    <p>Produit neuf est actuellement en rupture de stock</p>
+                {% else %}
+                    <p>Produits neufs sont actuellement en rupture de stock</p>
+                {% endif %}
+            </div>
+        </a>
+
+        <a href="{{ path('easyadmin', {entity: "Sans_Photos", action: "list", menuIndex: 7, submenuIndex: 0}) }}">
+            <div class="round-widget">
+                <h4>{{nNoPhoto}}</h4>
+                {% if nNoPhoto == 1 %}
+                    <p>Produit n'a pas de photo, et n'est donc pas visible en boutique</p>
+                {% else %}
+                    <p>Produits n'ont pas de photos, et ne sont donc pas visible en boutique</p>
+                {% endif %}
+            </div>
+        </a>
+
+
+        <a href="{{ path('easyadmin', {entity: "Sans_Etats", action: "list", menuIndex: 7, submenuIndex: 1}) }}">
+            <div class="round-widget">
+                <h4>{{nNoState}}</h4>
+                {% if nNoState == 1 %}
+                    <p>Produit n'a pas d'états définis, et n'est donc pas visible en boutique</p>
+                {% else %}
+                    <p>Produits n'ont pas d'états définis, et ne sont donc pas visible en boutique</p>
+                {% endif %}
+            </div>
+        </a>
+    </section>
+    
+    
+
+{% endblock %}
