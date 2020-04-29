@@ -123,10 +123,16 @@ class User implements UserInterface
      */
     private $avatarFile;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="users")
+     */
+    private $wishlist;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->wishlist = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -320,4 +326,30 @@ class User implements UserInterface
     }
 
     public function eraseCredentials() {}
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getWishlist(): Collection
+    {
+        return $this->wishlist;
+    }
+
+    public function addWishlist(Product $wishlist): self
+    {
+        if (!$this->wishlist->contains($wishlist)) {
+            $this->wishlist[] = $wishlist;
+        }
+
+        return $this;
+    }
+
+    public function removeWishlist(Product $wishlist): self
+    {
+        if ($this->wishlist->contains($wishlist)) {
+            $this->wishlist->removeElement($wishlist);
+        }
+
+        return $this;
+    }
 }
