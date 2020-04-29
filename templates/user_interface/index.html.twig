@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre interface utilisateur{{ parent() }}{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container">
+ <h1 class="text-center">Votre interface utilisateur</h1>
+    <div class="row">
+        <div class="col-3">
+                        <img src="{{ user.avatar }}" alt="image1">
+        </div>               
+            <div class="col-9">
+                        <h2 class="card-title">Bonjour {{ user.username }}</h2>
+                        <h3 class="card-text">{{ user.email }}</h3>
+                        <h3 class="card-text">Points fidelités : {{ user.loyalty }}</h3>
+            </div>               
+    </div>               
+                 
+</div>
+
+<div class="container bg-white">
+
+<li class="nav-item active">
+        <h3><a class="nav-link" href="{{ path( 'user_modify', {id: user.id} ) }}">Modifier mes informations <span class="sr-only">(current)</span></a></h3>
+</li>
+<li class="nav-item active">
+        <h3><a class="nav-link" href="{{ path( 'password_modify', {id: user.id} ) }}">Modifier mon mot de passe<span class="sr-only">(current)</span></a></h3>
+</li>
+<li class="nav-item active">
+        <h3><a class="nav-link" href="{{ path( 'email_modify', {id: user.id} ) }}">Modifier mon addresse mail<span class="sr-only">(current)</span></a></h3>
+</li>
+<li class="nav-item active">
+        <h3><a class="nav-link" href="{{ path( 'products_follow', {id: user.id} ) }}">Suivi des commandes <span class="sr-only">(current)</span></a></h3>
+</li>
+{# <li class="nav-item active">
+        <h3><a class="nav-link" href="{{ path( 'wish_list', {id: user.id} ) }}">Ma liste d'envies <span class="sr-only">(current)</span></a></h3>
+</li> #}
+
+
+</div>
+
+
+{% endblock %}

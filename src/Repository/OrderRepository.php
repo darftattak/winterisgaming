@@ -47,4 +47,12 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByUser($user) {
+        $stmt = $this->createQueryBuilder('o');
+        $stmt->where("o.user = :user");
+        $stmt->setParameter("user", $user);
+
+        return $stmt->getQuery()->getResult();
+    }
 }

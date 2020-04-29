@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier vos infos personelles - {{ parent() }}{% endblock %}
+
+{% block body %}
+    
+<h1>Modifier vos informations</h1>
+
+ {{ form_start( form, {
+        'attr': {
+            'class': 'container-fluid my-2',
+            'novalidate': 'novalidate',
+        }
+    } ) }}
+ <div class="row">
+        <div class="col-12">
+            {{ form_row( form.username ) }}
+        </div>
+        <div class="col-12 col-lg-6">
+            {{ form_row( form.firstname ) }}
+            {{ form_row( form.lastname ) }}
+            {{ form_row( form.avatarFile ) }}
+
+            <input type="hidden" name="_target_path" value="{{ path( 'user_interface' ) }}">
+            <button type="submit" class="btn btn-primary btn-lg">Enregistrer les modifications</button>
+        </div>
+    </div>
+     {{ form_end( form ) }}
+
+
+{% endblock %}

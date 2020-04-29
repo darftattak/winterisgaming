@@ -3,8 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Order;
+use App\Entity\Address;
+use App\Form\ModifyType;
+use App\Form\AddressType;
 use App\Form\RegisterType;
+use App\Form\EmailModifyType;
 use App\Service\MediaService;
+use App\Form\PasswordModifyType;
+
+use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,6 +35,7 @@ class UserController extends AbstractController
      */
     public function register( Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, MailerInterface $mailer )
     {
+        
         $user = new User();
         $form = $this->createForm( RegisterType::class, $user );
 
@@ -115,4 +124,163 @@ class UserController extends AbstractController
     {
         return $this->render('base.html.twig');
     }
+
+    /**
+     * @Route("/user/interface", name="user_interface")
+     */
+    public function index()
+    {
+        
+        $user = $this->getUser();
+        if(!($user)) {
+        return $this->redirectToRoute('user_login');
+        }
+        return $this->render('user_interface/index.html.twig', [
+            'controller_name' => 'UserController',
+            'user' => $user,
+        ]);
+    }
+
+
+    // Route de suivi des commandes
+
+    /**
+     * @Route("/products/follow", name="products_follow")
+     */
+    public function follow()
+    {
+        $user = $this->getUser();
+        $orders = $user->getOrders();
+        return $this->render('user_interface/follow.html.twig', [
+            'controller_name' => 'ProductsFollow',
+            'user' => $user,
+            'orders' => $orders,
+        ]);
+    }
+
+
+    // Route de suivi d'une seule commande
+
+    /**
+     * @Route("/product/single/{id}", name="product_single")
+     */
+    public function singleOrder($id, OrderRepository $orderRepository )
+    {
+        $order =  $orderRepository->find( $id );
+        $orderStatus = $order->getStatus();
+        $orderHasProducts = $order->getOrderHasProducts();
+        return $this->render('user_interface/singleProduct.html.twig', [
+            'controller_name' => 'ProductsFollow',
+            'orderHasProducts' => $orderHasProducts,
+            'orderStatus' => $orderStatus,
+        ]);
+    }
+
+
+    // Formulaire de modification des infos basiques.
+
+    /**
+     * @Route("/user/modify/{id}", name="user_modify")
+     */
+    public function update( User $user, Request $request, EntityManagerInterface $em )
+    {
+        if( $this->getUser() !== $user ){
+            return $this->redirectToRoute( 'main_home' );
+        }
+
+        $form = $this->createForm( ModifyType::class, $user );
+
+        $form->handleRequest( $request );
+        if( $form->isSubmitted() && $form->isValid() ){
+            if($user->getAvatarFile()){
+                $file = $user->getAvatarFile();
+                $filename = $this->mediaService->upload( $file );
+                $user->setAvatar($filename);
+            }
+
+            $em->flush();
+
+            $this->addFlash( 'success', "Vos informations \"" . $user->getUsername() . "\" ont bien été modifiées" );
+            return $this->redirectToRoute( 'user_interface', array(
+                'id' => $user->getId(),
+            ));
+        }
+
+        return $this->render( 'user_interface/update.html.twig', array(
+            'form' => $form->createView(),
+            'isNew' => false,
+            'user' => $user,
+        ));
+    }
+
+
+    // Formulaire de modification des infos sensibles.
+
+
+    // Mofification du mot de passe
+    /**
+     * @Route("/password/modify/{id}", name="password_modify")
+     */
+    public function updatePass( User $user, Request $request,UserPasswordEncoderInterface $encoder, EntityManagerInterface $em )
+    {
+        if( $this->getUser() !== $user ){
+            return $this->redirectToRoute( 'main_home' );
+        }
+
+        $form = $this->createForm( PasswordModifyType::class, $user );
+
+        $form->handleRequest( $request );
+        if( $form->isSubmitted() && $form->isValid() ){
+            
+            //Password 
+            $plain = $user->getPlainPassword();
+            $password = $encoder->encodePassword( $user, $plain );
+            $user->setPassword( $password );
+
+            $em->flush();
+
+            $this->addFlash( 'success', "Vos informations \"" . $user->getUsername() . "\" ont bien été modifiées" );
+            return $this->redirectToRoute( 'user_interface', array(
+                'id' => $user->getId(),
+            ));
+        }
+
+        return $this->render( 'user_interface/password.html.twig', array(
+            'form' => $form->createView(),
+            'isNew' => false,
+            'user' => $user,
+        ));
+    }
+
+
+    // Mofification de l'email
+     /**
+     * @Route("/email/modify/{id}", name="email_modify")
+     */
+    public function updateMail( User $user, Request $request,UserPasswordEncoderInterface $encoder, EntityManagerInterface $em )
+    {
+        if( $this->getUser() !== $user ){
+            return $this->redirectToRoute( 'main_home' );
+        }
+
+        $form = $this->createForm( EmailModifyType::class, $user );
+
+        $form->handleRequest( $request );
+        if( $form->isSubmitted() && $form->isValid() ){
+            
+            $em->flush();
+
+            $this->addFlash( 'success', "Vos informations \"" . $user->getUsername() . "\" ont bien été modifiées" );
+            return $this->redirectToRoute( 'user_interface', array(
+                'id' => $user->getId(),
+            ));
+        }
+
+        return $this->render( 'user_interface/email.html.twig', array(
+            'form' => $form->createView(),
+            'isNew' => false,
+            'user' => $user,
+        ));
+    }
+    
 }
