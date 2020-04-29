@@ -20,11 +20,11 @@
 
 .logo {
     font-size: 1.5em;
-    color: black!important;
+    color: lightgray!important;
 }
 
 .main-header {
-    background-color: rgba(45, 45, 97, 0.8); 
+    background-color: black; 
     padding-right: 2em;
     border-bottom: 1px black solid;
 }
@@ -51,7 +51,7 @@ li.header {
 
 .navbar-custom-menu .user:hover {
     background-color: rgba(254, 243, 208, 0.2);
-    color: black;
+    color: lightgray;
 }
 
 .navlink {
@@ -100,4 +100,5 @@ li.header {
     padding: 0.25em 1em 1em 1em;
     font-size: 1.1em;
     text-align: center;
+    color: black;
 }

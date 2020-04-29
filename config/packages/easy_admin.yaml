@@ -4,12 +4,12 @@ easy_admin:
         menu:
             - { label: 'Dashboard', route: 'admin_dashboard', default: true, icon: "desktop", css_class: "navlink", controller: App\Controller\AdminController }
             - { label : Stocks }
-            - { entity: Stocks, icon: "box-open", css_class: "navlink"}
+            - { entity: Stocks, icon: "box-open", css_class: "navlink", children: ['Rupture']}
             - { label : Utilisateurs }
             - { entity: Utilisateurs, icon: "users", css_class: "navlink" }
-            - { entity: Commandes, icon: "file-invoice", css_class: "navlink" }
+            - { entity: Commandes, icon: "file-invoice", css_class: "navlink", children: ['Standby'] }
             - { label : Produits }
-            - { entity: Produits, icon: "dolly", css_class: "navlink"}
+            - { entity: Produits, icon: "dolly", css_class: "navlink", children: ["Sans_Photos", "Sans_Etats"]}
             - { entity: Etats, icon: "shopping-cart", css_class: "navlink"}
             - { entity: Photos, icon: "images", css_class: "navlink" }
             - { entity: Categories, icon: "tags", css_class: "navlink" }
@@ -23,6 +23,18 @@ easy_admin:
     entities:
         Produits:
             class: App\Entity\Product
+        Sans_Photos:
+            label: "Sans Photos"
+            class: App\Entity\Product
+            list:
+                dql_filter: 'entity.photos IS EMPTY'
+            disabled_actions: ['new', 'delete', 'edit']
+        Sans_Etats:
+            label: "Sans Etats"
+            class: App\Entity\Product
+            list:
+                dql_filter: 'entity.states IS EMPTY'
+            disabled_actions: ['new', 'delete', 'edit']
         Etats:
             class: App\Entity\State
             list:
@@ -35,7 +47,7 @@ easy_admin:
                 fields:
                     - price
                     - stock
-                    - { property: "state", type: 'choice', type_options: {choices: {"Neuf":'Neuf', 'Comme Neuf':'Comme Neuf', 'Bon état':'Bon état', 'Moyen':'Moyen'} }}
+                    - { property: "state", type: 'choice', type_options: {choices: {"Neuf":'Neuf', 'Comme Neuf':'Comme Neuf', 'Bon':'Bon', 'Moyen':'Moyen'} }}
                     - product
         Photos:
             class: App\Entity\Photo
@@ -56,6 +68,14 @@ easy_admin:
 
         Commandes: 
             class: App\Entity\Order
+        Standby:
+            class: App\Entity\Order
+            list:
+                dql_filter: 'entity.status = 1'
+            disabled_actions: ['new', 'delete']
+            form:
+                fields:
+                    - { property: "status", type: 'choice', type_options: {choices: {"Cancelled": 0, 1: 1, 2: 2, 3: 3, 4: 4} }}
         Stocks:
             class: App\Entity\State
             list:
@@ -64,7 +84,20 @@ easy_admin:
                     - product
                     - price
                     - stock
-                    - { property: "state", type: 'choice', type_options: {choices: {"Neuf":'Neuf', 'Comme Neuf':'Comme Neuf', 'Bon état':'Bon état', 'Moyen':'Moyen'} }}
+                    - state
+                    
+            form:
+                fields:
+                    - stock
+        Rupture:
+            class: App\Entity\State
+            list:
+                dql_filter: 'entity.stock = 0'
+                fields:
+                    - product
+                    - price
+                    - stock
+                    - state
                     
             form:
                 fields:
