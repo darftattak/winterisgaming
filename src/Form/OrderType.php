@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Address;
 use App\Entity\Order;
+use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,7 +25,7 @@ class OrderType extends AbstractType
     {
         $user = $this->security->getUser(); 
         $builder
-           
+          
            /*  ->add('shippingAddress', EntityType::class, array(
                 "label" => "Adresse d'expédition:",
                 'class' => Address::class,
