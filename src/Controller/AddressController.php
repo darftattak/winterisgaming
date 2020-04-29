@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AddressController extends AbstractController
 {
     /**
-     * @Route("/address/new", name="new_address")
+     * @Route("/address/new", name="address_new")
      */
     public function new( Request $request, EntityManagerInterface $em )
     {
@@ -39,7 +39,7 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/address/{id}/update", name="new_address")
+     * @Route("/address/{id}/update", name="address_update", requirements={"id"="\d+"})
      */
     public function update( Address $address, Request $request, EntityManagerInterface $em )  {
         if( $this->getUser() !== $address->getUser()) {
@@ -63,7 +63,7 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/address/{id}/remove", name="update_address", requirements={"id"="\d+"})
+     * @Route("/address/{id}/remove", name="address_remove", requirements={"id"="\d+"})
      */
     public function remove( Address $address, EntityManagerInterface $em )  {
         if( $this->getUser() !== $address->getUser()) {

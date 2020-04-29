@@ -54,6 +54,30 @@ class Address
      */
     private $user;
 
+    /**
+     * @Assert\NotBlank( message = "Vous devez saisir un prénom" )
+     * @Assert\Length (
+     *      min = 2,
+     *      max = 50,
+     *      minMessage ="Le prénom doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="Le prénom doit comporter au maximum {{ limit }} caractères.",
+     * )
+     * @ORM\Column(type="string", length=50)
+     */
+    private $firstname;
+
+    /**
+     * @Assert\NotBlank( message = "Vous devez saisir un prénom" )
+     * @Assert\Length (
+     *      min = 2,
+     *      max = 50,
+     *      minMessage ="Le prénom doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="Le prénom doit comporter au maximum {{ limit }} caractères.",
+     * )
+     * @ORM\Column(type="string", length=50)
+     */
+    private $lastname;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,5 +146,29 @@ class Address
     public function __toString()
     {
         return $this->getName()." ".$this->getZipcode()." ".$this->getCity()." ".$this->getCountry();
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
     }
 }

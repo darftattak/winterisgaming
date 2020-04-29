@@ -37,12 +37,12 @@ class User implements UserInterface
     private $firstname;
 
     /**
-     * @Assert\NotBlank( message = "Vous devez saisir un nom" )
+     * @Assert\NotBlank( message = "Vous devez saisir un prénom" )
      * @Assert\Length (
      *      min = 2,
      *      max = 50,
-     *      minMessage ="Le nom doit comporter au minimum {{ limit }} caractères.",
-     *      maxMessage ="Le nom doit comporter au maximum {{ limit }} caractères.",
+     *      minMessage ="Le prénom doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="Le prénom doit comporter au maximum {{ limit }} caractères.",
      * )
      * @ORM\Column(type="string", length=50, nullable=true)
      */

@@ -47,10 +47,16 @@ class Product
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="products")
+     */
+    private $categories;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
         $this->states = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,6 +163,32 @@ class Product
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+        }
 
         return $this;
     }

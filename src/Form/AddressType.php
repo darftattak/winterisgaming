@@ -13,6 +13,14 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('firstname', null, array(
+                "label" => "Prénom",
+                "help" => "Prénom associé à l'adresse.",
+            ))
+            ->add('lastname', null, array(
+                "label" => "Nom",
+                "help" => "Nom associé à l'adresse.",
+            ))
             ->add('name', null, array(
                 "label" => "Adresse",
                 "help" => "Numéro, voirie, et éventuelles informations nécessaire à la livraison.",
