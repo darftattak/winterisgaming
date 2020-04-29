@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement{% endblock %}
+
+{% block body %}
+
+
+<h4 class="text-uppercase">Nom:{{user.lastname}}  Prénom:{{user.firstname}}</h4>
+ 
+
+ {{ form_start( form, {
+        'attr': {
+            'class': 'container-fluid my-2',
+            'novalidate': 'novalidate',
+        }
+    } ) }}
+    
+ {# {{ form_row(form.shippingAddress) }} #}
+ {# {{ form_row(form.billingAddress) }} #}
+{{ form_end( form ) }}
+
+<!--liste des prodduit-->
+<div>
+<h4>Récapitulative de la commande.</h4>
+<table>
+
+
+    {% for cartWithData in cartWithData %}
+    <tr>
+    <td>Nom du produit</td>
+    <td>Quantiter du produit</td>
+    </tr>
+        <td>
+        {{ cartWithData.product }} {{ cartWithData.quantity }}
+        </td>
+        <td>
+        {{ cartWithData.quantity }}
+        </td>
+    {% endfor %}
+
+</table>
+</div>
+
+
+
+
+
+<!--Paiement-->
+
+
+
+{% endblock %}
