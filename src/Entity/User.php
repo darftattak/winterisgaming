@@ -100,7 +100,10 @@ class User implements UserInterface
     private $orders;
 
     /**
-     * @Assert\NotBlank( message = "Vous devez saisir un mot de passe" )
+     * @Assert\Expression(
+     *     "this.getPassword() or this.getPlainPassword()",
+     *     message="Vous devez saisir un mot de passe"
+     * )
      * @Assert\Length (
      *      min = 6,
      *      max = 16,

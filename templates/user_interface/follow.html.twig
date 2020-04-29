@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier vos infos personelles - {{ parent() }}{% endblock %}
+
+{% block body %}
+    
+<h1>Modifier vos informations</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Identifiant commande</th>
+            <th>Adresse d'expédition</th>
+            <th>Adresse de facturation</th>
+            <th>Etat</th>
+        </tr>
+    </thead>
+    <tbody>
+
+            <tr>
+            
+            <td>
+
+    {% for order in orders %}
+        <tr>
+            <td>
+            <a href="{{ path( 'product_single', { id: order.id } ) }}" class="btn btn-info">{{ order.trackingNumber }}</a>
+            </td>
+          
+            
+            <td>
+                <p>{{ order.shippingAddress.name }} {{ order.shippingAddress.zipcode }} {{ order.shippingAddress.city }}</p>
+                <p>Pays : {{ order.shippingAddress.country }}</p>
+            </td>
+            
+            <td>
+                <p>{{ order.billingAddress.name }} {{ order.billingAddress.zipcode }} {{ order.billingAddress.city }}</p>
+                <p>Pays : {{ order.billingAddress.country }}</p>
+            </td>
+            
+            <td><p>{{ order.status }}</p></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+   
+{#     <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Total : </td>
+            <td><p>{{ order.trackingNumber }}</p></td>
+            <td></td>
+        </tr>
+    </tfoot> #}
+</table>
+
+
+
+
+
+{% endblock %}
