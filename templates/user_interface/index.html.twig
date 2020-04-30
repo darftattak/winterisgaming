@@ -4,41 +4,48 @@
 
 {% block body %}
 
-
-
 <div class="container">
- <h1 class="text-center">Votre interface utilisateur</h1>
+
+</br>
+<h1 class="text-center">Votre interface utilisateur</h1>
+</br>
+
     <div class="row">
-        <div class="col-3">
-                        <img src="{{ user.avatar }}" alt="image1">
-        </div>               
-            <div class="col-9">
-                        <h2 class="card-title">Bonjour {{ user.username }}</h2>
-                        <h3 class="card-text">{{ user.email }}</h3>
-                        <h3 class="card-text">Points fidelités : {{ user.loyalty }}</h3>
-            </div>               
-    </div>               
-                 
-</div>
+       
+        <div class="col-4">
+                <h2 class="card-title ml-2">Bonjour {{ user.username }}</h2>
+                <h3 class="card-text">{{ user.email }}</h3>
+                <h3 class="card-text">Points fidelités : {{ user.loyalty }}</h3>
+        </div>
+        
+        <div class="col-4 text-center">
 
-<div class="container bg-white">
+                <li class="nav-item active">
+                        <h3><a href="{{ path( 'user_modify', {id: user.id} ) }}" class="btn btn-primary"><i class="fab fa-wpforms mr-2"></i>Modifier mes informations</a></h3>
+                </li>
 
-<li class="nav-item active">
-        <h3><a class="nav-link" href="{{ path( 'user_modify', {id: user.id} ) }}">Modifier mes informations <span class="sr-only">(current)</span></a></h3>
-</li>
-<li class="nav-item active">
-        <h3><a class="nav-link" href="{{ path( 'password_modify', {id: user.id} ) }}">Modifier mon mot de passe<span class="sr-only">(current)</span></a></h3>
-</li>
-<li class="nav-item active">
-        <h3><a class="nav-link" href="{{ path( 'email_modify', {id: user.id} ) }}">Modifier mon addresse mail<span class="sr-only">(current)</span></a></h3>
-</li>
-<li class="nav-item active">
-        <h3><a class="nav-link" href="{{ path( 'products_follow', {id: user.id} ) }}">Suivi des commandes <span class="sr-only">(current)</span></a></h3>
-</li>
-{# <li class="nav-item active">
-        <h3><a class="nav-link" href="{{ path( 'wish_list', {id: user.id} ) }}">Ma liste d'envies <span class="sr-only">(current)</span></a></h3>
-</li> #}
+                <li class="nav-item active">
+                        <h3><a href="{{ path( 'password_modify', {id: user.id} ) }}" class="btn btn-primary"><i class="fas fa-key mr-2"></i>Modifier mon mot de passe</a></h3>
+                </li>
 
+                <li class="nav-item active">
+                        <h3><a href="{{ path( 'email_modify', {id: user.id} ) }}" class="btn btn-primary"><i class="far fa-envelope mr-2"></i>Modifier mon adresse mail</a></h3>
+                </li>
+
+                <li class="nav-item active">
+                        <h3><a href="{{ path( 'products_follow', {id: user.id} ) }}" class="btn btn-primary"><i class="fas fa-shipping-fast mr-2"></i>Historique des commandes</a></h3>
+                </li>
+
+                <li class="nav-item active">
+                        <h3><a href="{{ path( 'wishlist_view', {id: user.id} ) }}" class="btn btn-primary"><i class="fas fa-star mr-2"></i>Ma liste d'envies</a></h3>
+                </li>  
+        
+        </div>
+        
+        <div class="col-4">
+                <img src="{{ user.avatar }}" alt="image1">
+        </div>
+    </div>
 
 </div>
 

@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use App\Entity\Product;
 
 /**
  * @UniqueEntity("username", message="Ce nom d'utilisateur est déjà pris")

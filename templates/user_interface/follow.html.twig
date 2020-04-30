@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier vos infos personelles - {{ parent() }}{% endblock %}
+{% block title %}Historique des commandes - {{ parent() }}{% endblock %}
 
 {% block body %}
     
-<h1>Modifier vos informations</h1>
+<h1 class="text-center">Historique des commandes</h1>
 
 <table class="table">
     <thead>
@@ -12,7 +12,7 @@
             <th>Identifiant commande</th>
             <th>Adresse d'expédition</th>
             <th>Adresse de facturation</th>
-            <th>Etat</th>
+            <th>Statut :</th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +24,7 @@
     {% for order in orders %}
         <tr>
             <td>
-            <a href="{{ path( 'product_single', { id: order.id } ) }}" class="btn btn-info">{{ order.trackingNumber }}</a>
+            <a href="{{ path( 'product_single', { id: order.id } ) }}" class="btn btn-link">{{ order.trackingNumber }}</a>
             </td>
           
             
@@ -38,19 +38,25 @@
                 <p>Pays : {{ order.billingAddress.country }}</p>
             </td>
             
-            <td><p>{{ order.status }}</p></td>
+            <td>
+<div>  
+    {% if order.status == 0 %}
+    Annulé
+    {% elseif order.status == 1 %}
+    En attente
+    {% elseif order.status == 2 %}
+    En préparation
+    {% elseif order.status == 3 %}
+    Livraison en cours
+    {% elseif order.status == 4 %}
+    Reçu
+    {% endif %}
+<div>
+</td>
         </tr>
     {% endfor %}
     </tbody>
-
-   
-{#     <tfoot>
-        <tr>
-            <td colspan="3" class="text-right">Total : </td>
-            <td><p>{{ order.trackingNumber }}</p></td>
-            <td></td>
-        </tr>
-    </tfoot> #}
+    
 </table>
 
 

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,7 +56,7 @@ class Token
         return $this->entAt;
     }
 
-    public function setEntAt(\DateTimeInterface $entAt): self
+    public function setEntAt(\DateTimeInterface $entAt = null): self
     {
         $this->entAt = $entAt;
 

@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nos produits - {{ parent() }}{% endblock %}
+{% block title %}Votre liste d'envies{{ parent() }}{% endblock %}
 
 {% block body %}
-<div class="events">
+    
 </br>
-    <h1 class="text-center">Jeux, Bundles, Rétro-gaming</h1>
+<h1 class="text-center">Votre liste d'envies</h1>
 </br>
 
 <div class="container">
@@ -18,29 +18,16 @@
                     {% endif %}
                     <div class="card-body">
                         <h2 class="card-title">{{ product.name }}</h2>
-                        <h5 class="card-text">Prix : {{ product.states.0.price }} €</h5>
-                        <h5 class="card-text">Quantité : {{ product.states.0.stock }}</h5>
-                        <h5 class="card-text">Etat : {{ product.states.0.state }}</h5>
+                        <h3>{{ product.states.0.price }} €</h3>
                         <p class="card-text">{{ product.description|slice(0, 120) }}</p>
                         <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-light">En savoir plus</a>
+                        <a href="{{ path( 'wishlist_remove', {id: product.id} ) }}" class="btn btn-danger">Supprimer de votre liste</a>
                         <a href="{{ path( 'cart_add', {id: product.id} ) }}" class="btn btn-primary">Ajouter au panier</a>
-                        <a href="{{ path( 'wishlist', {id: product.id} ) }}" class="btn btn-success">Ajouter à ma liste d'envies</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
 </div>
-
-</div>
     
-    <div class="pagination">
-        {% if page > 1 %}
-            <a href="?page={{ page - 1 }}" class="btn btn-outline-primary">Précédent</a>
-        {% endif %}
-        {% if page < maxPage %}
-            <a href="?page={{ page + 1 }}" class="btn btn-outline-primary">Suivant</a>
-        {% endif %}
-    </div>
-</div>
 {% endblock %}

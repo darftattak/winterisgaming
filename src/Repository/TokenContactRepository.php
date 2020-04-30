@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Token;
+use App\Entity\TokenContact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Token|null find($id, $lockMode = null, $lockVersion = null)
- * @method Token|null findOneBy(array $criteria, array $orderBy = null)
- * @method Token[]    findAll()
- * @method Token[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method TokenContact|null find($id, $lockMode = null, $lockVersion = null)
+ * @method TokenContact|null findOneBy(array $criteria, array $orderBy = null)
+ * @method TokenContact[]    findAll()
+ * @method TokenContact[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TokenRepository extends ServiceEntityRepository
+class TokenContactRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Token::class);
+        parent::__construct($registry, TokenContact::class);
     }
 
     // /**
-    //  * @return Token[] Returns an array of Token objects
+    //  * @return TokenContact[] Returns an array of TokenContact objects
     //  */
     /*
     public function findByExampleField($value)
@@ -36,13 +36,15 @@ class TokenRepository extends ServiceEntityRepository
     }
     */
 
-    public function findOneByToken($token): ?Token
+    /*
+    public function findOneBySomeField($value): ?TokenContact
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.token = :token')
-            ->setParameter('token', $token)
+            ->andWhere('t.exampleField = :val')
+            ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
+    */
 }

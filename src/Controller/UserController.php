@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Address;
@@ -9,18 +10,23 @@ use App\Form\ModifyType;
 use App\Form\AddressType;
 use App\Form\RegisterType;
 use App\Form\EmailModifyType;
+use App\Form\NewPasswordType;
 use App\Service\MediaService;
-use App\Form\PasswordModifyType;
 
+use App\Form\PasswordResetType;
+use App\Form\PasswordModifyType;
+use Symfony\Component\Mime\Email;
+use App\Repository\UserRepository;
 use App\Repository\OrderRepository;
+use App\Repository\TokenRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 class UserController extends AbstractController
 {
@@ -240,7 +246,7 @@ class UserController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash( 'success', "Vos informations \"" . $user->getUsername() . "\" ont bien été modifiées" );
+            $this->addFlash( 'success', "Votre mot de passe \"" . $user->getUsername() . "\" a bien été modifié" );
             return $this->redirectToRoute( 'user_interface', array(
                 'id' => $user->getId(),
             ));
@@ -250,6 +256,49 @@ class UserController extends AbstractController
             'form' => $form->createView(),
             'isNew' => false,
             'user' => $user,
+        ));
+    }
+
+
+    // Réinitialisation du mot de passe
+    /**
+     * @Route("/password/retrieve/{token}", name="password_retrieve")
+     */
+    public function retrievePass($token, TokenRepository $tokenRepository, Request $request,UserPasswordEncoderInterface $encoder, EntityManagerInterface $em )
+    {
+        $validToken = $tokenRepository->findOneByToken($token);
+        if( !$validToken ) {
+            return $this->redirectToRoute( 'main_home' );
+        }
+
+        $date = new DateTime;
+        $now = $date->setTimestamp(strtotime('now'));
+
+        if($validToken->getEntAt()< $now ) {
+            return $this->redirectToRoute( 'main_home' );
+        }
+
+        $user = $validToken->getUser();
+        $form = $this->createForm( NewPasswordType::class, $user );
+
+        $form->handleRequest( $request );
+        if( $form->isSubmitted() && $form->isValid() ){
+            
+            //Password 
+            $plain = $user->getPlainPassword();
+            $password = $encoder->encodePassword( $user, $plain );
+            $user->setPassword( $password );
+
+            $em->flush();
+
+            $this->addFlash( 'success', "Votre mot de passe a bien été réinitialisé" );
+            return $this->redirectToRoute( 'user_login', array(
+                
+            ));
+        }
+
+        return $this->render( 'user_interface/passwordretrieve.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 
@@ -271,7 +320,7 @@ class UserController extends AbstractController
             
             $em->flush();
 
-            $this->addFlash( 'success', "Vos informations \"" . $user->getUsername() . "\" ont bien été modifiées" );
+            $this->addFlash( 'success', "Votre email \"" . $user->getUsername() . "\" a bien été modifié" );
             return $this->redirectToRoute( 'user_interface', array(
                 'id' => $user->getId(),
             ));
@@ -284,4 +333,54 @@ class UserController extends AbstractController
         ));
     }
     
+
+        // Route de la liste d'envies
+
+
+        //Lors de l'ajout à la wishlist
+    /**
+     * @Route("/wishlist/{id}", name="wishlist", requirements={"id"="\d+"})
+     */
+    public function wishList($id, ProductRepository $productRepository, EntityManagerInterface $em )
+    {
+        $user = $this->getUser();
+        $product =  $productRepository->find( $id );
+        $user->addWishlist($product);
+        $em->flush();
+        return $this->redirectToRoute('wishlist_view');
+            
+    }
+        
+        //Lors de la suppression depuis la wishlist
+    /**
+     * @Route("/wishlist/remove/{id}", name="wishlist_remove", requirements={"id"="\d+"})
+     */
+    public function wishListRemove($id, ProductRepository $productRepository, EntityManagerInterface $em )
+    {
+        $user = $this->getUser();
+        $product =  $productRepository->find( $id );
+        $user->removeWishlist($product);
+        $em->flush();
+        return $this->redirectToRoute('wishlist_view');
+            
+    }
+
+
+        // Depuis le UserInterface
+    /**
+     * @Route("/wishlist/view", name="wishlist_view")
+     */
+    public function wishListView()
+    {
+        $user = $this->getUser();
+        $products = $user->getWishlist();
+        return $this->render('user_interface/wishlistview.html.twig', [
+            'controller_name' => 'Wishlistview',
+            'products' => $products,
+            
+        ]);
+    }
+
+
+
 }
