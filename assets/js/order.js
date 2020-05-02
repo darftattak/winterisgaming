@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    if($('#payement_form')) {
+    if($('#payement_form').length) {
         var stripe = Stripe('pk_test_i0owDQKVS941OjJBhfTXttY200C9cMzpZY');
         var form = $('#payement_form');
         form.submit(function(e)
