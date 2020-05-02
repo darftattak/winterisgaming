@@ -4,12 +4,12 @@ easy_admin:
         menu:
             - { label: 'Dashboard', route: 'admin_dashboard', default: true, icon: "desktop", css_class: "navlink", controller: App\Controller\AdminController }
             - { label : Stocks }
-            - { entity: Stocks, icon: "box-open", css_class: "navlink", children: ['Rupture']}
+            - { entity: Stocks, icon: "box-open", css_class: "navlink", children: ['Tout_Le_Stock', 'Rupture']}
             - { label : Utilisateurs }
             - { entity: Utilisateurs, icon: "users", css_class: "navlink" }
-            - { entity: Commandes, icon: "file-invoice", css_class: "navlink", children: ['Standby'] }
+            - { entity: Commandes, icon: "file-invoice", css_class: "navlink", children: ['Toutes_Les_Commandes', 'Standby'] }
             - { label : Produits }
-            - { entity: Produits, icon: "dolly", css_class: "navlink", children: ["Sans_Photos", "Sans_Etats"]}
+            - { entity: Produits, icon: "dolly", css_class: "navlink", children: ["Tous_Les_Produits", "Sans_Photos", "Sans_Etats"]}
             - { entity: Etats, icon: "shopping-cart", css_class: "navlink"}
             - { entity: Photos, icon: "images", css_class: "navlink" }
             - { entity: Categories, icon: "tags", css_class: "navlink" }
@@ -23,6 +23,15 @@ easy_admin:
     entities:
         Produits:
             class: App\Entity\Product
+        Tous_Les_Produits:
+            label: "Tous les produits"
+            class: App\Entity\Product
+            form:
+                fields:
+                    - name
+                    - description
+                    - slug
+                    - categories
         Sans_Photos:
             label: "Sans Photos"
             class: App\Entity\Product
@@ -51,8 +60,16 @@ easy_admin:
                     - product
         Photos:
             class: App\Entity\Photo
+            form:
+                fields:
+                    - { property: "picture", type: "file_upload", type_options: {upload_dir: public/data}}
+                    - product
         Categories:
             class: App\Entity\Category
+            label: "Catégories"
+            form:
+                fields:
+                    - name
         Utilisateurs:
             class: App\Entity\User
             form:
@@ -68,6 +85,13 @@ easy_admin:
 
         Commandes: 
             class: App\Entity\Order
+        Toutes_Les_Commandes:
+            class: App\Entity\Order
+            label: "Toutes les commandes"
+            disabled_actions: ['new', 'delete']
+            form:
+                fields:
+                    - { property: "status", type: 'choice', type_options: {choices: {"Annulée": 0, "En attente": 1, "En préparation": 2, "Envoyée": 3, "Livrée": 4} }}
         Standby:
             class: App\Entity\Order
             list:
@@ -75,7 +99,7 @@ easy_admin:
             disabled_actions: ['new', 'delete']
             form:
                 fields:
-                    - { property: "status", type: 'choice', type_options: {choices: {"Cancelled": 0, 1: 1, 2: 2, 3: 3, 4: 4} }}
+                    - { property: "status", type: 'choice', type_options: {choices: {"Annulée": 0, "En attente": 1, "En préparation": 2, "Envoyée": 3, "Livrée": 4} }}
         Stocks:
             class: App\Entity\State
             list:
@@ -85,7 +109,18 @@ easy_admin:
                     - price
                     - stock
                     - state
-                    
+            form:
+                fields:
+                    - stock
+        Tout_Le_Stock:
+            class: App\Entity\State
+            label: "Tout le stock"
+            list:
+                fields:
+                    - product
+                    - price
+                    - stock
+                    - state
             form:
                 fields:
                     - stock

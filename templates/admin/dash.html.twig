@@ -12,7 +12,7 @@
         <a href="{{ path('easyadmin', {entity: "Standby", action: "list", menuIndex: 5, submenuIndex: 0}) }}">
             <div class="round-widget">
                 <h4>{{nWaitingOrders}}</h4>
-                {% if nLowStockAndNew == 1 %}
+                {% if nWaitingOrders == 1 %}
                     <p>Commandes est actuellement en attente de traitement</p>
                 {% else %}
                     <p>Commandes sont actuellement en attente de traitement</p>

@@ -26,4 +26,17 @@ class AjaxController extends AbstractController
             'results' => $content,
         ));
     }
+    public function gameScreenshots( int $id )
+    {
+        $client = HttpClient::create();
+        $url = 'https://api.rawg.io/api/games/'. $id . "/screenshots";
+        $response = $client->request('GET', $url);
+        $content = $response->toArray();
+
+        return new JsonResponse( array(
+            'status' => true,
+            'url' => $url,
+            'results' => $content,
+        ));
+    }
 }
