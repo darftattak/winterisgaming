@@ -8,6 +8,7 @@ use App\Entity\Order;
 use App\Entity\Address;
 use App\Form\OrderType;
 use App\Repository\ProductRepository;
+use App\Repository\StateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +23,7 @@ class OrderController extends AbstractController
     /**
      * @Route("/order", name="order")
      */
-    public function order(SessionInterface $session, ProductRepository $productRepository, Request $request, EntityManagerInterface $em)
+    public function order(SessionInterface $session, ProductRepository $productRepository, StateRepository $stateRepository, Request $request, EntityManagerInterface $em)
     {   
             
         $user = $this->getUser();
@@ -34,8 +35,9 @@ class OrderController extends AbstractController
 
         foreach($cart as $id => $quantity) {
             $cartWithData[] = [
-                'product' => $productRepository->find($id),
-                'quantity' => $quantity
+                'state' => $stateRepository->find($id),
+                'quantity' => $quantity,
+                'product' => $stateRepository->find($id)->getProduct(),
             ];
 
         }
@@ -43,11 +45,10 @@ class OrderController extends AbstractController
         $total = 0;
 
         foreach($cartWithData as $item) {
-            $itemState = $item['product']->getStates();
-           foreach($itemState as $eachItem) {
-               $total += $eachItem->getPrice() * $item['quantity'];
-           }
+            $itemProduct = $item['state']->getProduct();
+            $total += $item['state']->getPrice() * $item['quantity'];
         }
+           
         
         $order = new Order();
         $form = $this->createForm( OrderType::class, $order );

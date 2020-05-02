@@ -261,3 +261,7 @@ li {
 .infoCat > p {
     margin: 0;
 }
+
+[colspan="2"] {
+    text-align: right;
+}

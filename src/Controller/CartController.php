@@ -45,6 +45,7 @@ class CartController extends AbstractController
                 'item' => $itemProduct,
                 'total' => $total,
                 'items' =>  $cartWithData,
+                'cart' => $cart,
             ]);
         }
         return $this->render('cart/index.html.twig', [

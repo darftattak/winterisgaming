@@ -27,31 +27,40 @@
 
 <table class="table table-bordered">
 
- <h5>Récapitulative de la commande:</h5>
-  {% for cartWithData in cartWithData %}
+ <h5>Récapitulatif de la commande:</h5>
+  
   
   
   <thead>
     <tr>
     <td>Nom du produit:</td>
-    <td>Quantiter du produit:</td>
+    <td>Prix</td>
+    <td>Quantité du produit:</td>
     
     </tr>
     </thead>    
     
     <thbody>
+    {% for cartWithData in cartWithData %}  
+      <tr>
         <td>
-        {{ cartWithData.product }}
+        {{ cartWithData.product.name }} - {{ cartWithData.state.state }}
+        </td>
+        <td>
+        {{ cartWithData.state.price }}€
         </td>
         <td>
         {{ cartWithData.quantity }}
         </td>
+      </tr>
+      {% endfor %}
+      <th>
+        Prix total TTC:
+      </th>
+      <th colspan="2">
+        {{ total }}€
+      </th>
       </thbody>  
-      
-    {% endfor %}
-<th>
-        Prix total TTC: {{ total }}€
-        </th>
 </table>
 </div>
 
@@ -91,27 +100,10 @@
 </div>
 
 </div>
-<script src="https://js.stripe.com/v3/"></script>
+
 
 <script>
-Stripe.setPublishableKey('pk_test_i0owDQKVS941OjJBhfTXttY200C9cMzpZY);
-var $form = $('#payement_form');
-$form.submit(function(e)
-{
-  e.preventDefault();
-  $form.find('.button').attr('disabled',true);
-  stripe.card.createToken($form , function(status, response){
-    if(response.error){
-      $form.find(message).remove();
-      $form.prepend('<div class="alert alert-warning"><p>' + response.error.message + '</p></div>');
-    }else {
-      var token = response.id
-      $form.append($('<input type="hidden" name="stripeToken">')).val(token)
-      $form.get(0).submit()
-    }
-  })
-
-} )
+  
 </script>
 {% endblock %}
 
