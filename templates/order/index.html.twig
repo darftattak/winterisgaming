@@ -3,9 +3,11 @@
 {% block title %}Paiement{% endblock %}
 
 {% block body %}
+<div class="row">
 
 
-<h4 class="text-uppercase">Nom:{{user.lastname}}  Prénom:{{user.firstname}}</h4>
+<div class="col-8">
+<h4 class="text-uppercase">Bonjour: {{user.lastname}} {{user.firstname}}</h4>
  
 
  {{ form_start( form, {
@@ -15,29 +17,41 @@
         }
     } ) }}
     
- {# {{ form_row(form.shippingAddress) }} #}
- {# {{ form_row(form.billingAddress) }} #}
+<a href="/address/new" class="btn btn-blue btn-lg">Ajouter une adresse</a>
+  {{ form_row(form.shippingAddress) }} 
+ {{ form_row(form.billingAddress) }} 
 {{ form_end( form ) }}
 
 <!--liste des prodduit-->
-<div>
-<h4>Récapitulative de la commande.</h4>
-<table>
 
 
-    {% for cartWithData in cartWithData %}
+<table class="table table-bordered">
+
+ <h5>Récapitulative de la commande:</h5>
+  {% for cartWithData in cartWithData %}
+  
+  
+  <thead>
     <tr>
-    <td>Nom du produit</td>
-    <td>Quantiter du produit</td>
+    <td>Nom du produit:</td>
+    <td>Quantiter du produit:</td>
+    
     </tr>
+    </thead>    
+    
+    <thbody>
         <td>
-        {{ cartWithData.product }} {{ cartWithData.quantity }}
+        {{ cartWithData.product }}
         </td>
         <td>
         {{ cartWithData.quantity }}
         </td>
+      </thbody>  
+      
     {% endfor %}
-
+<th>
+        Prix total TTC: {{ total }}€
+        </th>
 </table>
 </div>
 
@@ -45,8 +59,59 @@
 
 
 
-<!--Paiement-->
 
+<div class=" col-4 ">
+<h4>Paiement:</h4>
 
+<form action="payement.php" class="form" method="post">
+<div class="form-group">
+ <label for="Nom du titulaire de la carte Bleu:">Nom du titulaire de la carte bleu:</label>
+<input type="text"  class="form-control" placeholder="Nom du titulaire de la carte Bleu"  name="name" required>
+</div>
+<div class="form-group">
+<label for="Numéro de carte bleu:">Numéro de la carte bleu</label>
+<input type="text" class="form-control" placeholder="Numéro de carte bleu" id="payement_form" data-stripe="number" >
+</form>
+</div>
+<div class="form-group">
+<label for="MM">MM</label>
+<input type="text" class="form-control" placeholder="MM" data-stripe="exp_month" >
+</form>
+</div>
+<div class="form-group">
+<label for="YY">YY</label>
+<input type="text" class="form-control" placeholder="YY" data-stripe="exp_year">
+</form>
+</div>
+<div class="form-group">
+<label for="CVC">CVC</label>
+<input type="text" class="form-control" placeholder="CVC" data-stripe="cvc" >
+<button class="btn btn-blue btn-lg" type="submit">Confirmer le paiement</button>
+</form>
+</div>
 
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+Stripe.setPublishableKey('pk_test_i0owDQKVS941OjJBhfTXttY200C9cMzpZY);
+var $form = $('#payement_form');
+$form.submit(function(e)
+{
+  e.preventDefault();
+  $form.find('.button').attr('disabled',true);
+  stripe.card.createToken($form , function(status, response){
+    if(response.error){
+      $form.find(message).remove();
+      $form.prepend('<div class="alert alert-warning"><p>' + response.error.message + '</p></div>');
+    }else {
+      var token = response.id
+      $form.append($('<input type="hidden" name="stripeToken">')).val(token)
+      $form.get(0).submit()
+    }
+  })
+
+} )
+</script>
 {% endblock %}
+

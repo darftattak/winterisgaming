@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
+//
+
 class OrderController extends AbstractController
 {
     /**
@@ -23,14 +25,13 @@ class OrderController extends AbstractController
     public function order(SessionInterface $session, ProductRepository $productRepository, Request $request, EntityManagerInterface $em)
     {   
             
-        $cart=$session->get('cart');
-        $cartWithData = [];
         $user = $this->getUser();
-        $address=$user -> getAddresses();
-        
-        
+        $address= $user -> getAddresses();
+        $itemState = [];
+        $cart = $session->get('cart', []);
 
-        
+        $cartWithData = [];
+
         foreach($cart as $id => $quantity) {
             $cartWithData[] = [
                 'product' => $productRepository->find($id),
@@ -39,6 +40,15 @@ class OrderController extends AbstractController
 
         }
 
+        $total = 0;
+
+        foreach($cartWithData as $item) {
+            $itemState = $item['product']->getStates();
+           foreach($itemState as $eachItem) {
+               $total += $eachItem->getPrice() * $item['quantity'];
+           }
+        }
+        
         $order = new Order();
         $form = $this->createForm( OrderType::class, $order );
         
@@ -48,7 +58,8 @@ class OrderController extends AbstractController
             'cartWithData'=>$cartWithData,
             'user' =>$user, 
             'address'=>$address,
-            'form' => $form->createView(), 
+            'form' => $form->createView(),
+            'total'=> $total 
 
         ]);
     }

@@ -26,16 +26,16 @@ class OrderType extends AbstractType
         $user = $this->security->getUser(); 
         $builder
           
-           /*  ->add('shippingAddress', EntityType::class, array(
+            ->add('shippingAddress', EntityType::class, array(
                 "label" => "Adresse d'expédition:",
                 'class' => Address::class,
                 'choices' => $user->getAddresses(),
             ))
             ->add('billingAddress', EntityType::class, array(
-                "label" => "Adresse de Facyuration:",
+                "label" => "Adresse de Facturation:",
                 'class' => Address::class,
                 'choices' => $user->getAddresses(),
-            )); */
+            )); 
         ;
     }
 
