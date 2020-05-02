@@ -8,21 +8,22 @@
   
     <div class="row">
         {% for product in products %}
+        {% if product.states.0.price is defined and product.states.0.stock is defined and product.states.0.state is defined and product.photos is not empty %}
             <div class="col-12 col-lg-4">
-                    <div class="card-body">
+                    <div class="card-body listCard">
+                        <img src="{{ asset("data/" ~ product.photos.0.picturePath ) }}" alt="image1">
                         <h2 class="card-title">{{ product.name }}</h2>
                         <p class="card-text">{{ product.description|slice(0, 120) }}</p>
                         <p class="card-text">Prix : {{ product.states.0.price }} €</p>
                         <p class="card-text">Quantité : {{ product.states.0.stock }}</p>
                         <p class="card-text">Etat : {{ product.states.0.state }}</p>
-                        {% if product.photos is not empty %}
-                            <img src="{{ product.photos[0].picture }}" alt="image1">
-                        {% endif %}
                     </div>
+                    <div>
                         <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-primary">En savoir plus</a>
-                        <a href="{{ path( 'cart_add', {id: product.id} ) }}" class="btn btn-primary">Ajouter au panier</a>
+                        <a href="{{ path( 'cart_add', {id: product.id} ) }}" class="btn btn-primary"><i class="fas fa-cart-plus"></i></a>
+                    </div>
             </div>
-    </div>
+        {% endif %}
         {% endfor %}
 </div>
     
