@@ -10,6 +10,7 @@ use App\Form\OrderType;
 use App\Repository\ProductRepository;
 use App\Repository\StateRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Stripe\PaymentIntent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -49,10 +50,16 @@ class OrderController extends AbstractController
             $total += $item['state']->getPrice() * $item['quantity'];
         }
            
-        
+        $apkPublic='pk_test_i0owDQKVS941OjJBhfTXttY200C9cMzpZY';
+        $apkSecrets='sk_test_I1XxOIaag5Z0K1pgsJKYyNnw00AzjwNhjg';
         $order = new Order();
         $form = $this->createForm( OrderType::class, $order );
+        $form ->handleRequest($request);
         
+       
+            
+        
+
         return $this->render('order/index.html.twig', [
             'controller_name' => 'OrderController',
             'cart'=>$cart,
@@ -60,11 +67,10 @@ class OrderController extends AbstractController
             'user' =>$user, 
             'address'=>$address,
             'form' => $form->createView(),
-            'total'=> $total 
+            'total'=> $total,
+            
+
 
         ]);
     }
-
-    
-
 }

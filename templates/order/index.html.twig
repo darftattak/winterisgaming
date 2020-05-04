@@ -10,18 +10,10 @@
 <h4 class="text-uppercase">Bonjour: {{user.lastname}} {{user.firstname}}</h4>
  
 
- {{ form_start( form, {
-        'attr': {
-            'class': 'container-fluid my-2',
-            'novalidate': 'novalidate',
-        }
-    } ) }}
+
     
 <a href="/address/new" class="btn btn-blue btn-lg">Ajouter une adresse</a>
-  {{ form_row(form.shippingAddress) }} 
- {{ form_row(form.billingAddress) }} 
-{{ form_end( form ) }}
-
+ 
 <!--liste des prodduit-->
 
 
@@ -72,31 +64,22 @@
 <div class=" col-4 ">
 <h4>Paiement:</h4>
 
-<form action="payement.php" class="form" method="post">
-<div class="form-group">
- <label for="Nom du titulaire de la carte Bleu:">Nom du titulaire de la carte bleu:</label>
-<input type="text"  class="form-control" placeholder="Nom du titulaire de la carte Bleu"  name="name" required>
-</div>
-<div class="form-group">
-<label for="Numéro de carte bleu:">Numéro de la carte bleu</label>
-<input type="text" class="form-control" placeholder="Numéro de carte bleu" id="payement_form" data-stripe="number" >
-</form>
-</div>
-<div class="form-group">
-<label for="MM">MM</label>
-<input type="text" class="form-control" placeholder="MM" data-stripe="exp_month" >
-</form>
-</div>
-<div class="form-group">
-<label for="YY">YY</label>
-<input type="text" class="form-control" placeholder="YY" data-stripe="exp_year">
-</form>
-</div>
-<div class="form-group">
-<label for="CVC">CVC</label>
-<input type="text" class="form-control" placeholder="CVC" data-stripe="cvc" >
-<button class="btn btn-blue btn-lg" type="submit">Confirmer le paiement</button>
-</form>
+    {{ form_start(form, {attr: {id: form.vars.id}}) }}
+    <div class="form-group">
+    {{ form_row(form.shippingAddress) }} 
+    </div>
+    <div class="form-group">
+    {{ form_row(form.billingAddress) }}
+    </div> 
+    <div class="form-group">
+      <label for="card-element">
+        Credit or Debit Card
+      </label>
+      <div id="card-element" class="form-control"></div>
+      <div id="card-errors" class="help-block" role="alert"></div>
+    </div>
+    {{ form_widget(form.paymentToken) }}
+    {{ form_end(form) }}
 </div>
 
 </div>
