@@ -3,13 +3,15 @@
 {% block title %}WIG - {{ product.name }}{% endblock %}
 
 {% block body %}
+
+
 <div id="productDiv">
         <div class="w-100 productGeneric">
                 <div class="productInfo">
                         <h1>{{ product.name }}</h1>
 
                         <div class="mainInfos">
-                                
+                        <!--  IF IS A GAME -->
                                 <p>
                                         {% if 'Jeux' in product.categories and data.results.released is defined %}
                                                 <span>Sortie : {{data.results.released|date("d/m/Y")}}</span><br>
@@ -17,7 +19,7 @@
                                         {{ product.description }}
                                 </p>
                                 <div>
-                                        {% if 'Jeux' in product.categories %}
+                                {% if 'Jeux' in product.categories %}
                                         <div class="esrbDiv">
                                                 {% if data.results.esrb_rating.name is not defined %}
                                                         <h5>Indisponible</h5>
@@ -50,6 +52,8 @@
                                                 <div class="metascore meta-na"><span>NA</span></div>
                                                 {% endif %}
                                         </div>
+                                {% endif %}
+                                <!--  END IF IS A GAME -->
                                 </div>
                         </div>
                         
@@ -72,6 +76,7 @@
                                                         </div>
                                                 {% endif %}
                                         {% endfor %}
+                                        <!-- IF IS A GAME -->
                                         {% if 'Jeux' in product.categories %}
                                                 {% if screenshots.results.results is not empty %}
                                                         {% for screen in screenshots.results.results %}
@@ -81,6 +86,7 @@
                                                         {% endfor %}
                                                 {% endif %}
                                         {% endif %}
+                                        <!--  END IF IS A GAME -->
                                 {% endif %}
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
@@ -126,6 +132,7 @@
                 <h3>Informations</h3>
                 
                 <div class="infoCatDiv">
+                        <!--  IF IS A GAME -->
                         {% if 'Jeux' in product.categories and data.results.released is defined %}
                                 {% if data.results.developers is not empty %}
                                         <div class="infoCat">
@@ -160,8 +167,8 @@
                                         </div>
                                 {% endif %}
                         {% endif %}
+                        <!--  END IF IS A GAME -->
                 </div>
-                {% endif %}
         </section>
 </div>
 {% endblock %}

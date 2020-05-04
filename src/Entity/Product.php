@@ -57,6 +57,8 @@ class Product
      */
     private $users;
 
+    private $lowestPrice;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
@@ -223,6 +225,19 @@ class Product
             $this->users->removeElement($user);
             $user->removeWishlist($this);
         }
+
+        return $this;
+    }
+
+
+    public function getLowestPrice(): ?string
+    {
+        return $this->lowestPrice;
+    }
+
+    public function setLowestPrice(int $lowestPrice): self
+    {
+        $this->lowestPrice = $lowestPrice;
 
         return $this;
     }

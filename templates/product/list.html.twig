@@ -11,20 +11,26 @@
 <div class="container">
     <div class="row">
         {% for product in products %}
+        
             <div class="col-lg-4">
+
                 <div class="card shadow mb-4">
-                     {% if product.photos is not empty %}
-                                <img style="height : 18rem" src="{{ product.photos[0].picture }}" alt="image1">
-                    {% endif %}
+
+                    <img style="height : 18rem" src="{{ asset("data/" ~ product.photos.0.picturePath) }}" alt="image1">
                     <div class="card-body">
-                        <h2 class="card-title">{{ product.name }}</h2>
-                        <h5 class="card-text">Prix : {{ product.states.0.price }} €</h5>
-                        <h5 class="card-text">Quantité : {{ product.states.0.stock }}</h5>
-                        <h5 class="card-text">Etat : {{ product.states.0.state }}</h5>
-                        <p class="card-text">{{ product.description|slice(0, 120) }}</p>
-                        <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-light">En savoir plus</a>
-                        <a href="{{ path( 'cart_add', {id: product.id} ) }}" class="btn btn-primary">Ajouter au panier</a>
-                        <a href="{{ path( 'wishlist', {id: product.id} ) }}" class="btn btn-success">Ajouter à ma liste d'envies</a>
+                        <h3 class="card-title">
+                            {% if product.name|length < 23 %}
+                                {{ product.name}}
+                            {% else %}
+                                {{ product.name|u.truncate(20, '...') }}
+                            {% endif %}
+                        </h3>
+                        <div class="listInfos">
+                            <p>A partir de {{product.lowestprice}}€</p>
+                            <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-light btn-outline-primary">Voir</a>
+                            <a href="{{ path( 'cart_add', {id: product.states.0.id} ) }}" class="btn btn-primary"><i class="fas fa-cart-plus"></i></a>
+                            <a href="{{ path( 'wishlist', {id: product.id} ) }}" class="btn btn-success"><i class="fas fa-clipboard-list"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -42,10 +42,62 @@ margin-block: 0.2em
 
 }
 
+
 /*footer*/
 .backend{
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.75);
+    width: 100vw;
+    padding: 1em;
+    margin-top:  0.5em;
 }
+
+footer {
+    color: white;
+}
+
+.socialMediaLink {
+    color: white;
+    transition: 0.2s;
+}
+
+footer h4 {
+    text-align: center;
+}
+
+.footerMenu {
+    display: flex;
+    justify-content: center;
+}
+
+.footerNav  {
+    margin: 1em 0;
+    padding: 1em 2em;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    border-image: linear-gradient(transparent, white, transparent ) 3;
+
+    text-align: center;
+}
+
+.footerNav > h5 {
+    margin-bottom: 1em;
+}
+
+.footerNav > div {
+    margin: 1em;
+}
+
+.footerNav a, .footerNav a:hover {
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 2em;
+    width: 100%;
+    transition: all 0.1s ease-out;
+}
+.footerNav a:hover {
+    background-color: gray;
+}
+
 /*Cadre du mot de passe*/
 #register_plainPassword_first{
 display: block;
@@ -264,4 +316,15 @@ li {
 
 [colspan="2"] {
     text-align: right;
+}
+
+.listInfos {
+    display: flex;
+    justify-content: space-between;
+}
+
+.listInfos > p {
+    width: 50%;
+    margin-bottom: 0;
+    padding-top: 0.375rem;
 }

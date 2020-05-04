@@ -1,120 +1,144 @@
 <!DOCTYPE html>
 <html>
-    <head>
 
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-        {{encore_entry_link_tags('app')}}
-        {% endblock %}
-    </head>
-    <div class="toaster">
-             {% for label, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ label }} alert-dismissible fade show">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endfor %}
-             {% endfor %}
-        </div>
-    <body class="container background">
-    <header>
-    
-    <nav class="navbar navbar-top navbar-expand-lg navbar-dark bg-blue">
-  
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<head>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ path('user_login') }}">Connexion</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ path('user_register') }}">Inscription</a>
-      </li>
-      
-    </ul>
-   
-  </div>
-</nav>
+	<meta charset="UTF-8">
+	<title>{% block title %}Welcome!{% endblock %}</title>
+	{% block stylesheets %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	{{encore_entry_link_tags('app')}}
+	{% endblock %}
+</head>
+<div class="toaster">
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ label }} alert-dismissible fade show">
+				{{ message }}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		{% endfor %}
+	{% endfor %}
+</div>
 
-<a class="nav-link" href="{{ path('home') }}"><img class="logo img-fluid align-center" src="{{ asset("build/img/logo.png") }}" alt="logo" /></a>
+<body class="background">
+	<div class="container">
+		<header>
 
-<nav class="navbar navbar-top navbar-expand-lg navbar-dark bg-blue navesecondary">
-  
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+			<nav class="navbar navbar-top navbar-expand-lg navbar-dark bg-blue">
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ path('home') }}">Accueil</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ path('product_list') }}">Nos produits</a>
-      </li>
-    </ul>
-   
-  </div>
-</nav>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('user_login') }}">Connexion</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('user_register') }}">Inscription</a>
+						</li>
+
+					</ul>
+
+				</div>
+			</nav>
+
+			<a class="nav-link" href="{{ path('home') }}"><img class="logo img-fluid align-center"
+					src="{{ asset("build/img/logo.png") }}" alt="logo" /></a>
+
+			<nav class="navbar navbar-top navbar-expand-lg navbar-dark bg-blue navesecondary">
+
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="{{ path('home') }}">Accueil</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('product_list') }}">Nos produits</a>
+						</li>
+					</ul>
+
+				</div>
+			</nav>
 
 
 
 
-    </header>
-        <main class="bg-white">
-        {% block body %}
-        {% endblock %}
-        </main>
+		</header>
+		<main class="bg-white">
+			{% block body %}
+			{% endblock %}
+		</main>
+	</div>
+	<footer class="backend">
+		<div class="">
+			<!-- Social buttons -->
+			<ul class="list-unstyled list-inline text-center">
+				<li class="list-inline-item">
+					<a href="#" class="btn-floating btn-fb mx-1 socialMediaLink">
+						<i class="fab fa-2x fa-facebook"></i>
+					</a>
+				</li>
+				<li class="list-inline-item">
+					<a href="#" class="btn-floating btn-tw mx-1 socialMediaLink">
+						<i class="fab fa-2x fa-twitter"> </i>
+					</a>
+				</li>
 
-    <footer class="backend">
-  <div class="">
-     <!-- Social buttons -->
-    <ul class="list-unstyled list-inline text-center">
-      <li class="list-inline-item">
-        <a href="#" class="btn-floating btn-fb mx-1">
-          <i class="fab fa-2x fa-facebook"></i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a href="#" class="btn-floating btn-tw mx-1">
-          <i class="fab fa-2x fa-twitter"> </i>
-        </a>
-      </li>
-      
-      <li class="list-inline-item">
-        <a href="#" class="btn-floating btn-li mx-1">
-          <i class="fab fa-2x fa-linkedin-in"> </i>
-        </a>
-      </li>
-     
-    </ul>
-    <hr class="w-75 bg-white">
-    <!--Footer 1 -->
-    <div class="text-white m-6">
-      <h4>Titre du footer 1:</h4>
-    </div>
-    <p>©2020 - Winter is Gaming - Réalisé par Valentin/Lorry/Louis/Vincent<a>RGPD/CGU/CGV</a></p>
-  </div>  
-    </footer>
-         
-        {% block javascripts %}
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        <script src="https://js.stripe.com/v3/"></script>
+				<li class="list-inline-item">
+					<a href="#" class="btn-floating btn-li mx-1 socialMediaLink">
+						<i class="fab fa-2x fa-linkedin-in"> </i>
+					</a>
+				</li>
 
-        {{ encore_entry_script_tags('app') }}
-        {{ encore_entry_script_tags('admin') }}
-        {{ encore_entry_script_tags('order') }}
-        {% endblock %}
-        
-    </body>
+			</ul>
+			<hr class="w-75 bg-white">
+			<!--Footer 1 -->
+			<div class="text-white m-6">
+				<h4>&copy{{ "now"|date("Y") }} - Winter is Gaming</h4>
+			</div>
+			<div class="footerMenu">
+				<div class="footerNav">
+					<h5>Réalisé par :</h5>
+					<div><a href="">Lorry Carrel</a></div>
+					<div><a href="">Louis Schrike</a></div>
+					<div><a href="https://www.linkedin.com/in/valentin-bunel-667a66179/">Valentin Bunel</a></div>
+					<div><a href="">Vincent De Wyse</a></div>
+				</div>
+				<div class="footerNav">
+					<h5>Navigation :</h5>
+					<div><a href="{{ path('contact') }}">Contact</a></div>
+					<div><a href="">RGPD</a></div>
+					<div><a href="">CGU</a></div>
+					<div><a href="">CGV</a></div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	{% block javascripts %}
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src="https://js.stripe.com/v3/"></script>
+
+	{{ encore_entry_script_tags('app') }}
+	{{ encore_entry_script_tags('admin') }}
+	{{ encore_entry_script_tags('order') }}
+	{% endblock %}
+
+</body>
+
 </html>

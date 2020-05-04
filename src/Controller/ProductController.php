@@ -59,6 +59,12 @@ class ProductController extends AbstractController
                 foreach ($photos as $photo) {
                     $photo->setPicturePath();
                 }
+                $priceCompare = [];
+                $prices = $product->getStates();
+                foreach ($prices as $price) {
+                    array_push($priceCompare, $price->getPrice()) ;
+                }
+                $product->setLowestPrice(min($priceCompare));
             }
         }
 
@@ -84,22 +90,22 @@ class ProductController extends AbstractController
      */
     public function show( Request $request, $id )
     {
-        $game = $this->productService->get( $id ) ;
+        $product = $this->productService->get( $id ) ;
 
-        $photos = $game->getPhotos();
+        $photos = $product->getPhotos();
         foreach ($photos as $photo) {
             $photo->setPicturePath();
         }
         
 
-        if($game->getSlug()) {
-            $slug = $game->getSlug();
+        if($product->getSlug()) {
+            $slug = $product->getSlug();
             $data = new AjaxController;
 
-            $gamedata = $data->gamedata( $slug )->getContent();
-            $dataPerGame = json_decode($gamedata, true);
+            $productdata = $data->gamedata( $slug )->getContent();
+            $dataPerProduct = json_decode($productdata, true);
 
-            $screenshots = $data->gameScreenshots($dataPerGame["results"]['id'])->getContent();
+            $screenshots = $data->gameScreenshots($dataPerProduct["results"]['id'])->getContent();
             $screensArray = json_decode($screenshots, true);
 
             
@@ -107,7 +113,7 @@ class ProductController extends AbstractController
 
             return $this->render( 'product/show.html.twig', array(
                 'product' => $this->productService->get( $id ),
-                'data' => $dataPerGame,
+                'data' => $dataPerProduct,
                 'screenshots' => $screensArray,
                 'photos' => $photos,
             ));
