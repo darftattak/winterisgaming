@@ -98,6 +98,16 @@ footer h4 {
     background-color: gray;
 }
 
+.apiCopy {
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+.apiCopy a, .apiCopy a:hover {
+    color: white;
+}
+
 /*Cadre du mot de passe*/
 #register_plainPassword_first{
 display: block;

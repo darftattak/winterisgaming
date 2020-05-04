@@ -10,11 +10,11 @@ use App\Form\OrderType;
 use App\Repository\ProductRepository;
 use App\Repository\StateRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Stripe\PaymentIntent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 
 //
 
@@ -48,7 +48,14 @@ class OrderController extends AbstractController
             $itemProduct = $item['state']->getProduct();
             $total += $item['state']->getPrice() * $item['quantity'];
         }
-           
+
+        $paymentIntent = new PaymentIntent();
+        $payment = $paymentIntent->create(array(
+            'amount' => $total,
+            'currency' => "eur",
+            'payment_method_types' => ['card']
+        ));
+        $paymentSecret = $payment->client_secret;  
         
         $order = new Order();
         $form = $this->createForm( OrderType::class, $order );
@@ -61,7 +68,7 @@ class OrderController extends AbstractController
             'address'=>$address,
             'form' => $form->createView(),
             'total'=> $total 
-
+            ''
         ]);
     }
 

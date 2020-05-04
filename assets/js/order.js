@@ -12,10 +12,12 @@ $(document).ready(function(){
                 form.prepend('<div class="alert alert-warning"><p>' + response.error.message + '</p></div>');
             }else {
                 var token = response.id
+                console.log(token)
                 form.append($('<input type="hidden" name="stripeToken">')).val(token)
                 form.get(0).submit()
+                
             }})
 
-        } )
+        })
     }
 })
