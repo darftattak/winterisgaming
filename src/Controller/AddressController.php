@@ -76,5 +76,21 @@ class AddressController extends AbstractController
         $em->flush();
 
         //Make the return
+        $this->addFlash('success', "Votre adresse a bien été supprimée.");
+        return $this->redirectToRoute('address_list');
     }
+
+    /**
+     * @Route("/address/list", name="address_list")
+     */
+    public function index()
+    {
+        $user = $this->getUser();
+        $address = $user->getAddresses();
+        return $this->render('address/list.html.twig', [
+            "user" => $this->getUser(),
+            'address' =>  $address,
+        ]);
+    }
+
 }
