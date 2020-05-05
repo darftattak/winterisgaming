@@ -3,51 +3,48 @@
 {% block title %}Votre interface utilisateur{{ parent() }}{% endblock %}
 
 {% block body %}
-
 <div class="container">
-
-</br>
-<h1 class="text-center">Votre interface utilisateur</h1>
-</br>
-
-    <div class="row">
-       
-        <div class="col-4">
+    
+    <div class="row-2 d-flex align-items-center justify-content-between cercles">
                 <h2 class="card-title ml-2">Bonjour {{ user.username }}</h2>
                 <h3 class="card-text">{{ user.email }}</h3>
                 <h3 class="card-text">Points fidelités : {{ user.loyalty }}</h3>
-        </div>
-        
-        <div class="col-4 text-center">
-
-                <li class="nav-item active">
-                        <h3><a href="{{ path( 'user_modify', {id: user.id} ) }}" class="btn btn-primary"><i class="fab fa-wpforms mr-2"></i>Modifier mes informations</a></h3>
-                </li>
-
-                <li class="nav-item active">
-                        <h3><a href="{{ path( 'password_modify', {id: user.id} ) }}" class="btn btn-primary"><i class="fas fa-key mr-2"></i>Modifier mon mot de passe</a></h3>
-                </li>
-
-                <li class="nav-item active">
-                        <h3><a href="{{ path( 'email_modify', {id: user.id} ) }}" class="btn btn-primary"><i class="far fa-envelope mr-2"></i>Modifier mon adresse mail</a></h3>
-                </li>
-
-                <li class="nav-item active">
-                        <h3><a href="{{ path( 'products_follow', {id: user.id} ) }}" class="btn btn-primary"><i class="fas fa-shipping-fast mr-2"></i>Historique des commandes</a></h3>
-                </li>
-
-                <li class="nav-item active">
-                        <h3><a href="{{ path( 'wishlist_view', {id: user.id} ) }}" class="btn btn-primary"><i class="fas fa-star mr-2"></i>Ma liste d'envies</a></h3>
-                </li>  
-        
-        </div>
-        
-        <div class="col-4">
                 <img src="{{ user.avatar }}" alt="image1">
-        </div>
     </div>
 
-</div>
+        <div class="container d-flex justify-content-around cercles">
+        
+                <div class="rounded-circle bg-blue cercle text-center mb-1">
+                                <a href="{{ path( 'user_modify', {id: user.id} ) }}">
+                                <h4 class="text-white"><br><i class="fab fa-wpforms"></i><br>Modifier mes informations</h4>
+                                </a>   
+                </div>
 
+                <div class="rounded-circle bg-blue cercle text-center mb-1">
+                                <a href="{{ path( 'password_modify', {id: user.id} ) }}">
+                                <h4 class="text-white"><br><i class="fas fa-key mr-2"></i><br>Modifier mon mot de passe</h4>
+                                </a>   
+                </div>
+                
+                <div class="rounded-circle bg-blue cercle text-center mb-1">
+                                <a href="{{ path( 'email_modify', {id: user.id} ) }}">
+                                <h4 class="text-white"><br><i class="far fa-envelope mr-2"></i><br>Modifier mon adresse mail</h4>
+                                </a>   
+                </div>
+
+                <div class="rounded-circle bg-blue cercle text-center mb-1">
+                                <a href="{{ path( 'products_follow', {id: user.id} ) }}">
+                                <h4 class="text-white"><br><i class="fas fa-shipping-fast mr-2"></i><br>Historique des commandes</h4>
+                                </a>   
+                </div>
+
+                <div class="rounded-circle bg-blue cercle text-center mb-1">
+                                <a href="{{ path( 'wishlist_view', {id: user.id} ) }}">
+                                <h4 class="text-white"><br><i class="fas fa-star mr-2"></i><br>Ma liste d'envies</h4>
+                                </a>   
+                </div>
+        </div>
+
+</div>
 
 {% endblock %}

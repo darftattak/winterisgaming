@@ -60,7 +60,8 @@ class OrderController extends AbstractController
             'user' =>$user, 
             'address'=>$address,
             'form' => $form->createView(),
-            'total'=> $total 
+            'total'=> $total,
+            'user' => $this->getUser(),
 
         ]);
     }

@@ -44,9 +44,8 @@
     
     <tfoot>
         <tr>
-            <td colspan="3" class="text-right">Total : </td>
-            <td>{{ total }}</td>
-            <td></td>
+            <td colspan="4" class="text-right">Total : {{ total }}</td>
+            <td colspan="2"><a href="{{ path('order') }}" class="btn btn-blue btn-sm"><i class="fas fa-check-circle mr-1"></i>Valider mon panier</a></td>
         </tr>
     </tfoot>
 
@@ -54,10 +53,6 @@
     {% else %}
         <p>Votre panier est vide </p>
     {% endif %}
-
-    <pre>
-        {{ dump(cart) }}
-    </pre>
 
 </div>
 {% endblock %}

@@ -15,8 +15,9 @@
             <div class="col-lg-4">
 
                 <div class="card shadow mb-4">
-
-                    <img style="height : 18rem" src="{{ asset("data/" ~ product.photos.0.picturePath) }}" alt="image1">
+                    {% if product.photos is not empty %}
+                                <img style="height : 18rem" src="{{ asset("data/" ~ product.photos.0.picturePath ) }}" alt="image1">
+                    {% endif %}
                     <div class="card-body">
                         <h3 class="card-title">
                             {% if product.name|length < 23 %}

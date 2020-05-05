@@ -22,15 +22,6 @@ class ProductController extends AbstractController
         public function __construct( ProductService $productService) {
             $this->productService = $productService;
         }
-    /**
-     * @Route("/product", name="product")
-     */
-    public function index()
-    {
-        return $this->render('product/products.html.twig', [
-            'controller_name' => 'ProductController',
-        ]);
-    }
 
     /**
      * @Route("/products", name="product_list")
@@ -72,6 +63,7 @@ class ProductController extends AbstractController
             'products' => $products,
             'page' => $pagination['page'],
             'maxPage' => $pagination['maxPage'],
+            'user' => $this->getUser(),
         ));
     }
 
@@ -116,10 +108,12 @@ class ProductController extends AbstractController
                 'data' => $dataPerProduct,
                 'screenshots' => $screensArray,
                 'photos' => $photos,
+                'user' => $this->getUser(),
             ));
         } 
         return $this->render( 'product/show.html.twig', array(
             'product' => $this->productService->get( $id ),
+            'user' => $this->getUser(),
         ));
     
         
