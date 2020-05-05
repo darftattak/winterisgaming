@@ -123,7 +123,11 @@
                                         {% endif %}
                                 </p>
                         </div>
+                        {% if offer.stock != 0 %}
                         <a href="{{ path( 'cart_add', {id: offer.id} ) }}" class="btn btn-primary">Ajouter au panier</a>
+                        {% else %}
+                                <div class="noStock">Epuisé</div>
+                        {% endif %}
                 </div>
                 {% endfor %}
         </section>
