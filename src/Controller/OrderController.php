@@ -122,13 +122,9 @@ class OrderController extends AbstractController
             'user' =>$user, 
             'address'=>$address,
             'form' => $form->createView(),
-<<<<<<< HEAD
             'total'=> $total,
             'stripe_public_key'=> $apkPublic,
             
-=======
-            'total'=> $total 
->>>>>>> productInterface
         ]);
     }
 }
