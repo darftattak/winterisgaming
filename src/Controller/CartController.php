@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\AddItemType;
 use App\Repository\ProductRepository;
+use App\Repository\StateRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,16 +18,16 @@ class CartController extends AbstractController
     /**
      * @Route("/cart", name="cart")
      */
-    public function index(SessionInterface $session, ProductRepository $productRepository)
+    public function index(SessionInterface $session, StateRepository $stateRepository)
     {
-        $itemState = [];
+        $itemProduct = [];
         $cart = $session->get('cart', []);
 
         $cartWithData = [];
 
         foreach($cart as $id => $quantity) {
             $cartWithData[] = [
-                'product' => $productRepository->find($id),
+                'product' => $stateRepository->find($id),
                 'quantity' => $quantity
             ];
 
@@ -35,23 +36,22 @@ class CartController extends AbstractController
         $total = 0;
 
         foreach($cartWithData as $item) {
-            $itemState = $item['product']->getStates();
-           foreach($itemState as $eachItem) {
-               $total += $eachItem->getPrice() * $item['quantity'];
-           }
+            $itemProduct = $item['product']->getProduct();
+            $total += $item['product']->getPrice() * $item['quantity'];
         }
 
-        if($itemState) {
+        if($itemProduct) {
             return $this->render('cart/index.html.twig', [
-                'items' => $cartWithData,
+                'item' => $itemProduct,
                 'total' => $total,
-                'item' =>  $itemState,
-                ]);
+                'items' =>  $cartWithData,
+                'cart' => $cart,
+            ]);
         }
         return $this->render('cart/index.html.twig', [
-            'items' => $cartWithData,
             'total' => $total,
-            ]);
+            'items' =>  $cartWithData,
+        ]);
     }
     
     /**

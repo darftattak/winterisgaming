@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre liste d'envies{{ parent() }}{% endblock %}
+
+{% block body %}
+    
+</br>
+<h1 class="text-center">Votre liste d'envies</h1>
+</br>
+
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+            <div class="col-lg-4">
+                <div class="card shadow mb-4">
+                     {% if product.photos is not empty %}
+                                <img style="height : 18rem" src="{{ product.photos[0].picture }}" alt="image1">
+                    {% endif %}
+                    <div class="card-body">
+                        <h2 class="card-title">{{ product.name }}</h2>
+                        <h3>{{ product.states.0.price }} €</h3>
+                        <p class="card-text">{{ product.description|slice(0, 120) }}</p>
+                        <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-light">En savoir plus</a>
+                        <a href="{{ path( 'wishlist_remove', {id: product.id} ) }}" class="btn btn-danger">Supprimer de votre liste</a>
+                        <a href="{{ path( 'cart_add', {id: product.id} ) }}" class="btn btn-primary">Ajouter au panier</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+    
+{% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\Photo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -41,10 +42,29 @@ class Product
      */
     private $states;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="products")
+     */
+    private $categories;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="wishlist")
+     */
+    private $users;
+
+    private $lowestPrice;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
         $this->states = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,5 +161,84 @@ class Product
     public function __toString()
     {
         return $this->id .' - '. $this->name;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addWishlist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeWishlist($this);
+        }
+
+        return $this;
+    }
+
+
+    public function getLowestPrice(): ?string
+    {
+        return $this->lowestPrice;
+    }
+
+    public function setLowestPrice(int $lowestPrice): self
+    {
+        $this->lowestPrice = $lowestPrice;
+
+        return $this;
     }
 }

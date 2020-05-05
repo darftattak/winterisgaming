@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des commandes - {{ parent() }}{% endblock %}
+
+{% block body %}
+    
+<h1 class="text-center">Historique des commandes</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Identifiant commande</th>
+            <th>Adresse d'expédition</th>
+            <th>Adresse de facturation</th>
+            <th>Statut :</th>
+        </tr>
+    </thead>
+    <tbody>
+
+            <tr>
+            
+            <td>
+
+    {% for order in orders %}
+        <tr>
+            <td>
+            <a href="{{ path( 'product_single', { id: order.id } ) }}" class="btn btn-link">{{ order.trackingNumber }}</a>
+            </td>
+          
+            
+            <td>
+                <p>{{ order.shippingAddress.name }} {{ order.shippingAddress.zipcode }} {{ order.shippingAddress.city }}</p>
+                <p>Pays : {{ order.shippingAddress.country }}</p>
+            </td>
+            
+            <td>
+                <p>{{ order.billingAddress.name }} {{ order.billingAddress.zipcode }} {{ order.billingAddress.city }}</p>
+                <p>Pays : {{ order.billingAddress.country }}</p>
+            </td>
+            
+            <td>
+<div>  
+    {% if order.status == 0 %}
+    Annulé
+    {% elseif order.status == 1 %}
+    En attente
+    {% elseif order.status == 2 %}
+    En préparation
+    {% elseif order.status == 3 %}
+    Livraison en cours
+    {% elseif order.status == 4 %}
+    Reçu
+    {% endif %}
+<div>
+</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    
+</table>
+
+
+
+
+
+{% endblock %}

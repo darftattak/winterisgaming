@@ -10,9 +10,12 @@
     {{form_row(form.lastname)}}
     {{form_row(form.email)}}
     {{form_row(form.topic)}}
-    <div id="orderNumber">
+    {% if user is not empty %}
+    <div id="orderNumberContainer">
         {{form_row(form.orderNumber)}}
     </div>
+    {% endif %}
+    
     
     {{form_row(form.message)}}
     
@@ -21,7 +24,4 @@
 
 {{form_end(form)}}
 
-<pre>
-    {{ dump(user) }}
-</pre>
 {% endblock %}

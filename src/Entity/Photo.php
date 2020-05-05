@@ -43,6 +43,8 @@ class Photo
      */
     private $pictureFile;
 
+    private $picturePath;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +55,7 @@ class Photo
         return $this->picture;
     }
 
+    
     public function setPicture(string $picture): self
     {
         $this->picture = $picture;
@@ -83,4 +86,19 @@ class Photo
 
         return $this;
     }
+
+    public function setPicturePath(): self
+    {
+        $name = preg_split( "/public\/data\\\/",$this->getPicture());
+        $picturePath = $name[1];
+        $this->picturePath = $picturePath;
+
+        return $this;
+    }
+
+    public function getPicturePath(): ?string
+    {
+        return $this->picturePath;
+    }
+
 }

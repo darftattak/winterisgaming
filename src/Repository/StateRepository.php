@@ -22,7 +22,42 @@ class StateRepository extends ServiceEntityRepository
     // /**
     //  * @return State[] Returns an array of State objects
     //  */
+
+    public function findByLowStock ( int $lowStockLimit, string $state ) {
+
+        $stmt = $this->createQueryBuilder('s');
+        $stmt->select();
+        $stmt->where("stock < :lowStockLimit");
+        $stmt->andWhere("state = :state");
+        $stmt->setParameter("lowStockLimit", $lowStockLimit);
+        $stmt->setParameter('state', $state);
+
+        return $stmt->getQuery()->getScalarResult();
+    }
+
+    public function countByLowStockAndNew ( int $lowStockLimit, string $state ) {
+        $stmt = $this->createQueryBuilder('s');
+        $stmt->select("count(s.id)");
+        $stmt->where("s.stock < :lowStockLimit");
+        $stmt->andWhere("s.state = :state");
+        $stmt->setParameter("lowStockLimit", $lowStockLimit);
+        $stmt->setParameter('state', $state);
+
+        return $stmt->getQuery()->getSingleScalarResult();
+    }
+
+    public function countByNewUnavailable (int $unavailable, string $state) {
+        $stmt = $this->createQueryBuilder('s');
+        $stmt->select("count(s.id)");
+        $stmt->where("s.stock = :unavailable");
+        $stmt->andWhere("s.state = :state");
+        $stmt->setParameter("unavailable", $unavailable);
+        $stmt->setParameter('state', $state);
+
+        return $stmt->getQuery()->getSingleScalarResult();
+    }
     /*
+
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('s')

@@ -13,6 +13,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class State
 {
+    const LOWSTOCK = 10; //IMPORTANT: MUST ALSO BE CHANGED IN EASY ADMIN CONFIG
+    const STATENEW = "Neuf"; 
+    const LIKENEW = "Comme neuf";
+    const GOOD = "Bon";
+    const AVERAGE = "Moyen"; //IMPORTANT : the value of each of these constants must be the same as the one in the Easy Admin config
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

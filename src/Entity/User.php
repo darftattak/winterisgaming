@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Product;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @UniqueEntity("username", message="Ce nom d'utilisateur est déjà pris")
@@ -37,12 +38,12 @@ class User implements UserInterface
     private $firstname;
 
     /**
-     * @Assert\NotBlank( message = "Vous devez saisir un nom" )
+     * @Assert\NotBlank( message = "Vous devez saisir un prénom" )
      * @Assert\Length (
      *      min = 2,
      *      max = 50,
-     *      minMessage ="Le nom doit comporter au minimum {{ limit }} caractères.",
-     *      maxMessage ="Le nom doit comporter au maximum {{ limit }} caractères.",
+     *      minMessage ="Le prénom doit comporter au minimum {{ limit }} caractères.",
+     *      maxMessage ="Le prénom doit comporter au maximum {{ limit }} caractères.",
      * )
      * @ORM\Column(type="string", length=50, nullable=true)
      */
@@ -100,7 +101,10 @@ class User implements UserInterface
     private $orders;
 
     /**
-     * @Assert\NotBlank( message = "Vous devez saisir un mot de passe" )
+     * @Assert\Expression(
+     *     "this.getPassword() or this.getPlainPassword()",
+     *     message="Vous devez saisir un mot de passe"
+     * )
      * @Assert\Length (
      *      min = 6,
      *      max = 16,
@@ -120,10 +124,16 @@ class User implements UserInterface
      */
     private $avatarFile;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="users")
+     */
+    private $wishlist;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->wishlist = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -317,4 +327,35 @@ class User implements UserInterface
     }
 
     public function eraseCredentials() {}
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getWishlist(): Collection
+    {
+        return $this->wishlist;
+    }
+
+    public function addWishlist(Product $wishlist): self
+    {
+        if (!$this->wishlist->contains($wishlist)) {
+            $this->wishlist[] = $wishlist;
+        }
+
+        return $this;
+    }
+
+    public function removeWishlist(Product $wishlist): self
+    {
+        if ($this->wishlist->contains($wishlist)) {
+            $this->wishlist->removeElement($wishlist);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
 }

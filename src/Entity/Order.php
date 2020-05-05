@@ -12,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Order
 {
+    const CANCEL = 0;
+    const PROCESSING = 1;
+    const PREPARED = 2;
+    const SENT = 3;
+    const DELIVERED = 4;
+    
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -185,5 +191,10 @@ class Order
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return "N° " .$this->number;
     }
 }

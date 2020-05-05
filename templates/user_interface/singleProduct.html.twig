@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre commande - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+</br>  
+<h3 class="text-center">Commande n° = {{ orderHasProducts.0.id }} </h3>
+</br> 
+
+<table class="table">
+
+<thead>
+        <tr>
+            <th>Produit(s)</th>
+            <th>Etat</th>
+        </tr>
+</thead>
+
+<tbody>
+    {% for orderHasProduct in orderHasProducts %}
+    <tr>
+    <td><p>{{ orderHasProduct.stateProductId.product.name }}</P></td>
+    <td><p>{{ orderHasProduct.stateProductId.state }}</P></td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+</table>
+
+<h4>
+Cette commande contient {{ orderHasProducts.0.quantity }} produit(s)
+<div class="text-right">
+    Statut :     
+    {% if orderStatus == 0 %}
+    Annulé
+    {% elseif orderStatus == 1 %}
+    En attente
+    {% elseif orderStatus == 2 %}
+    En préparation
+    {% elseif orderStatus == 3 %}
+    Livraison en cours
+    {% elseif orderStatus == 4 %}
+    Reçu
+    {% endif %}
+<div>
+</h4>
+
+
+
+
+    
+
+
+{% endblock %}

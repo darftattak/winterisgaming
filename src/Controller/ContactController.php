@@ -5,12 +5,10 @@ namespace App\Controller;
 use App\Model\Contact;
 use App\Form\ContactType;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 
 class ContactController extends AbstractController
 {
@@ -25,15 +23,14 @@ class ContactController extends AbstractController
         $form->handleRequest( $request);
 
         if( $form->isSubmitted() AND $form->isValid() ) {
-            if($contact->getOrderNumber()) {
-                $order = $contact->getOrderNumber();
-            }
 
             $user = $this->getUser();
+
+            $orders = $user->getOrders();
             
             //Gère le message et le réécrit pour une meilleure clareté, un meilleur traitement, et au cas où replyTo ne serait pas pris en charge. 
             $message = $contact->getFirstname() ." ". $contact->getLastname(). " nous a contacté sur le sujet suivant : ";
-            if($contact->getOrderNumber()) {
+            if($contact->getTopic() == "Commande") {
                 $message .= $contact->getTopic() . ", commande numéro : ". $contact->getOrderNumber();
             }else{
                 $message .= $contact->getTopic();
@@ -56,6 +53,10 @@ class ContactController extends AbstractController
                 ->text($message);
 
             $mailer->send($email);
+
+            $this->addFlash( 'success', "Votre compte à bien été créé." );
+
+            return $this->redirectToRoute( 'home' );
         }
         
 

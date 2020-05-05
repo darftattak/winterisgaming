@@ -36,15 +36,13 @@ class TokenRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Token
+    public function findOneByToken($token): ?Token
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('t.token = :token')
+            ->setParameter('token', $token)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }

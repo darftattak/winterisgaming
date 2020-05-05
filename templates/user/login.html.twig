@@ -4,12 +4,12 @@
 
 {% block body %}
     
-    <div class="container my-5">
+    <div class="container">
         <div class="row">
             <form method="post" class="col-12 col-lg-6 offset-lg-3">
                 {% if error %}
                     <div class="alert alert-danger">
-                        Les identifiants saisies ne sont pas correctes
+                        Les identifiants saisis ne sont pas corrects
                     </div>
                 {% endif %}
 
@@ -18,14 +18,15 @@
                 </div>
                 <div class="form-group">
                     <input type="password" name="_password" placeholder="Mot de passe" class="form-control">
+                    <a class="nav-link text-center" href="{{ path('password_reset') }}">Mot de passe oublié ?</a>
                 </div>
                 <input type="hidden" name="_target_path" value="{{ path('user_login_success') }}">
 
-                <button type="submit" class="btn btn-primary btn-lg">Connexion</button>
+                <button type="submit" class="btn btn-blue btn-lg">Connexion</button>
                 
                 <input type="hidden" name="_target_path" value="{{ path('user_logout_success') }}">
 
-                <button type="submit" class="btn btn-primary btn-lg">Déconnexion</button>
+                <button type="submit" class="btn btn-blue btn-lg">Déconnexion</button>
             </form>
         </div>
     </div>
