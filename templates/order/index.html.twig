@@ -3,7 +3,7 @@
 {% block title %}Paiement{% endblock %}
 
 {% block body %}
-<div class="row">
+<div class="row p-1">
 
 
 <div class="col-8">
@@ -62,10 +62,10 @@
 
     {{ form_start(form, {attr: {id: form.vars.id}}) }}
     <div class="form-group">
-    {{ form_row(form.shippingAddress) }} 
+    {{ form_row(form.shippingAddress,{attr:{ 'class': 'custom-select'}})  }} 
     </div>
     <div class="form-group">
-    {{ form_row(form.billingAddress) }}
+    {{ form_row(form.billingAddress, {attr:{ 'class': 'custom-select'}}) }}
     </div> 
     <div class="form-group">
       <label for="card-element">
@@ -75,7 +75,7 @@
       <div id="card-errors" class="help-block" role="alert"></div>
     </div>
     {{ form_widget(form.paymentToken) }}
-    <button type="submit">Payer</button>
+    <button class="btn btn-blue btn-lg" type="submit">Payer</button>
     {{ form_end(form) }}
 </div>
 

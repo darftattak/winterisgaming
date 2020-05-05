@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Flex\Path;
 
 //
 
@@ -84,11 +84,16 @@ class OrderController extends AbstractController
               ]);   
         $em->persist($order);
         $em->flush();
-    //ajouter la confirmation avec un flash
-    // et rediriger  vers la page d'accueil.
-
+    // vider le panier  une fois validé
+    $session ->set('cart',array());
     
-
+        //ajouter la confirmation avec un flash
+    $this->addFlash( 'success', "Votre paiement à bien été pris en compte" );
+    
+    
+    // et rediriger  vers la page d'accueil.
+    return $this->redirectToRoute('home');
+     
         }
        
             
