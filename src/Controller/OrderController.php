@@ -12,15 +12,10 @@ use App\Entity\OrderHasProduct;
 use App\Repository\StateRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Stripe\PaymentIntent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-<<<<<<< HEAD
-use Symfony\Flex\Path;
-=======
->>>>>>> productInterface
 
 //
 
@@ -54,21 +49,9 @@ class OrderController extends AbstractController
             $itemProduct = $item['state']->getProduct();
             $total += $item['state']->getPrice() * $item['quantity'];
         }
-<<<<<<< HEAD
            
         $apkPublic='pk_test_i0owDQKVS941OjJBhfTXttY200C9cMzpZY';
         $apkSecrets='sk_test_I1XxOIaag5Z0K1pgsJKYyNnw00AzjwNhjg';
-=======
-
-        $paymentIntent = new PaymentIntent();
-        $payment = $paymentIntent->create(array(
-            'amount' => $total,
-            'currency' => "eur",
-            'payment_method_types' => ['card']
-        ));
-        $paymentSecret = $payment->client_secret;  
-        
->>>>>>> productInterface
         $order = new Order();
         $form = $this->createForm( OrderType::class, $order );
         $form ->handleRequest($request);
