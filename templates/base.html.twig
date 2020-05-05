@@ -26,33 +26,60 @@
     
     <nav class="navbar navbar-top navbar-expand-lg navbar-dark bg-blue">
   
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  {% if user is same as(null) %}
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="{{ path('user_login') }}">Connexion</a>
       </li>
+      
       <li class="nav-item">
         <a class="nav-link" href="{{ path('user_register') }}">Inscription</a>
       </li>
-      
     </ul>
-   
   </div>
+
+  {% else %}
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+              <a class="nav-link" href="{{ path('user_interface') }}">
+                  <img style="height : 1.8rem" src="{{ user.avatar }}" alt="avatar">
+                  {{ user.username }}
+              </a>
+          </li>
+
+          <li class="nav-item active">
+              <a class="nav-link" href="{{ path('user_logout') }}">Déconnexion</a>
+          </li>
+          
+          <li class="nav-item">
+              <a class="nav-link" href="{{ path('cart') }}"><i class="fas fa-shopping-cart mr-1"></i>Panier</a>
+          </li>
+      
+      </ul>
+   </div>
+  
+  {% endif %}
+  
+
 </nav>
 
 <a class="nav-link" href="{{ path('home') }}"><img class="logo img-fluid align-center" src="{{ asset("build/img/logo.png") }}" alt="logo" /></a>
 
 <nav class="navbar navbar-top navbar-expand-lg navbar-dark bg-blue navesecondary">
   
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent2">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="{{ path('home') }}">Accueil</a>

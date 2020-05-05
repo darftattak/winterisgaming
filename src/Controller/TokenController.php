@@ -69,7 +69,7 @@ class TokenController extends AbstractController
         return $this->render( 'user_interface/forgottenpassword.html.twig', array(
             'form' => $form->createView(),
             'isNew' => false,
-            
+            'user' => $this->getUser(),
         ));
     }
 

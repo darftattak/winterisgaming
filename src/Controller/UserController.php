@@ -21,6 +21,7 @@ use App\Repository\OrderRepository;
 use App\Repository\TokenRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Cast\Object_;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,7 +42,11 @@ class UserController extends AbstractController
      */
     public function register( Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, MailerInterface $mailer )
     {
-        
+       ;
+        if ($this->getUser()) {
+            return $this->redirectToRoute( 'main_home' );
+        }   
+
         $user = new User();
         $form = $this->createForm( RegisterType::class, $user );
 
@@ -130,6 +135,7 @@ class UserController extends AbstractController
     public function home()
     {
         return $this->render('base.html.twig');
+        
     }
 
     /**
@@ -180,6 +186,7 @@ class UserController extends AbstractController
             'controller_name' => 'ProductsFollow',
             'orderHasProducts' => $orderHasProducts,
             'orderStatus' => $orderStatus,
+            'user' => $this->getUser(),
         ]);
     }
 
@@ -299,6 +306,7 @@ class UserController extends AbstractController
 
         return $this->render( 'user_interface/passwordretrieve.html.twig', array(
             'form' => $form->createView(),
+            'user' => $this->getUser(),
         ));
     }
 
@@ -374,11 +382,19 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
         $products = $user->getWishlist();
+        foreach ($products as $product) {
+            $photos = $product->getPhotos();
+            foreach ($photos as $photo) {
+                $photo->setPicturePath();
+            }
+        }
         return $this->render('user_interface/wishlistview.html.twig', [
             'controller_name' => 'Wishlistview',
             'products' => $products,
-            
+            'user' => $this->getUser(),
+                
         ]);
+
     }
 
 

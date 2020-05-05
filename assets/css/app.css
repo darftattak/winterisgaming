@@ -265,3 +265,21 @@ li {
 [colspan="2"] {
     text-align: right;
 }
+
+.cercle {
+    border-radius: 50%;
+    height: 160px;
+    width: 160px;
+    box-shadow: 0 0 10px black;
+}
+
+/* MEDIA QUERIES (pour le responsive) */
+
+@media (max-width: 992px ) 
+{
+    div .cercles 
+    {
+        flex-direction: column ;
+        align-items: center;
+    }
+}
