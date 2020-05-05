@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("email", message="Cette adresse mail est déjà prise")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -357,5 +357,40 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->getUsername();
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->avatar,
+            $this->email,
+            $this->addresses,
+            $this->wishlist,
+            $this->firstname,
+            $this->lastname,
+            $this->roles,
+            $this->loyalty,
+            $this->orders,
+        ));
+    }
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->avatar,
+            $this->email,
+            $this->addresses,
+            $this->wishlist,
+            $this->firstname,
+            $this->lastname,
+            $this->roles,
+            $this->loyalty,
+            $this->orders,
+        ) = unserialize($serialized);
     }
 }

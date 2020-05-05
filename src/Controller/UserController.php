@@ -7,13 +7,11 @@ use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Address;
 use App\Form\ModifyType;
-use App\Form\AddressType;
 use App\Form\RegisterType;
 use App\Form\EmailModifyType;
 use App\Form\NewPasswordType;
 use App\Service\MediaService;
 
-use App\Form\PasswordResetType;
 use App\Form\PasswordModifyType;
 use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
@@ -21,7 +19,6 @@ use App\Repository\OrderRepository;
 use App\Repository\TokenRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Expr\Cast\Object_;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -211,17 +208,14 @@ class UserController extends AbstractController
             $file = $user->getAvatarFile();
             if( !empty( $file ) ){
                 $filename = $this->mediaService->upload( $file );
-                $this->getUser()->setAvatar( $filename );
+                $user->setAvatar( $filename );
             }
 
             $em->flush();
 
             $this->addFlash( 'success', "Vos informations \"" . $user->getUsername() . "\" ont bien été modifiées" );
-            return $this->redirectToRoute( 'user_modify', array(
+            return $this->redirectToRoute( 'user_interface', array(
                 'id' => $user->getId(),
-                'form' => $form->createView(),
-                'isNew' => false,
-                'user' => $user,
             ));
         }
 
