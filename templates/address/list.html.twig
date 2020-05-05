@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer mes adresses- {{ parent() }}{% endblock %}
+
+{% block body %}
+    
+
+    <div class="example-wrapper">
+    <br>
+    <h1 class="text-center">Vos adresses</h1>
+
+    {% if address | length > 0 %}
+        <table class="table">
+    <thead>
+        <tr>
+            <th>Numéro, voirie, rue...</th>
+            <th>Code Postal</th>
+            <th>Ville</th>
+            <th>Pays</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for addres in address %}
+        <tr>
+            <td>{{ addres.name }}</td>
+            <td>{{ addres.zipcode }}</td>
+            <td>{{ addres.city }}</td>
+            <td>{{ addres.country }}</td>
+
+            <td>
+            <a href="{{ path('address_update', {'id' : addres.id}) }}" class="btn btn-success btn-sm btn-shadow">
+            <i class="fas fa-pencil-alt"></i>
+            Modifier
+            </a>
+            </td>
+
+            <td>
+            <a href="{{ path('address_remove', {'id' : addres.id}) }}" class="btn btn-danger btn-sm btn-shadow">
+            <i class="fas fa-trash"></i>
+            Supprimer
+            </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+    <tfoot>
+        <tr>
+            {# <td colspan="4" class="text-right">Total : {{ total }}</td> #}
+            <td colspan="2"><a href="{{ path('address_new') }}" class="btn btn-blue btn-sm"><i class="fas fa-plus mr-1"></i>Ajouter une adresse</a></td>
+        </tr>
+    </tfoot>
+
+</table>
+    {% else %}
+        <p>Vous n'avez pas encore renseigné d'adresse</p>
+    {% endif %}
+
+</div>
+
+
+
+
+ {#    {% for addres in address %}
+        <tr>
+            <td>{{ addres.name }}</td>
+            <td>{{ addres.zipcode }}</td>
+            <td>{{ addres.city }}</td>
+            <td>{{ addres.country }}</td>
+           
+            <td>
+            <a href="{{ path('address_remove', {'id' : addres.id}) }}" class="btn btn-danger btn-sm">
+            <i class="fas fa-trash"></i>
+            Supprimer
+            </a>
+            </td>
+        </tr>
+        {% endfor %} #}
+
+
+{% endblock %}
