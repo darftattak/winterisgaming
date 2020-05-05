@@ -55,6 +55,14 @@ class ProductRepository extends ServiceEntityRepository
 
         return $stmt->getQuery()->getSingleScalarResult();
     }
+
+    public function getByIsShowable(array $criteria, array $orderBy = null, $limit = null, $offset = null){
+        $stmt = $this->createQueryBuilder('p');
+        $stmt->where("p.photos IS NOT EMPTY");
+        $stmt->andWhere("p.states IS NOT EMPTY");
+
+        return $stmt->getQuery()->getResult();
+    }
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

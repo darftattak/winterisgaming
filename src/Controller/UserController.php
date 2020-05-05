@@ -206,17 +206,22 @@ class UserController extends AbstractController
 
         $form->handleRequest( $request );
         if( $form->isSubmitted() && $form->isValid() ){
-            if($user->getAvatarFile()){
-                $file = $user->getAvatarFile();
+
+
+            $file = $user->getAvatarFile();
+            if( !empty( $file ) ){
                 $filename = $this->mediaService->upload( $file );
-                $user->setAvatar($filename);
+                $this->getUser()->setAvatar( $filename );
             }
 
             $em->flush();
 
             $this->addFlash( 'success', "Vos informations \"" . $user->getUsername() . "\" ont bien été modifiées" );
-            return $this->redirectToRoute( 'user_interface', array(
+            return $this->redirectToRoute( 'user_modify', array(
                 'id' => $user->getId(),
+                'form' => $form->createView(),
+                'isNew' => false,
+                'user' => $user,
             ));
         }
 

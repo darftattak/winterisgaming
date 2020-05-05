@@ -14,7 +14,7 @@ class PaginationService{
         $itemPerPage = $this->config['itemPerPage'];
         $offset = $itemPerPage * ($page -1);
         return array(
-            "results" => $repository->findBy(array(), array(), $itemPerPage, $offset),
+            "results" => $repository->getByIsShowable(array(), array(), $itemPerPage, $offset),
             "maxPage" => ceil($repository->count( array() )/ $itemPerPage),
             "page" => $page,
         );

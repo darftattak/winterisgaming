@@ -16,8 +16,6 @@ class ModifyType extends AbstractType
             ->add('firstname')
             ->add('lastname')
             ->add('username')
-            
-
             ->add('avatarFile', FileType::class, array(
                 "label" => "Avatar",
                 "help" => "Image PNG ou JPEG inférieure à 2M"

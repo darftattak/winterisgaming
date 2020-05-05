@@ -316,7 +316,7 @@ class User implements UserInterface
         return $this->avatarFile;
     }
 
-    public function setAvatarFile(File $avatarFile): self
+    public function setAvatarFile(File $avatarFile = null): self
     {
         $this->avatarFile = $avatarFile;
 
