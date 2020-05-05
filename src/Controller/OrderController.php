@@ -68,7 +68,6 @@ class OrderController extends AbstractController
             'address'=>$address,
             'form' => $form->createView(),
             'total'=> $total 
-            ''
         ]);
     }
 
