@@ -10,6 +10,7 @@
 
 <div class="container">
     <div class="row">
+    {% if products | length > 0 %}
         {% for product in products %}
             <div class="col-lg-4">
                 <div class="card shadow mb-4">
@@ -27,6 +28,9 @@
                 </div>
             </div>
         {% endfor %}
+    {% else %}
+            <h2 class="ml-2">Votre liste d'envies est vide </h2>
+    {% endif %}
     </div>
 </div>
     
