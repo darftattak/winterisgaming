@@ -24,7 +24,7 @@
     {% for order in orders %}
         <tr>
             <td>
-            <a href="{{ path( 'product_single', { id: order.id } ) }}" class="btn btn-link">{{ order.trackingNumber }}</a>
+            <a href="{{ path( 'product_single', { id: order.id } ) }}" class="btn btn-link">{{ order.number }}</a>
             </td>
           
             

@@ -3,13 +3,36 @@
 {% block title %}Nos produits - {{ parent() }}{% endblock %}
 
 {% block body %}
-<div class="events">
+<div class="events p-1">
+<div class="btn-search">
+<h3>Recherche par catégorie:</h3>
+<form method="get"  action="{{path('product_list')}}">
+<div class="form-check form-check-inline" >
+
+{% for eachCategory in category %}
+  <input name="filter" class="form-check-input m-1" type="checkbox" id="{{eachCategory.id}}" value="{{eachCategory.name}}">
+  <label class="form-check-label" for="{{eachCategory.id}}">{{eachCategory.name}}</label>
+{% endfor %}
+<pre>
+{{dump(filter)}}
+</pre>
+<button type="submit" class="btn btn-blue btn-lg"> filtrer les résultats</button>
+</div>
+</form>
+<form metthod="get" class="col-lg-4">
+<input type="range" class="form-control-range">
+<label class="form-check-label" for="">Prix</label>
+
+</form>
+</div>
+
 </br>
     <h1 class="text-center">Jeux, Bundles, Rétro-gaming</h1>
 </br>
 
 <div class="container">
     <div class="row">
+    
         {% for product in products %}
         
             <div class="col-lg-4">
@@ -36,6 +59,7 @@
                 </div>
             </div>
         {% endfor %}
+        
     </div>
 </div>
 

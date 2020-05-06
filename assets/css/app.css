@@ -18,6 +18,13 @@
     
   
 }
+
+.btn-search{
+    background-color: rgba(0, 0, 0, 0.300);
+    box-shadow: 0.2em 0.2em 2em 0.2em black;
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+    padding: 1em;
+}
 /*header*/
 
 .navbar-top{

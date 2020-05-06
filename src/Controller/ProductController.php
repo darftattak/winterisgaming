@@ -7,6 +7,7 @@ use App\Form\ProductType;
 use App\Service\MediaService;
 use App\Service\ProductService;
 use App\Controller\AjaxController;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,8 +27,16 @@ class ProductController extends AbstractController
     /**
      * @Route("/products", name="product_list")
      */
-    public function list( Request $request )
+    public function list( Request $request, CategoryRepository $categoryRepository )
     {
+        /*recupérer les catégories*/
+        $category = $categoryRepository ->findAll() ;
+
+        $filter = $request->query->get('filter');
+        
+
+        
+
         $query = $request->query->get('query');
         $page = $request->query->get('page') ?? 1;
 
@@ -64,6 +73,8 @@ class ProductController extends AbstractController
             'page' => $pagination['page'],
             'maxPage' => $pagination['maxPage'],
             'user' => $this->getUser(),
+            'category'=> $category,
+            'filter'=> $filter
         ));
     }
 
