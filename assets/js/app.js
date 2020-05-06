@@ -22,7 +22,14 @@ $("#contact_topic").change(function(){
         $("#orderNumberContainer").hide()
     }
 })
-//stripe
+
+
+// Plain password style fix
+
+var plainPassGrandchild = $("#plainPass > * > *");
+var plainPassInput = plainPassGrandchild.filter(":input")
+
+plainPassInput.addClass("form-control")
 
 
 

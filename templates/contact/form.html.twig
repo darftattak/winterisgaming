@@ -4,23 +4,28 @@
 
 {% block body %}
 
-{{form_start(form)}}
+{{form_start(form, {
+    'attr': {
+        'class': 'container-fluid formContact',
+        'novalidate': 'novalidate',
+    }
+})}}
 
-    {{form_row(form.firstname)}}
-    {{form_row(form.lastname)}}
-    {{form_row(form.email)}}
-    {{form_row(form.topic)}}
+    {{form_row(form.firstname,{'attr': { 'class': 'form-control', 'value': user.firstname ?? "" }})}}
+    {{form_row(form.lastname,{'attr': { 'class': 'form-control', 'value': user.lastname ?? ""}})}}
+    {{form_row(form.email,{'attr': { 'class': 'form-control', 'value': user.email ?? ""}})}}
+    {{form_row(form.topic,{'attr': { 'class': 'form-control'}})}}
     {% if user is not empty %}
     <div id="orderNumberContainer">
-        {{form_row(form.orderNumber)}}
+        {{form_row(form.orderNumber,{'attr': { 'class': 'form-control'}})}}
     </div>
     {% endif %}
     
     
-    {{form_row(form.message)}}
+    {{form_row(form.message,{'attr': { 'class': 'form-control'}})}}
     
 
-    <button type="submit">Nous contacter</button>
+    <button type="submit" class="btn btn-blue">Nous contacter</button>
 
 {{form_end(form)}}
 

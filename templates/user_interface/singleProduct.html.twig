@@ -5,8 +5,11 @@
 {% block body %}
 
 </br>  
-<h3 class="text-center">Commande n° = {{ orderHasProducts.0.id }} </h3>
+<h3 class="text-center">Commande n° = {{ order.number }} </h3>
+
 </br> 
+
+<p>Numéro de suivi : {{ order.trackingNumber ?? "Indisponible à ce jour."}}</p> 
 
 <table class="table">
 

@@ -92,6 +92,7 @@ easy_admin:
             form:
                 fields:
                     - { property: "status", type: 'choice', type_options: {choices: {"Annulée": 0, "En attente": 1, "En préparation": 2, "Envoyée": 3, "Livrée": 4} }}
+                    - trackingNumber
         Standby:
             class: App\Entity\Order
             list:

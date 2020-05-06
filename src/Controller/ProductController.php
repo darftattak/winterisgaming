@@ -42,7 +42,7 @@ class ProductController extends AbstractController
             }
             $pagination = array( 'page' => 1, 'maxPage' => 1 );
         }else{
-            /* Afficche tout les produits et pagination */
+            /* Affiche tout les produits et pagination */
             $pagination = $this->productService->getPaginate( $page );
             $products = $pagination['results'];
             foreach ($products as $product) {
@@ -114,6 +114,7 @@ class ProductController extends AbstractController
         return $this->render( 'product/show.html.twig', array(
             'product' => $this->productService->get( $id ),
             'user' => $this->getUser(),
+            'photos' => $photos,
         ));
     
         

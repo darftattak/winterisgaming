@@ -182,6 +182,7 @@ class UserController extends AbstractController
         return $this->render('user_interface/singleProduct.html.twig', [
             'controller_name' => 'ProductsFollow',
             'orderHasProducts' => $orderHasProducts,
+            'order' => $order,
             'orderStatus' => $orderStatus,
             'user' => $this->getUser(),
         ]);

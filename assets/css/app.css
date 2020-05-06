@@ -356,12 +356,67 @@ li {
 #buySection > div {
     min-width: 150px;
 }
-/* ELSE */
+/* User Pannel */
 .cercle {
     border-radius: 50%;
     height: 160px;
     width: 160px;
     box-shadow: 0 0 10px black;
+    margin: 2em;
+}
+
+.userPanelInfos {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px black;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+.userPanelAvatar {
+    width: 45%;
+}
+.userPanelAvatar > img {
+    width: 100%;
+    margin-top: auto;
+}
+
+.cercles {
+    padding: 1em;
+    margin: 1em;
+    flex-wrap: wrap;
+}
+
+.userPannel {
+    padding: 2em 1em;
+}
+
+.cercles > h3 {
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+/* Form Contact */
+
+.formContact {
+    padding: 2em 1em;
+}
+
+.formContact > div {
+    padding: 1em;
+}
+/* Other Forms */
+.btnUpUpdate {
+    align-self: baseline;
+    margin: auto 0;
+}
+
+.formPassUpdate {
+    padding: 3em 1em;
+}
+.formPassUpdate div.col-6 > div, .formPassUpdate div.col-6 > div > div {
+    padding: 1em 0;
 }
 
 .btn-shadow {
