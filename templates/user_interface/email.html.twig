@@ -7,22 +7,23 @@
 
 {{ form_start( form, {
         'attr': {
-            'class': 'container-fluid my-2',
+            'class': 'container-fluid my-2 formPassUpdate',
             'novalidate': 'novalidate',
         }
     } ) }}
 
     <div class="row">
-        <div class="col-12 col-lg-6">
-            {{ form_row( form.oldPassword) }}
-            {{ form_row( form.email ) }}
+        <div class="col-6">
+            {{ form_row( form.oldPassword, {'attr': { 'class': 'form-control' }} ) }}
+            {{ form_row( form.email, {'attr': { 'class': 'form-control' }} ) }}
+        </div>
+        <div class="d-flex justify-content-end col-6">
+            <button type="submit" class="btn btn-primary btn-lg btnUpUpdate">Modifier votre mail</button>
         </div>
     </div>
 
     
-    <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary btn-lg">Modifier votre mail</button>
-    </div>
+    
     {{ form_end( form ) }}
 
 

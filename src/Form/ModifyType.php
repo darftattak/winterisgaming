@@ -13,9 +13,15 @@ class ModifyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstname')
-            ->add('lastname')
-            ->add('username')
+            ->add('firstname', null, array(
+                "label" => "Prénom",
+            ))
+            ->add('lastname', null, array(
+                "label" => "Nom",
+            ))
+            ->add('username', null, array(
+                "label" => "Pseudo",
+            ))
             ->add('avatarFile', FileType::class, array(
                 "label" => "Avatar",
                 "help" => "Image PNG ou JPEG inférieure à 2M"

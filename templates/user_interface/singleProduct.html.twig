@@ -5,32 +5,59 @@
 {% block body %}
 
 </br>  
-<h3 class="text-center">Commande n° = {{ orderHasProducts.0.id }} </h3>
+<h3 class="text-center">Commande {{ order.number }} </h3>
+
 </br> 
 
-<table class="table">
+<p class="pl-4 mb-4">Numéro de suivi : {{ order.trackingNumber ?? "Indisponible à ce jour."}}</p>
+
+<div class="bottomSep"></div>
+
+<table class="table mb-4">
 
 <thead>
         <tr>
             <th>Produit(s)</th>         
             <th>Etat</th>
+            <th>Prix (à l'unité)</th>
+            <th>Quantité</th>
+            <th>Total Article</th>
         </tr>
 </thead>
 
 <tbody>
     {% for orderHasProduct in orderHasProducts %}
     <tr>
-    <td><p>{{ orderHasProduct.stateProductId.product.name }}</P></td>
-    <td><p>{{ orderHasProduct.stateProductId.state }}</P></td>
+    <td><p>{{ orderHasProduct.stateProductId.product.name }}</p></td>
+    <td><p>{{ orderHasProduct.stateProductId.state }}</p></td>
+    <td><p>{{ orderHasProduct.stateProductId.price }}€</p></td>
+    <td><p>{{ orderHasProduct.quantity }}</p></td>
+    <td><p>{{ orderHasProduct.stateProductId.price * orderHasProduct.quantity }}€</p></td>
     </tr>
     {% endfor %}
 </tbody>
+<tfoot>
+    <th colspan="3">Total</th>
+    <th colspan="2">
+        {% set total = 0 %}
+        {% for orderHasProduct in orderHasProducts %}
+        {% set total = total + (orderHasProduct.stateProductId.price * orderHasProduct.quantity) %}
+        {% endfor %}
+        {{total}}€
+    </th>
+</tfoot>
 
 </table>
-
-<h4>
-Cette commande contient {{ orderHasProducts.0.quantity }} produit(s)
-<div class="text-right">
+<div class="bottomSep"></div>
+<div class="w-100 d-flex justify-content-between p-4 ">
+    <h4 >
+        {% set totalProd = 0 %}
+        {% for orderHasProduct in orderHasProducts %}
+        {% set totalProd = totalProd + orderHasProduct.quantity %}
+        {% endfor %}
+    Cette commande contient {{ totalProd }} produit(s)
+</h4>
+<h4 class="text-right">
     Statut :     
     {% if orderStatus == 0 %}
     Annulé
@@ -43,8 +70,10 @@ Cette commande contient {{ orderHasProducts.0.quantity }} produit(s)
     {% elseif orderStatus == 4 %}
     Reçu
     {% endif %}
-<div>
 </h4>
+
+</div>
+
 
 
 

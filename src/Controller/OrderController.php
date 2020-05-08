@@ -63,7 +63,8 @@ class OrderController extends AbstractController
             $orderNumber = "WIG-";
             $orderNumber .= $user->getId()."-";
             $orderNumber .= substr(strtoupper(md5(rand())), 0, 6);
-            $order -> setNumber($orderNumber);
+            
+
             foreach ($cart as $id => $quantity) {
                 $addProduct = new OrderHasProduct();
                 $productState = $stateRepository -> find($id);
@@ -77,27 +78,39 @@ class OrderController extends AbstractController
                 $em -> persist($addProduct);
                 
             } 
+
             \Stripe\Stripe::setApiKey($apkSecrets);
-            $charge = \Stripe\Charge::create([
-                'amount' => $total * 100,
-                'currency' => 'eur',
-                'description' => 'Commande numéro ' .$orderNumber,
-                'source' => $order->getPaymentToken(),
-                'receipt_email' => $user->getEmail(),
-              ]);   
-        $em->persist($order);
-        $em->flush();
-    // vider le panier  une fois validé
-    $session ->set('cart',array());
-    
-        //ajouter la confirmation avec un flash
-    $this->addFlash( 'success', "Votre paiement à bien été pris en compte" );
-    
-    
-    // et rediriger  vers la page d'accueil.
-    return $this->redirectToRoute('home');
-     
-        }
+                $charge = \Stripe\Charge::create([
+                    'amount' => $total * 100,
+                    'currency' => 'eur',
+                    'description' => 'Commande numéro ' .$orderNumber,
+                    'source' => $order->getPaymentToken(),
+                    'receipt_email' => $user->getEmail(),
+                ]);
+                $order -> setNumber($orderNumber);   
+                $em->persist($order);
+
+                //Ajouter les points de fidélité (idéalement, devrait être fait avec un tâche chrone qui irait interroger stripe pour vérifier les payements)
+                
+                $pointsToAdd = ceil($total / 100);
+                $current = $user->getLoyalty();
+                $current += $pointsToAdd;
+                $user->setLoyalty($current);
+
+                $em->flush();
+                // vider le panier  une fois validé
+                $session ->set('cart',array());
+
+                
+            
+                //ajouter la confirmation avec un flash
+                $this->addFlash( 'success', "Votre paiement à bien été pris en compte" );
+            
+            
+                // et rediriger  vers la page d'accueil.
+                return $this->redirectToRoute('home');
+            
+                }
        
             
         

@@ -11,7 +11,7 @@
                         <h1>{{ product.name }}</h1>
 
                         <div class="mainInfos">
-                        <!--  IF IS A GAME -->
+                        
                                 <p>
                                         {% if 'Jeux' in product.categories and data.results.released is defined %}
                                                 <span>Sortie : {{data.results.released|date("d/m/Y")}}</span><br>
@@ -19,6 +19,7 @@
                                         {{ product.description }}
                                 </p>
                                 <div>
+                                <!--  IF IS A GAME -->
                                 {% if 'Jeux' in product.categories %}
                                         <div class="esrbDiv">
                                                 {% if data.results.esrb_rating.name is not defined %}
@@ -54,6 +55,9 @@
                                         </div>
                                 {% endif %}
                                 <!--  END IF IS A GAME -->
+                                <!-- IF IS A CONSOLE -->
+                                        
+                                <!--  END IF IS A CONSOLE -->
                                 </div>
                         </div>
                         
@@ -131,13 +135,13 @@
                 </div>
                 {% endfor %}
         </section>
-
+        {% if 'Jeux' in product.categories and data.results.released is defined %}
         <section class="infoCatSection">
                 <h3>Informations</h3>
                 
                 <div class="infoCatDiv">
                         <!--  IF IS A GAME -->
-                        {% if 'Jeux' in product.categories and data.results.released is defined %}
+                        
                                 {% if data.results.developers is not empty %}
                                         <div class="infoCat">
                                                 <h4>Développeur{% if data.results.developers|length > 1 %}s{% endif %}</h4>
@@ -170,9 +174,10 @@
                                                 {% endfor %}
                                         </div>
                                 {% endif %}
-                        {% endif %}
+                        
                         <!--  END IF IS A GAME -->
                 </div>
         </section>
+        {% endif %}
 </div>
 {% endblock %}

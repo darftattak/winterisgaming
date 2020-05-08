@@ -52,11 +52,12 @@ class ContactType extends AbstractType
                     ->add('topic', ChoiceType::class, array(
                         "label" => "Sujet",
                         'choices' => [
-                            "Lapinou" =>  "Lapinou",
-                            "In" => "In",
-                            "The" => "The",
-                            "Commande" => "Commande",
-                            "Wind" => "Wind",
+                            "Retours et remplacments" =>  "Retours et remplacments",
+                            "Accès, modification, suppression des données personnelles" => "Accès, modification, suppression des données personnelles",
+                            "Tarifications" => "Tarifications",
+                            "Signaler un problème" => "Signaler un problème",
+                            "Commandes" => "Commandes",
+                            "Autres demandes" => "Autres demandes",
                         ],
                     ))
                     ->add('orderNumber', EntityType::class, array(
@@ -71,10 +72,12 @@ class ContactType extends AbstractType
                 ->add('topic', ChoiceType::class, array(
                     "label" => "Sujet",
                     'choices' => [
-                        "Lapinou" =>  "Lapinou",
-                        "In" => "In",
-                        "The" => "The",
-                        "Wind" => "Wind",
+                        "Retours et remplacments" =>  "Retours et remplacments",
+                        "Accès, modification, suppression des données personnelles" => "Accès, modification, suppression des données personnelles",
+                        "Tarifications" => "Tarifications",
+                        "Tarifications" => "Tarifications",
+                        "Signaler un problème" => "Signaler un problème",
+                        "Autres demandes" => "Autres demandes",
                     ],
                 ));
 
