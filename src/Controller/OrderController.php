@@ -67,6 +67,10 @@ class OrderController extends AbstractController
             foreach ($cart as $id => $quantity) {
                 $addProduct = new OrderHasProduct();
                 $productState = $stateRepository -> find($id);
+                $stock = $productState->getStock();
+                $stock -= $quantity;
+                $productState->setStock($stock);
+                $em->flush($productState);
                 $addProduct -> setStateProductId($productState);
                 $addProduct -> setQuantity($quantity);
                 $order -> addOrderHasProduct($addProduct);
