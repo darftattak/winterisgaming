@@ -13,8 +13,8 @@ class ProductService{
         $this->paginationService = $paginationService;
     }
 
-    public function getPaginate( $page ){
-        return $this->paginationService->getPaginatedResults( $this->productRepository, $page );
+    public function getPaginate( $array, $page ){
+        return $this->paginationService->getPaginatedResults( $array, $page );
     }
 
     public function get( $id ){
@@ -33,8 +33,7 @@ class ProductService{
         return $this->productRepository->getRandom();
     }
 
-    public function getSearch($data){
+    public function findSearch($data){
         return $this->productRepository->findSearch($data);
     }
-
 }

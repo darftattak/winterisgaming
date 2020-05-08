@@ -65,6 +65,33 @@ class ProductRepository extends ServiceEntityRepository
 
         return $stmt->getQuery()->getResult();
     }
+
+    public function findSearch(SearchData $search) {
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('c', 'p')
+            ->join('p.categories', 'c');
+
+        if (!empty($search->getQ())) {
+            $query = $query
+                ->andWhere('p.name LIKE :q')
+                ->setParameter('q', "%{$search->getQ()}%");
+        }
+
+        
+
+        if (!empty($search->getCategories())) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories());
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    private function getSearchQuery(SearchData $search, $ignorePrice = false): QueryBuilder
+    {
+    }
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

@@ -2,19 +2,17 @@
 
 namespace App\Form;
 
-use App\Model\SearchData;
 use App\Entity\Category;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Model\SearchData;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
-class SearchForm extends AbstractType
+class SearchType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -23,14 +21,7 @@ class SearchForm extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Rechercher'
-                ]
-            ])
-            ->add('categories', EntityType::class, [
-                'label' => false,
-                'required' => false,
-                'class' => Category::class,
-                'expanded' => true,
-                'multiple' => true
+                ],
             ])
             ->add('min', NumberType::class, [
                 'label' => false,
@@ -46,7 +37,13 @@ class SearchForm extends AbstractType
                     'placeholder' => 'Prix max'
                 ]
             ])
-           
+            ->add('categories', EntityType::class, [
+                'label' => false,
+                'required' => false,
+                'class' => Category::class,
+                'expanded' => true,
+                'multiple' => true
+            ])
         ;
     }
 
@@ -63,5 +60,4 @@ class SearchForm extends AbstractType
     {
         return '';
     }
-
 }

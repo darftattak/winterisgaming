@@ -2,19 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
-use App\Form\ProductType;
+use App\Form\SearchType;
 use App\Model\SearchData;
-use App\Service\MediaService;
 use App\Service\ProductService;
 use App\Controller\AjaxController;
 use App\Repository\CategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
 
 class ProductController extends AbstractController
 {
@@ -31,38 +26,72 @@ class ProductController extends AbstractController
      */
     public function list( Request $request, CategoryRepository $categoryRepository )
     {   
-        $category=$categoryRepository->findAll();
-        $filter =$request->query->all() ;
+        $min = intval($request->query->get("min"));
+        $max = intval($request->query->get("max"));
+
         $page = $request->query->get('page') ?? 1;
+        
 
         $data = new SearchData();
       
         $form = $this->createForm(SearchType::class, $data);
         $form->handleRequest($request);
-        $products = $this->productService->getSearch($data);
-        
-        foreach ($products as $product) {
-                $photos = $product->getPhotos();
-                foreach ($photos as $photo) {
-                    $photo->setPicturePath();
-                }
+
+        $products = $this->productService->findSearch($data);
+        $lapin = "Palapin";
+
+        if ($min > 0 OR $max > 0 ) {
+            $sorting = array();
+            foreach ($products as $product) {
                 $priceCompare = [];
                 $prices = $product->getStates();
                 foreach ($prices as $price) {
                     array_push($priceCompare, $price->getPrice()) ;
                 }
                 $product->setLowestPrice(min($priceCompare));
+                if ($min > 0 AND $max > 0) {
+                    if (min($priceCompare) >= $min AND min($priceCompare) <= $max) {
+                        array_push($sorting, $product);
+                    }
+                } elseif ($min > 0) {
+                    if (min($priceCompare) >= $min ) {
+                        array_push($sorting, $product);
+                    }
+                } elseif ($max > 0) {
+                    if (min($priceCompare) <= $max) {
+                        array_push($sorting, $product);
+                    }
+                }
             }
+            $products = $sorting;
+        }
+
+        $paginated = $this->productService->getPaginate($products, $page);
+
+        foreach ($paginated['results'] as $product) {
+            
+            $photos = $product->getPhotos();
+            foreach ($photos as $photo) {
+                $photo->setPicturePath();
+            }
+            $priceCompare = [];
+            $prices = $product->getStates();
+            foreach ($prices as $price) {
+                array_push($priceCompare, $price->getPrice()) ;
+            }
+            $product->setLowestPrice(min($priceCompare));
+        }
+
+        
+
         return $this->render( 'product/list.html.twig', array(
-            'products' => $products,
+            'products' => $paginated['results'],
+            'page' => $paginated['page'],
+            'maxPage' => $paginated['maxPage'],
             'user' => $this->getUser(),
             'form'=>$form->createView(),
-            'category'=>$category,
-            
-
         ));
     }
-
     /**
      * @Route("/product/random", name="product_random")
      */
