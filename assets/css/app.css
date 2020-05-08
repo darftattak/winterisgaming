@@ -356,6 +356,13 @@ li {
 #buySection > div {
     min-width: 150px;
 }
+
+.paginate {
+    padding: 2em;
+    display: flex;
+    justify-content: center;
+}
+
 /* ELSE */
 .cercle {
     border-radius: 50%;

@@ -13,8 +13,8 @@ class ProductService{
         $this->paginationService = $paginationService;
     }
 
-    public function getPaginate( $page ){
-        return $this->paginationService->getPaginatedResults( $this->productRepository, $page );
+    public function getPaginate( $array, $page ){
+        return $this->paginationService->getPaginatedResults( $array, $page );
     }
 
     public function get( $id ){

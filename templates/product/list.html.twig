@@ -8,21 +8,6 @@
     <h1 class="text-center">Jeux, Bundles, Rétro-gaming</h1>
 </br>
 
-<pre>
-    {{ dump(data) }}
-</pre>
-
-<pre>
-    {{ dump(min) }}
-</pre>
-
-<pre>
-    {{ dump(max) }}
-</pre>
-<pre>
-    {{ dump(lapin) }}
-</pre>
-
 <div class="container">
     <div class="btn-search">
         <h3>Recherche par catégorie:</h3>
@@ -70,9 +55,15 @@
         {% endfor %}
     </div>
 </div>
+<div class="paginate">
+    {% if page > 1 %}
+        <a href="?page={{ page - 1 }}" class="btn btn-outline-primary d-inline-block m-2">Précédent</a>
+    {% endif %}
+    {% if page < maxPage %}
+        <a href="?page={{ page + 1 }}" class="btn btn-outline-primary d-inline-block m-2">Suivant</a>
+    {% endif %}
+</div>   
+</div>
+ 
 
-</div>
-    
-    
-</div>
 {% endblock %}

@@ -31,11 +31,10 @@ class ProductController extends AbstractController
      */
     public function list( Request $request, CategoryRepository $categoryRepository )
     {   
-        $category = $categoryRepository->findAll();
         $min = intval($request->query->get("min"));
         $max = intval($request->query->get("max"));
 
-        
+        $page = $request->query->get('page') ?? 1;
         
 
         $data = new SearchData();
@@ -72,7 +71,9 @@ class ProductController extends AbstractController
             $products = $sorting;
         }
 
-        foreach ($products as $product) {
+        $paginated = $this->productService->getPaginate($products, $page);
+
+        foreach ($paginated['results'] as $product) {
             
             $photos = $product->getPhotos();
             foreach ($photos as $photo) {
@@ -85,15 +86,15 @@ class ProductController extends AbstractController
             }
             $product->setLowestPrice(min($priceCompare));
         }
+
+        
+
         return $this->render( 'product/list.html.twig', array(
-            'products' => $products,
+            'products' => $paginated['results'],
+            'page' => $paginated['page'],
+            'maxPage' => $paginated['maxPage'],
             'user' => $this->getUser(),
             'form'=>$form->createView(),
-            'category'=>$category,
-            'data' => $data,
-            'min' => gettype($min),
-            'max' => gettype($max),
-            'lapin' => $lapin,
         ));
     }
     /**

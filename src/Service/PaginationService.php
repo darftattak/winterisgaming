@@ -10,12 +10,21 @@ class PaginationService{
         $this->config = $params->get("pagination");
     }
 
-    public function getPaginatedResults( $repository, $page) {
+    public function getPaginatedResults( array $array, $page) {
         $itemPerPage = $this->config['itemPerPage'];
         $offset = $itemPerPage * ($page -1);
+
+        if(!empty($array)){
+            $length = count($array);
+        } else {
+            $length = 1;
+        }
+
+        $results = array_slice($array, $offset, $itemPerPage);
+
         return array(
-            "results" => $repository->getByIsShowable(array(), array(), $itemPerPage, $offset),
-            "maxPage" => ceil($repository->count( array() )/ $itemPerPage),
+            "results" => $results,
+            "maxPage" => ceil($length / $itemPerPage),
             "page" => $page,
         );
     }
