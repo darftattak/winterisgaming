@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Product;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Model\SearchData;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -30,14 +32,14 @@ class ProductRepository extends ServiceEntityRepository
 
     public function getRandom() {
         $stmt = $this->createQueryBuilder('e');
-        $stmt->select('e.id');
+        
         //TODO
         // Installer https://github.com/beberlei/DoctrineExtensions
         // Ajouter une séléction aléatoire
         $stmt->orderBy('RAND()');
-        $stmt->setMaxResults(1);
+        $stmt->setMaxResults(8);
 
-        return $stmt->getQuery()->getSingleScalarResult();
+        return $stmt->getQuery()->getResult();
     }
 
     public function countByHasNoPhoto() {
@@ -55,6 +57,48 @@ class ProductRepository extends ServiceEntityRepository
 
         return $stmt->getQuery()->getSingleScalarResult();
     }
+
+    public function findSearch(SearchData $search)
+    {
+
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('c', 'p')
+            ->join('p.categories', 'c');
+
+        if (!empty($search->q)) {
+            $query = $query
+                ->andWhere('p.name LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if (!empty($search->min)) {
+            $query = $query
+                ->andWhere('p.price >= :min')
+                ->setParameter('min', $search->min);
+        }
+
+        if (!empty($search->max)) {
+            $query = $query
+                ->andWhere('p.price <= :max')
+                ->setParameter('max', $search->max);
+        }
+
+        
+
+        if (!empty($search->categories)) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->categories);
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    private function getSearchQuery(SearchData $search, $ignorePrice = false)/* : QueryBuilder */
+    {
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

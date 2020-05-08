@@ -6,24 +6,19 @@
 <div class="events p-1">
 <div class="btn-search">
 <h3>Recherche par catégorie:</h3>
-<form method="get"  action="{{path('product_list')}}">
-<div class="form-check form-check-inline" >
+{{form_start( form, {
+        'attr': {
+            'class': 'container-fluid',
+            'novalidate': 'novalidate',
+        }
+    } )}}
+{{form_row(form.q)}}
+{{form_row(form.categories)}}
+{{form_row(form.min)}}
+{{form_row(form.max)}}
+<button type="submit">Fitrer</button>
+{{form_end(form)}}
 
-{% for eachCategory in category %}
-  <input name="filter" class="form-check-input m-1" type="checkbox" id="{{eachCategory.id}}" value="{{eachCategory.name}}">
-  <label class="form-check-label" for="{{eachCategory.id}}">{{eachCategory.name}}</label>
-{% endfor %}
-<pre>
-{{dump(filter)}}
-</pre>
-<button type="submit" class="btn btn-blue btn-lg"> filtrer les résultats</button>
-</div>
-</form>
-<form metthod="get" class="col-lg-4">
-<input type="range" class="form-control-range">
-<label class="form-check-label" for="">Prix</label>
-
-</form>
 </div>
 
 </br>
@@ -65,13 +60,6 @@
 
 </div>
     
-    <div class="pagination">
-        {% if page > 1 %}
-            <a href="?page={{ page - 1 }}" class="btn btn-outline-primary">Précédent</a>
-        {% endif %}
-        {% if page < maxPage %}
-            <a href="?page={{ page + 1 }}" class="btn btn-outline-primary">Suivant</a>
-        {% endif %}
-    </div>
+    
 </div>
 {% endblock %}
