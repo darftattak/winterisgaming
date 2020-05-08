@@ -42,6 +42,20 @@ margin-block: 0.2em
 
 }
 
+.btn-outline-search {
+    color: #CF8715;
+    border-color: #CF8715;
+}
+.btn-outline-search:hover {
+    border-color: #CF8715;
+}
+
+.toaster {
+    position: absolute;
+    z-index: 100;
+    width: 60%;
+    left: 20%;
+}
 
 /*footer*/
 .backend{
@@ -422,6 +436,12 @@ li {
 .btn-shadow {
     margin: 1em;
     box-shadow: 2px 1px 2px 2px rgba(0, 0, 0, 0.705)
+}
+
+.bottomSep {
+    margin: 2em 0;
+    border-bottom: 1px solid lightgray;
+    border-image: linear-gradient(90deg, transparent, lightgray, transparent ) 3;
 }
 
 /* MEDIA QUERIES (pour le responsive) */

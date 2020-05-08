@@ -30,8 +30,8 @@
             <td>{{ item.product.product.name }}</td>
             <td>{{ item.product.state }}</td>
             <td>{{ item.quantity }}</td>
-            <td>{{ item.product.price }}</td>
-            <td>{{ item.product.price * item.quantity }}</td>
+            <td>{{ item.product.price }}€</td>
+            <td>{{ item.product.price * item.quantity }}€</td>
             <td>
             <a href="{{ path('cart_remove', {'id' : item.product.id}) }}" class="btn btn-danger btn-sm">
             <i class="fas fa-trash"></i>
@@ -44,7 +44,7 @@
     
     <tfoot>
         <tr>
-            <td colspan="4" class="text-right">Total : {{ total }}</td>
+            <td colspan="4" class="text-right">Total : {{ total }}€</td>
             <td colspan="2"><a href="{{ path('order') }}" class="btn btn-blue btn-sm"><i class="fas fa-check-circle mr-1"></i>Valider mon panier</a></td>
         </tr>
     </tfoot>

@@ -214,7 +214,7 @@ class UserController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash( 'success', "Vos informations \"" . $user->getUsername() . "\" ont bien été modifiées" );
+            $this->addFlash( 'success', "Vos informations ont bien été modifiées, ". $user->getUsername() );
             return $this->redirectToRoute( 'user_interface', array(
                 'id' => $user->getId(),
             ));
@@ -253,7 +253,7 @@ class UserController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash( 'success', "Votre mot de passe \"" . $user->getUsername() . "\" a bien été modifié" );
+            $this->addFlash( 'success', "Votre mot de passe a bien été modifié ".$user->getUsername() );
             return $this->redirectToRoute( 'user_interface', array(
                 'id' => $user->getId(),
             ));

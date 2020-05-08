@@ -29,11 +29,13 @@
           
             
             <td>
+                <p>{{ order.shippingAddress.firstname }} {{ order.billingAddress.lastname }}</p>
                 <p>{{ order.shippingAddress.name }} {{ order.shippingAddress.zipcode }} {{ order.shippingAddress.city }}</p>
                 <p>Pays : {{ order.shippingAddress.country }}</p>
             </td>
             
             <td>
+                <p>{{ order.billingAddress.firstname }} {{ order.billingAddress.lastname }}</p>
                 <p>{{ order.billingAddress.name }} {{ order.billingAddress.zipcode }} {{ order.billingAddress.city }}</p>
                 <p>Pays : {{ order.billingAddress.country }}</p>
             </td>
