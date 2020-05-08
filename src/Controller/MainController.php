@@ -17,4 +17,37 @@ class MainController extends AbstractController
             "user" => $this->getUser()
         ]);
     }
+    
+    /**
+     * @Route("/RGPD", name="RGPD")
+     */
+    public function RGPD()
+    {
+        return $this->render('main/rgpd.html.twig', [
+            'controller_name' => 'RGPDController',
+            "user" => $this->getUser()
+        ]);
+    }
+    
+    /**
+     * @Route("/CGU", name="CGU")
+     */
+    public function CGU()
+    {
+        return $this->render('main/cgu.html.twig', [
+            'controller_name' => 'CGUController',
+            "user" => $this->getUser()
+        ]);
+    }
+    
+    /**
+     * @Route("/CGV", name="CGV")
+     */
+    public function CGV()
+    {
+        return $this->render('main/cgv.html.twig', [
+            'controller_name' => 'CGUController',
+            "user" => $this->getUser()
+        ]);
+    }
 }
