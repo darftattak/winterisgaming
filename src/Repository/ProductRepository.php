@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Product;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Model\SearchData;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -62,6 +64,33 @@ class ProductRepository extends ServiceEntityRepository
         $stmt->andWhere("p.states IS NOT EMPTY");
 
         return $stmt->getQuery()->getResult();
+    }
+
+    public function findSearch(SearchData $search) {
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('c', 'p')
+            ->join('p.categories', 'c');
+
+        if (!empty($search->getQ())) {
+            $query = $query
+                ->andWhere('p.name LIKE :q')
+                ->setParameter('q', "%{$search->getQ()}%");
+        }
+
+        
+
+        if (!empty($search->getCategories())) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories());
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    private function getSearchQuery(SearchData $search, $ignorePrice = false): QueryBuilder
+    {
     }
     // /**
     //  * @return Product[] Returns an array of Product objects

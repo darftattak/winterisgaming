@@ -8,8 +8,40 @@
     <h1 class="text-center">Jeux, Bundles, Rétro-gaming</h1>
 </br>
 
+<pre>
+    {{ dump(data) }}
+</pre>
+
+<pre>
+    {{ dump(min) }}
+</pre>
+
+<pre>
+    {{ dump(max) }}
+</pre>
+<pre>
+    {{ dump(lapin) }}
+</pre>
+
 <div class="container">
+    <div class="btn-search">
+        <h3>Recherche par catégorie:</h3>
+        {{form_start( form, {
+                'attr': {
+                    'class': 'container-fluid',
+                    'novalidate': 'novalidate',
+                }
+            } )}}
+        {{form_row(form.q)}}
+        {{form_row(form.categories)}}
+        {{form_row(form.min)}}
+        {{form_row(form.max)}}
+        <button type="submit">Fitrer</button>
+        {{form_end(form)}}
+        
+        </div>
     <div class="row">
+        
         {% for product in products %}
         
             <div class="col-lg-4">
@@ -41,13 +73,6 @@
 
 </div>
     
-    <div class="pagination">
-        {% if page > 1 %}
-            <a href="?page={{ page - 1 }}" class="btn btn-outline-primary">Précédent</a>
-        {% endif %}
-        {% if page < maxPage %}
-            <a href="?page={{ page + 1 }}" class="btn btn-outline-primary">Suivant</a>
-        {% endif %}
-    </div>
+    
 </div>
 {% endblock %}

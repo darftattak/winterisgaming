@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\SearchType;
 use App\Form\ProductType;
+use App\Model\SearchData;
 use App\Service\MediaService;
 use App\Service\ProductService;
 use App\Controller\AjaxController;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,47 +29,73 @@ class ProductController extends AbstractController
     /**
      * @Route("/products", name="product_list")
      */
-    public function list( Request $request )
-    {
-        $query = $request->query->get('query');
-        $page = $request->query->get('page') ?? 1;
+    public function list( Request $request, CategoryRepository $categoryRepository )
+    {   
+        $category = $categoryRepository->findAll();
+        $min = intval($request->query->get("min"));
+        $max = intval($request->query->get("max"));
 
-            /* Gestion de la recherche */
-        if( !empty( $query ) ){
-            $products = $this->productService->search( $query );
+        
+        
+
+        $data = new SearchData();
+      
+        $form = $this->createForm(SearchType::class, $data);
+        $form->handleRequest($request);
+
+        $products = $this->productService->findSearch($data);
+        $lapin = "Palapin";
+
+        if ($min > 0 OR $max > 0 ) {
+            $sorting = array();
             foreach ($products as $product) {
-                $photos = $product->getPhotos();
-                foreach ($photos as $photo) {
-                    $photo->setPicturePath();
-                }
-            }
-            $pagination = array( 'page' => 1, 'maxPage' => 1 );
-        }else{
-            /* Afficche tout les produits et pagination */
-            $pagination = $this->productService->getPaginate( $page );
-            $products = $pagination['results'];
-            foreach ($products as $product) {
-                $photos = $product->getPhotos();
-                foreach ($photos as $photo) {
-                    $photo->setPicturePath();
-                }
                 $priceCompare = [];
                 $prices = $product->getStates();
                 foreach ($prices as $price) {
                     array_push($priceCompare, $price->getPrice()) ;
                 }
                 $product->setLowestPrice(min($priceCompare));
+                if ($min > 0 AND $max > 0) {
+                    if (min($priceCompare) >= $min AND min($priceCompare) <= $max) {
+                        array_push($sorting, $product);
+                    }
+                } elseif ($min > 0) {
+                    if (min($priceCompare) >= $min ) {
+                        array_push($sorting, $product);
+                    }
+                } elseif ($max > 0) {
+                    if (min($priceCompare) <= $max) {
+                        array_push($sorting, $product);
+                    }
+                }
             }
+            $products = $sorting;
         }
 
+        foreach ($products as $product) {
+            
+            $photos = $product->getPhotos();
+            foreach ($photos as $photo) {
+                $photo->setPicturePath();
+            }
+            $priceCompare = [];
+            $prices = $product->getStates();
+            foreach ($prices as $price) {
+                array_push($priceCompare, $price->getPrice()) ;
+            }
+            $product->setLowestPrice(min($priceCompare));
+        }
         return $this->render( 'product/list.html.twig', array(
             'products' => $products,
-            'page' => $pagination['page'],
-            'maxPage' => $pagination['maxPage'],
             'user' => $this->getUser(),
+            'form'=>$form->createView(),
+            'category'=>$category,
+            'data' => $data,
+            'min' => gettype($min),
+            'max' => gettype($max),
+            'lapin' => $lapin,
         ));
     }
-
     /**
      * @Route("/product/random", name="product_random")
      */

@@ -33,4 +33,7 @@ class ProductService{
         return $this->productRepository->getRandom();
     }
 
+    public function findSearch($data){
+        return $this->productRepository->findSearch($data);
+    }
 }
