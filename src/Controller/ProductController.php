@@ -114,6 +114,7 @@ class ProductController extends AbstractController
         return $this->render( 'product/show.html.twig', array(
             'product' => $this->productService->get( $id ),
             'user' => $this->getUser(),
+            'photos' => $photos,
         ));
     
         
