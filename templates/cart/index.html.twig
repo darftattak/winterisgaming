@@ -44,8 +44,13 @@
     
     <tfoot>
         <tr>
+        {% if user is same as(null) %}
+       <td><a class="nav-link btn btn-blue btn-sm" href="{{ path('user_login') }}">Connexion</a></td>
+       <td><a class="nav-link btn btn-blue btn-sm" href="{{ path('user_register') }}">Inscription</a></td>
+        {% else %}
             <td colspan="4" class="text-right">Total : {{ total }}</td>
             <td colspan="2"><a href="{{ path('order') }}" class="btn btn-blue btn-sm"><i class="fas fa-check-circle mr-1"></i>Valider mon panier</a></td>
+        {% endif %}
         </tr>
     </tfoot>
 
