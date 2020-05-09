@@ -22,6 +22,20 @@ $("#contact_topic").change(function(){
         $("#orderNumberContainer").hide()
     }
 })
+
+//Force password update forms styles
+
+var input= $('#plainPass').children().children().filter(":input")
+
+input.each(function(){
+    $(this).addClass('form-control')
+})
+
+var filterCat= $('#catFilterDiv').children().children().children().filter(":input")
+filterCat.each(function(){
+    $(this).addClass('form-check-input')
+})
+
 //fonction du caroussel nouveauté
 
   

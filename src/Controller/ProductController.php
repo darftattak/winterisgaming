@@ -31,6 +31,17 @@ class ProductController extends AbstractController
 
         $page = $request->query->get('page') ?? 1;
         
+        /* Conserves parameters as a string for pagination.  */
+
+        $paramsArray = $request->query->all();
+
+        if(empty($paramsArray)){
+            $parameterstring = '';
+        } elseif (count($paramsArray) == 1 and $paramsArray['page']){
+            $parameterstring = '';
+        } else {
+            $parameterstring = $this->productService->getParametersString($paramsArray);
+        }
 
         $data = new SearchData();
       
@@ -38,7 +49,6 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         $products = $this->productService->findSearch($data);
-        $lapin = "Palapin";
 
         if ($min > 0 OR $max > 0 ) {
             $sorting = array();
@@ -66,6 +76,7 @@ class ProductController extends AbstractController
             $products = $sorting;
         }
 
+        $totalResearch = count($products);
         $paginated = $this->productService->getPaginate($products, $page);
 
         foreach ($paginated['results'] as $product) {
@@ -90,6 +101,8 @@ class ProductController extends AbstractController
             'maxPage' => $paginated['maxPage'],
             'user' => $this->getUser(),
             'form'=>$form->createView(),
+            'researchcount' => $totalResearch,
+            'parameters' => $parameterstring
         ));
     }
     /**

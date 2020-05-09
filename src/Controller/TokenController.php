@@ -63,7 +63,7 @@ class TokenController extends AbstractController
           
 
             $this->addFlash( 'success', "Un mail de réinitialisation a été envoyé à l'adresse indiquée" );
-            
+            return $this->redirectToRoute("home");
         }
 
         return $this->render( 'user_interface/forgottenpassword.html.twig', array(

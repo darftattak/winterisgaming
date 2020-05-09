@@ -3,27 +3,32 @@
 {% block title %}Nos produits{% endblock %}
 
 {% block body %}
-<div class="events p-1">
-    <h1 class="text-center">Jeux, Bundles, Rétro-gaming</h1>
-</br>
 
-<div class="container">
-    <div class="btn-search">
-        <h3>Recherche par catégorie:</h3>
+<div class="searchDiv bg-blue">
+    <a class="btn btn-outline-success my-2 my-sm-0 mb-3 btn-outline-search btnSearchColl" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapse">Recherche avancée</a>
+    <div class="collapse" id="collapseSearch">
         {{form_start( form, {
                 'attr': {
                     'class': 'container-fluid',
                     'novalidate': 'novalidate',
                 }
             } )}}
-        {{form_row(form.q)}}
-        {{form_row(form.categories)}}
-        {{form_row(form.min)}}
-        {{form_row(form.max)}}
-        <button type="submit">Fitrer</button>
+            <div class="row firstSearch">
+                <button type="submit" class="btn btn-outline-success my-2 my-sm-0 mr-3 btn-outline-search">Fitrer</button>
+                {{form_row(form.q, {'attr': { 'class': 'form-control  mr-3' }})}}
+                {{form_row(form.min, {'attr': { 'class': 'form-control  mr-3' }})}}
+                {{form_row(form.max, {'attr': { 'class': 'form-control  mr-3' }})}}
+            </div>
+            <div id="catFilterDiv">
+                {{form_row(form.categories, {'attr': { 'class': 'row form-check' }})}}
+            </div>
         {{form_end(form)}}
-        
-        </div>
+    </div>
+</div>
+<div class="events p-1">
+    
+<div class="container pt-4">
+    <h3 class="bottomSep">{{researchcount}} produits</h3>
     <div class="row">
         
         {% for product in products %}
@@ -62,10 +67,10 @@
 </div>
     <div class="paginate">
         {% if page > 1 %}
-            <a href="?page={{ page - 1 }}" class="btn btn-outline-primary d-inline-block m-2">Précédent</a>
+            <a href="{{ (parameters == "") ? "?" : parameters ~ "&" }}page={{ page - 1 }}" class="btn btn-outline-primary d-inline-block m-2">Précédent</a>
         {% endif %}
         {% if page < maxPage %}
-            <a href="?page={{ page + 1 }}" class="btn btn-outline-primary d-inline-block m-2">Suivant</a>
+            <a href="{{ (parameters == "") ? "?" : parameters ~ "&" }}page={{ page + 1 }}" class="btn btn-outline-primary d-inline-block m-2">Suivant</a>
         {% endif %}
     </div>   
 </div>

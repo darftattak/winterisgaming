@@ -296,6 +296,8 @@ class UserController extends AbstractController
             $plain = $user->getPlainPassword();
             $password = $encoder->encodePassword( $user, $plain );
             $user->setPassword( $password );
+            $now = $date->setTimestamp(strtotime('now'));
+            $validToken->setEntAt($now);    
 
             $em->flush();
 
