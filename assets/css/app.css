@@ -222,7 +222,7 @@ li {
     flex-direction: column;
     justify-content: center;
     box-shadow: 0 0 10px black;
-    margin: auto 0;
+  
 }
 
 .carousselProduct > .carousel-inner {
