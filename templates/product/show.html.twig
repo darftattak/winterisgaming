@@ -25,18 +25,20 @@
                                                 {% if data.results.esrb_rating.name is not defined %}
                                                         <h5>Indisponible</h5>
                                                         <img class="esrbImage" src="{{ asset('build/img/esrb_rating_pending.jpg') }}" alt="Rating Not Set">
+                                                {% elseif data.results.esrb_rating.name == "Everyone" %}
+                                                        <h5>{{data.results.esrb_rating.name}}</h5>
+                                                        <img class="esrbImage" src="{{ asset('build/img/esrb_e.jpg') }}" alt="Rated everyone">
                                                 {% elseif data.results.esrb_rating.name == "Teen" %}
                                                         <h5>{{data.results.esrb_rating.name}}</h5>
-                                                        <img class="esrbImage" src="{{ asset('build/img/esrb_teen.jpg') }}" alt="Rating Not Set">
+                                                        <img class="esrbImage" src="{{ asset('build/img/esrb_teen.jpg') }}" alt="Rated teens">
                                                 {% elseif data.results.esrb_rating.name == "Everyone 10+" %}
                                                         <h5>{{data.results.esrb_rating.name}}</h5>
-                                                        <img class="esrbImage" src="{{ asset('build/img/esrb_e_ten.jpg') }}" alt="Rating Not Set">
+                                                        <img class="esrbImage" src="{{ asset('build/img/esrb_e_ten.jpg') }}" alt="Rated everyone +10">
                                                 {% elseif data.results.esrb_rating.name == "Mature" %}
                                                         <h5>{{data.results.esrb_rating.name}}</h5>
-                                                        <img class="esrbImage" src="{{ asset('build/img/esrb_mature.jpg') }}" alt="Rating Not Set">
+                                                        <img class="esrbImage" src="{{ asset('build/img/esrb_mature.jpg') }}" alt="Rated mature">
                                                 {% elseif data.results.esrb_rating.name == "Adults Only" %}
                                                         <h5>{{data.results.esrb_rating.name}}</h5>
-                                                        <img class="esrbImage" src="{{ asset('build/img/esrb_adults.jpg') }}" alt="Rating Not Set">
                                                 {% endif %}
                                         </div>
                                         <div class="metacriticDiv">
