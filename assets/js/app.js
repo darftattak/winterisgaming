@@ -105,3 +105,55 @@ function cartTotalUpdate(){
     });
     return total
 }
+
+// Test of Security function for all forms
+
+$(document).ready(function(){
+
+    var originalArray = [];
+    $('input').each(function(){
+        originalArray.push($(this).attr('type'))
+    })
+    $('select').each(function(){
+        originalArray.push($(this).attr('id'))
+    })
+
+    $('form').each(function(){
+        var form = $(this)
+        $(this).on('submit', function(event){
+            event.preventDefault()
+    
+            var fraud = redirectFormFraud(originalArray)
+            
+            if (fraud === true) {
+                $.ajax('/ajax/fraud', {
+                    method: 'get',
+                }).done(function(response) {
+                    document.location.replace(response.results)
+                })
+            } else {
+                $(this).off().submit()
+            }
+        })
+    })
+})
+
+function redirectFormFraud(originalArray){
+    var currentArray = [];
+
+    $('input').each(function(){
+        currentArray.push($(this).attr('type'))
+    })
+    $('select').each(function(){
+        currentArray.push($(this).attr('id'))
+    })
+
+    if (JSON.stringify(originalArray) == JSON.stringify(currentArray)) {
+        var difference = false
+    } else {
+        var difference = true
+    }
+
+    return difference
+}
+
