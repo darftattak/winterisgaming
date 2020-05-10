@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+</head>
+
+{% apply inline_css %}
+<body class="background">
+    
+
+    <style>
+        body {
+            margin: 0;
+        }
+        .header{
+            width: 100%;
+            height: max-content;
+            background-color: black;
+            padding: 1em;
+        }
+        .header > img{
+            max-height: 500px;
+            margin: 1em 2.5em;
+        }
+        .bottomSep {
+            margin: 2em 0;
+            border-bottom: 1px solid lightgray;
+            border-image: linear-gradient(90deg, transparent, lightgray, transparent ) 3;
+        }
+        a, a:hover {
+            color: inherit;
+        }
+        h2 {
+            font-size: 3em;
+        }
+        
+        .back {
+            background-color: lightgray;
+        }
+        .height {
+            height: 4em;
+        }
+        .mailBody {
+            width: 50%;
+            margin: 0 auto;
+            padding: 1.5em;
+            background-color: white;
+        }
+    </style>
+
+    <header>
+        <div class="header">
+            <img src="{{ email.image('@images/logo_admin.png') }}" alt="">
+        </div>
+    </header>
+
+    
+    <main>
+        <div class="back">
+            <div class="mailBody">
+                {% block bodymail %}{% endblock %}
+            </div>
+            <div class="back height"></div>
+        </div>
+        
+    </main>
+    <footer>
+        <div class="bottomSep"></div>
+        <p style="text-align: center; color: gray;">© <a href="{{ path('home')}}">Winter Is Gaming</a></p>
+        <p style="text-align: center; color: gray;">Winter Is Gaming est un projet de fin d'études et ne constitue aucunement un réel site e-commerce. Voir l'article 7 de nos <a href="{{ path('CGV') }}">CGV</a> pour plus d'informations</p>
+    </footer>
+    
+</body>
+{% endapply %}
+
+</html>

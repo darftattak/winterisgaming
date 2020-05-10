@@ -60,4 +60,17 @@ class ProductService{
         }
         return $paramString;
     }
+
+    public function getDiscountTotal(int $loyaltyPoints, int $total){
+        $loyaltyMinus = 0;
+        if ($loyaltyPoints >= 5000) {
+            $total /= 2;
+            $loyaltyMinus = 5000;
+        } else {
+            $sale = round((($total * $loyaltyPoints) / 10000), 2);
+            $total -= $sale;
+            $loyaltyMinus = $loyaltyPoints;
+        }
+        return ['total' => $total, 'minus' => $loyaltyMinus];
+    }
 }

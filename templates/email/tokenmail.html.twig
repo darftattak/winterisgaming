@@ -1,0 +1,24 @@
+{% extends 'email/emailbase.html.twig' %}
+
+{% block bodymail %}
+{% apply inline_css %}
+<style>
+    .bottomSepThird {
+        width: 33%;
+        margin: 0.5em 0;
+        border-bottom: 1px solid black;
+        border-image: linear-gradient(90deg, transparent, black, transparent ) 3;
+    }
+</style>
+
+
+<h2>Bonjour {{username}}</h2>
+<div class="bottomSepThird"></div>
+<p>Vous avez demandé la réinitialisation de votre mot de passe. Voici le lien qui vous permettra d'accéder au formulaire de réinitialisation</p>
+<strong><a href="{{link}}">{{link}}</a></strong>
+<p><em>Si vous n'êtes pas à l'origine de cette réinitialisation, merci de nous le signaler sans délai sur le formulaire de contact de Winter Is Gaming</em></p>
+<p>Cordialement</p>
+<p>Winter Is Gaming</p>
+
+{% endapply %}
+{% endblock %}

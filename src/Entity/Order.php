@@ -195,6 +195,6 @@ class Order
 
     public function __toString()
     {
-        return $this->number;
+        return "".$this->number;
     }
 }

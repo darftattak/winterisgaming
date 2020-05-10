@@ -2,12 +2,10 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Photo;
+
 use App\Service\MediaService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\Request;
 
 class AdminImageSubscriber implements EventSubscriberInterface
 {
