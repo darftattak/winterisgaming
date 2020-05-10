@@ -35,7 +35,6 @@ class OrderController extends AbstractController
         }
 
         $address= $user -> getAddresses();
-        $itemState = [];
         $cart = $session->get('cart', []);
 
         $cartWithData = [];
@@ -52,7 +51,6 @@ class OrderController extends AbstractController
         $total = 0;
 
         foreach($cartWithData as $item) {
-            $itemProduct = $item['state']->getProduct();
             $total += $item['state']->getPrice() * $item['quantity'];
         }
            
@@ -130,7 +128,6 @@ class OrderController extends AbstractController
             'form' => $form->createView(),
             'total'=> $total,
             'stripe_public_key'=> $apkPublic,
-            
         ]);
     }
 }

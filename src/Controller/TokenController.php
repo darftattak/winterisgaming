@@ -3,7 +3,6 @@
 namespace App\Controller;
 use DateTime;
 use App\Entity\Token;
-use DateTimeInterface;
 use App\Form\TokenType;
 use App\Model\TokenContact;
 use Symfony\Component\Mime\Email;
@@ -17,17 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TokenController extends AbstractController
 {
-    /**
-     * @Route("/token", name="token")
-     */
-    public function index()
-    {
-        return $this->render('token/index.html.twig', [
-            'controller_name' => 'TokenController',
-        ]);
-    }
-
-
      // Reset du mot de passe
     /**
      * @Route("/password/reset", name="password_reset")
@@ -42,7 +30,8 @@ class TokenController extends AbstractController
             
             $user = $userRepository->findOneByEmail($tokenContact->getEmail());
             if($user) {
-                  //Token générator
+
+            //Token generator
             $random = md5(random_bytes(10));
             $email = (new Email())
                 ->from("winterisgaming2020@gmail.com")
