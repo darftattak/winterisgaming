@@ -28,6 +28,15 @@ class OrderController extends AbstractController
     {   
             
         $user = $this->getUser();
+        $cart = $session->get('cart', []);
+
+        if (empty($cart)) {
+            return $this->redirectToRoute('main_home');
+        }
+        if (!$user){
+            return $this->redirectToRoute('main_home');
+        }
+        
         $address= $user -> getAddresses();
         $itemState = [];
         $cart = $session->get('cart', []);
