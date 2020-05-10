@@ -3,11 +3,8 @@
 namespace App\Controller;
 
 
-use App\Entity\User;
 use App\Entity\Order;
-use App\Entity\Address;
 use App\Form\OrderType;
-use Stripe\PaymentIntent;
 use App\Entity\OrderHasProduct;
 use App\Repository\StateRepository;
 use App\Repository\ProductRepository;
@@ -36,7 +33,7 @@ class OrderController extends AbstractController
         if (!$user){
             return $this->redirectToRoute('main_home');
         }
-        
+
         $address= $user -> getAddresses();
         $itemState = [];
         $cart = $session->get('cart', []);

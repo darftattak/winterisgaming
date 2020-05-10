@@ -10,15 +10,18 @@ use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ProductController extends AbstractController
 {
     
         private $productService;
+        private $params;
        
     
-        public function __construct( ProductService $productService) {
+        public function __construct( ProductService $productService, ParameterBagInterface $params) {
             $this->productService = $productService;
+            $this->params = $params;
         }
 
     /**
@@ -130,7 +133,7 @@ class ProductController extends AbstractController
 
         if($product->getSlug()) {
             $slug = $product->getSlug();
-            $data = new AjaxController;
+            $data = new AjaxController($this->params);
 
             $productdata = $data->gamedata( $slug )->getContent();
             $dataPerProduct = json_decode($productdata, true);

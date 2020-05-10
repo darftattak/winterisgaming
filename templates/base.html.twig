@@ -51,8 +51,8 @@
 			</ul>
 			<form class="form-inline" method="get" action="{{ path('product_list') }}">
 					
-				<input class="form-control mr-sm-2" name="q" type="search" placeholder="Rechercher" aria-label="Search">
-				<button class="btn btn-outline-success my-2 my-sm-0 mr-3 btn-outline-search" type="submit"><i class="fas fa-search"></i></button>
+				<input class="form-control mr-sm-2 w-75" name="q" type="search" placeholder="Rechercher" aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0 mr-3 btn-outline-search ml-1" type="submit"><i class="fas fa-search"></i></button>
 			  </form>
 		  </div>
 		
@@ -78,8 +78,8 @@
 			  </ul>
 			  <form class="form-inline" method="get" action="{{ path('product_list') }}">
 					
-				<input class="form-control mr-sm-2" name="q" type="search" placeholder="Rechercher" aria-label="Search">
-				<button class="btn btn-outline-success my-2 my-sm-0 mr-3 btn-outline-search" type="submit"><i class="fas fa-search"></i></button>
+				<input class="form-control mr-sm-2 w-75" name="q" type="search" placeholder="Rechercher" aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0 mr-3 btn-outline-search  ml-1" type="submit"><i class="fas fa-search"></i></button>
 			  </form>
 		   </div>
 		  
@@ -145,7 +145,7 @@
 			<div class="text-white m-6">
 				<h4>&copy{{ "now"|date("Y") }} - Winter is Gaming</h4>
 			</div>
-			<div class="footerMenu">
+			<div class="row footerMenu">
 				<div class="footerNav">
 					<h5>Réalisé par :</h5>
 					<div><a href="https://www.linkedin.com/in/lorry-carrel-65a77a1a1/">Lorry Carrel</a></div>
@@ -161,7 +161,7 @@
 					<div><a href="{{ path('CGV') }}">CGV</a></div>
 				</div>
 			</div>
-			<div class="apiCopy">Les screenshots et données de nos jeux vous sont fournies grâce à <a href="https://rawg.io/">RAWG</a> | Ce site est un projet de fin d'études, pas un site de vente réel <a href="">(infos)<i class="fas fa-info-circle"></i></a></div>
+			<div class="apiCopy">Les screenshots et données de nos jeux vous sont fournies grâce à <a href="https://rawg.io/">RAWG</a> | Ce site est un projet de fin d'études, pas un site de vente réel <a href="">| + d'infos <i class="fas fa-info-circle"></i></a></div>
 		</div>
 	</footer>
 

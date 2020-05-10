@@ -15,10 +15,10 @@ require('@fortawesome/fontawesome-free/js/all.js');
 
 $("#orderNumberContainer").hide()
 
-$("#contact_topic").change(function(){
-    if($(this).val() == "Commande" && $("#orderNumberContainer").is(":hidden") == true) {
+$("#contact_topic").on('change', function(){
+    if($(this).val() == "Commandes" && $("#orderNumberContainer").is(":hidden") == true) {
         $("#orderNumberContainer").show()
-    } else if (($(this).val() != "Commande" && $("#orderNumberContainer").is(":hidden") != true)) {
+    } else if (($(this).val() != "Commandes" && $("#orderNumberContainer").is(":hidden") != true)) {
         $("#orderNumberContainer").hide()
     }
 })
@@ -34,7 +34,12 @@ input.each(function(){
 var filterCat= $('#catFilterDiv').children().children().children().filter(":input")
 filterCat.each(function(){
     $(this).addClass('form-check-input')
+    var label = $(this).next('label')
+    $('<div>').insertBefore($(this))
+    $('</div>').insertAfter(label)
+
 })
+
 
 //fonction du caroussel nouveauté
 
@@ -109,7 +114,14 @@ function cartTotalUpdate(){
 // Test of Security function for all forms
 
 $(document).ready(function(){
+    $('#order_artSeven').on('click', function(){
+        $('#artSevenPop').show()
 
+       
+    })
+    $('#artSevenButton').on('click', function(){
+        $('#artSevenPop').hide()
+    })
     var originalArray = [];
     $('input').each(function(){
         originalArray.push($(this).attr('type'))
@@ -156,4 +168,5 @@ function redirectFormFraud(originalArray){
 
     return difference
 }
+
 

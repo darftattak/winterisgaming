@@ -49,12 +49,12 @@
                         </h3>
                         <div class="listInfos">
                             <p>A partir de {{product.lowestprice}}€</p>
-                            <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-light btn-outline-primary">Voir</a>
-                            <a href="{{ path( 'cart_add', {id: product.states.0.id} ) }}" class="btn btn-primary"><i class="fas fa-cart-plus"></i></a>
+                            <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-light btn-outline-primary align-self-baseline">Voir</a>
+                            <a href="{{ path( 'cart_add', {id: product.states.0.id} ) }}" class="btn btn-primary align-self-baseline"><i class="fas fa-cart-plus"></i></a>
                 
                 {% if user is not same as(null) %}
                             
-                            <a href="{{ path( 'wishlist', {id: product.id} ) }}" class="btn btn-success"><i class="fas fa-clipboard-list"></i></a>
+                            <a href="{{ path( 'wishlist', {id: product.id} ) }}" class="btn btn-success align-self-baseline"><i class="fas fa-clipboard-list"></i></a>
                 
                 {% endif %}
                         </div>

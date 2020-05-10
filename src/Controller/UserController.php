@@ -390,6 +390,12 @@ class UserController extends AbstractController
             foreach ($photos as $photo) {
                 $photo->setPicturePath();
             }
+            $priceCompare = [];
+            $prices = $product->getStates();
+            foreach ($prices as $price) {
+                array_push($priceCompare, $price->getPrice()) ;
+            }
+            $product->setLowestPrice(min($priceCompare));
         }
         return $this->render('user_interface/wishlistview.html.twig', [
             'controller_name' => 'Wishlistview',
