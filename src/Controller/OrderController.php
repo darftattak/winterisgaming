@@ -8,11 +8,15 @@ use App\Form\OrderType;
 use App\Entity\OrderHasProduct;
 use App\Repository\StateRepository;
 use App\Repository\ProductRepository;
+use App\Service\ProductService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 //
 
@@ -21,17 +25,17 @@ class OrderController extends AbstractController
     /**
      * @Route("/order", name="order")
      */
-    public function order(SessionInterface $session, ProductRepository $productRepository, StateRepository $stateRepository, Request $request, EntityManagerInterface $em)
+    public function order(SessionInterface $session, ProductService $productService, StateRepository $stateRepository, Request $request, EntityManagerInterface $em, ParameterBagInterface $params, MailerInterface $mailer)
     {   
             
         $user = $this->getUser();
         $cart = $session->get('cart', []);
 
         if (empty($cart)) {
-            return $this->redirectToRoute('main_home');
+            return $this->redirectToRoute('home');
         }
         if (!$user){
-            return $this->redirectToRoute('main_home');
+            return $this->redirectToRoute('home');
         }
 
         $address= $user -> getAddresses();
@@ -59,8 +63,11 @@ class OrderController extends AbstractController
         $order = new Order();
         $form = $this->createForm( OrderType::class, $order );
         $form ->handleRequest($request);
-        if ($form-> isSubmitted()
-        AND $form ->isValid())
+
+        $loyaltyPoints = intval($user->getLoyalty());
+        $loyaltyDiscout = $productService->getDiscountTotal($loyaltyPoints, $total);
+
+        if ($form-> isSubmitted() AND $form ->isValid())
         {
             $order ->setUser($user);
             $order ->setStatus($order::PROCESSING);
@@ -68,20 +75,14 @@ class OrderController extends AbstractController
             $orderNumber .= $user->getId()."-";
             $orderNumber .= substr(strtoupper(md5(rand())), 0, 6);
             
+            $loyalty = $form->get('loyalty')->getData();
+            
+            $loyaltyMinus = 0;
 
-            foreach ($cart as $id => $quantity) {
-                $addProduct = new OrderHasProduct();
-                $productState = $stateRepository -> find($id);
-                $stock = $productState->getStock();
-                $stock -= $quantity;
-                $productState->setStock($stock);
-                $em->flush($productState);
-                $addProduct -> setStateProductId($productState);
-                $addProduct -> setQuantity($quantity);
-                $order -> addOrderHasProduct($addProduct);
-                $em -> persist($addProduct);
-                
-            } 
+            if ($loyalty === true) {
+                $loyaltyMinus = $loyaltyDiscout['minus'];
+                $total = $loyaltyDiscout['total'];
+            }
 
             \Stripe\Stripe::setApiKey($apkSecrets);
                 $charge = \Stripe\Charge::create([
@@ -92,16 +93,51 @@ class OrderController extends AbstractController
                     'receipt_email' => $user->getEmail(),
                 ]);
                 $order -> setNumber($orderNumber);   
-                $em->persist($order);
+                
 
+                
                 //Ajouter les points de fidélité (idéalement, devrait être fait avec un tâche chrone qui irait interroger stripe pour vérifier les payements)
                 
                 $pointsToAdd = ceil($total / 100);
-                $current = $user->getLoyalty();
-                $current += $pointsToAdd;
-                $user->setLoyalty($current);
+                $loyaltyPoints += $pointsToAdd - $loyaltyMinus;
+                $user->setLoyalty($loyaltyPoints);
+                $em->persist($order);
+
+                foreach ($cart as $id => $quantity) {
+                    $addProduct = new OrderHasProduct();
+                    $addProduct->setOrderId($order);
+                    $productState = $stateRepository->find($id);
+                    $stock = $productState->getStock();
+                    $stock -= $quantity;
+                    $productState->setStock($stock);
+                    $em->flush($productState);
+                    $addProduct -> setStateProductId($productState);
+                    $addProduct -> setQuantity($quantity);
+                    $order -> addOrderHasProduct($addProduct);
+                    $em->persist($addProduct);
+                } 
 
                 $em->flush();
+                //Send mail
+                $email = (new TemplatedEmail())
+                    ->from($params->get('mail'))
+                    ->to($user->getEmail())
+                    ->subject('Votre commande '.$orderNumber. ' chez Winter Is Gaming')
+                    ->htmlTemplate('email/emailorder.html.twig')
+                    ->context(array(
+                        'cart' => $cartWithData,
+                        'order' => $orderNumber,
+                        'user' => $user,
+                        'total' => $total,
+                        'loyalty' => $loyalty,
+                        'loyaltyAdd'=> $pointsToAdd,
+                        'loyaltyMinus' => $loyaltyMinus,
+                        'loyaltyPoints' => $loyaltyPoints
+                    ))
+    
+                ;
+                $mailer->send($email);
+
                 // vider le panier  une fois validé
                 $session ->set('cart',array());
 
@@ -128,6 +164,7 @@ class OrderController extends AbstractController
             'form' => $form->createView(),
             'total'=> $total,
             'stripe_public_key'=> $apkPublic,
+            'loyaltyprice' => $loyaltyDiscout["total"]
         ]);
     }
 }

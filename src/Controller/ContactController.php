@@ -4,18 +4,19 @@ namespace App\Controller;
 
 use App\Model\Contact;
 use App\Form\ContactType;
-use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ContactController extends AbstractController
 {
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact( MailerInterface $mailer, Request $request )
+    public function contact( MailerInterface $mailer, Request $request, ParameterBagInterface $params)
     {
         $contact = new Contact;
         $form = $this->createForm( ContactType::class, $contact );
@@ -25,36 +26,38 @@ class ContactController extends AbstractController
         if( $form->isSubmitted() AND $form->isValid() ) {
 
             $user = $this->getUser();
-
-            $orders = $user->getOrders();
             
             //Gère le message et le réécrit pour une meilleure clareté, un meilleur traitement, et au cas où replyTo ne serait pas pris en charge. 
-            $message = $contact->getFirstname() ." ". $contact->getLastname(). " nous a contacté sur le sujet suivant : ";
-            if($contact->getTopic() == "Commande") {
-                $message .= $contact->getTopic() . ", commande numéro : ". $contact->getOrderNumber();
+            if($contact->getTopic() == "Commandes") {
+                $topic = $contact->getTopic() . ", commande numéro : ". $contact->getOrderNumber();
             }else{
-                $message .= $contact->getTopic();
+                $topic = $contact->getTopic();
             }
-            $message .= "\n";
+            $pseudo = "";
             if($this->getUser()) {
-                $message .= "Pseudo : " . $user->getUsername() ."\n"; 
+                $pseudo =  $user->getUsername(); 
             }
             
-            $message .= $contact->getMessage();
-            $message .= "\n";
-            $message .= "Voici son mail : " . $contact->getEmail();
+            $message = $contact->getMessage();
+            $replyMail = $contact->getEmail();
             //Fin du traitement
 
-            $email = (new Email())
-                ->from("winterisgaming2020@gmail.com")
-                ->to("winterisgaming2020@gmail.com")
+            $email = (new TemplatedEmail())
+                ->from($params->get('mail'))
+                ->to($params->get('mail'))
                 ->replyTo($contact->getEmail())
                 ->subject($contact->getTopic())
-                ->text($message);
+                ->htmlTemplate('email/contactmail.html.twig')
+                ->context(array(
+                    'pseudo' => $pseudo,
+                    'topic' => $topic,
+                    'message' => $message,
+                    'replymail' => $replyMail,
+                ));
 
             $mailer->send($email);
 
-            $this->addFlash( 'success', "Votre compte à bien été créé." );
+            $this->addFlash( 'success', "Votre message a bien été envoyé. Nous tâcherons d'y répondre dans les meilleurs délais." );
 
             return $this->redirectToRoute( 'home' );
         }

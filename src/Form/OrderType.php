@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Address;
 use App\Entity\Order;
-use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -47,6 +46,11 @@ class OrderType extends AbstractType
                 "label" => "J'accepte plus particulièrement l'article 7 des Conditions générales de vente de Winter Is Gaming",
                 'mapped' => false,
                 'required' => true
+            ))
+            ->add('loyalty', CheckboxType::class, array(
+                "label" => "Utiliser mes points de fidélité",
+                'mapped' => false,
+                'required' => false,
             )); 
         ;
     }

@@ -5,7 +5,7 @@
 {% block body %}
     
     <div class="container">
-            <form method="post" class="col-12 col-lg-6 offset-lg-3 row pt-5 pb-5">
+            <form method="post" class="col-12 col-lg-6 offset-lg-3 row pt-5 pb-5 justify-content-between">
                 <div class="w-50 formRes">
                     {% if error %}
                         <div class="alert alert-danger">
@@ -24,7 +24,7 @@
                 <div class='formRes'>
                     <input type="hidden" name="_target_path" value="{{ path('user_login_success') }}">
 
-                <button type="submit" class="btn btn-blue btn-lg btnUpUpdate btnSpec">Connexion</button>
+                    <button type="submit" class="btn btn-blue btn-lg btnUpUpdate btnSpec">Connexion</button>
                 </div>
             </form>
     </div>

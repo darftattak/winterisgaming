@@ -16,12 +16,14 @@ use App\Repository\OrderRepository;
 use App\Repository\TokenRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserController extends AbstractController
 {
@@ -34,7 +36,7 @@ class UserController extends AbstractController
     /**
      * @Route("/register", name="user_register")
      */
-    public function register( Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, MailerInterface $mailer )
+    public function register( Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, MailerInterface $mailer, ParameterBagInterface $params)
     {
        ;
         if ($this->getUser()) {
@@ -59,6 +61,18 @@ class UserController extends AbstractController
                 $user->setAvatar($filename);
             }
 
+            $username = $user->getUsername();
+
+            $email = (new TemplatedEmail())
+                ->from($params->get('mail'))
+                ->to($user->getEmail())
+                ->subject("Création de votre compte Winter Is Gaming")
+                ->htmlTemplate('email/register.html.twig')
+                ->context(array('username' => $username));
+
+            $mailer->send($email);
+
+
             //Set Role
             $user->setRoles( ['ROLE_USER'] );
             $user->setLoyalty( 0 );;
@@ -70,19 +84,8 @@ class UserController extends AbstractController
 
             //Mail de confirmation
 
-            $message = "Bonjour ". $user->getFirstname() . " " . $user->getLastname() . " et merci d'avoir créé un compte Winter Is Gaming !\n";
-            $message .= "Vous pouvez vous connecter dès à présent via votre addresse mail, et le mot de passe que vous avez entré lors de la création de votre compte.\n";
-            $message .= "Nous espérons vous voir bientôt commencer à accumuler des points de fidélité chez nous. \n Toute l'équipe de Winter Is Gaming";
-
-            $email = (new Email())
-                ->from("winterisgaming2020@gmail.com")
-                ->to($user->getEmail())
-                ->subject("Création de votre compte Winter Is Gaming")
-                ->text($message);
-
-            $mailer->send($email);
-
-            return $this->redirectToRoute( 'home' );
+            
+            return $this->redirectToRoute( 'home', array($user) );
         }
 
         return $this->render('user/register.html.twig', array(

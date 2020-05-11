@@ -50,7 +50,7 @@
             Prix total TTC:
           </th>
           <th colspan="2">
-            {{ total }}€
+            <span id="originalPrice">{{ total }}€</span><span id="loyaltyPrice">{{loyaltyprice}}€</span>
             <br>
             Frais de port offerts
           </th>
@@ -70,6 +70,7 @@
     <div class="form-group">
       {{ form_row(form.billingAddress, {attr:{ 'class': 'custom-select'}}) }}
     </div>
+      {{ form_row(form.loyalty, {attr:{ 'class': 'form-check-input useLoyalty'}})}}
     <div class="form-group">
       <label for="card-element">
         Credit or Debit Card

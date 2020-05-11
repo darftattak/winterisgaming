@@ -1,0 +1,41 @@
+{% extends 'email/emailbase.html.twig' %}
+
+{% block bodymail %}
+{% apply inline_css %}
+<style>
+    .bottomSepThird {
+        width: 33%;
+        margin: 0.5em 0;
+        border-bottom: 1px solid black;
+        border-image: linear-gradient(90deg, transparent, black, transparent ) 3;
+    }
+    .message {
+        width: 95%;
+        margin: 0 auto;
+        padding: 1em;
+        border: gray solid 1px;
+        box-shadow: 0 0 5px black;
+    }
+</style>
+
+
+<h2>Bonjour chers Admins</h2>
+<div class="bottomSepThird"></div>
+<p>
+{% if pseudo == "" %}
+Un utilisateur anonyme
+{% else %}
+L'utilisateur avec l'username {{pseudo}}
+{% endif %}
+nous a contacté sur le sujet suivant : <strong>{{topic}}</strong></p> 
+
+<p>Voici son message :</p>
+<div class="message">
+    <p>{{message}}</p>
+</div>
+
+<p>Si son mail n'est pas automatiquement rempli lors de la réponse, en voici une copie : {{replymail}}</p>
+
+{% endapply %}
+{% endblock %}
+

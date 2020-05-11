@@ -40,6 +40,19 @@ filterCat.each(function(){
 
 })
 
+/* CHANGES TOTAL PRICE ACCORDING TO USE OF LOYALTY POINTS */
+
+
+$('#order_loyalty').on('click', function() {
+    if($(this).is(':checked')){
+        $('#originalPrice').addClass("barredPrice");
+        $('#loyaltyPrice').show()
+    } else {
+        $('#originalPrice').removeClass("barredPrice");
+        $('#loyaltyPrice').hide()
+    }
+   
+})
 
 //fonction du caroussel nouveauté
 

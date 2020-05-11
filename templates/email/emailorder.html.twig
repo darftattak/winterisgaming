@@ -1,0 +1,48 @@
+{% extends 'email/emailbase.html.twig' %}
+
+{% block bodymail %}
+{% apply inline_css %}
+<style>
+    .bottomSepThird {
+        width: 33%;
+        margin: 0.5em 0;
+        border-bottom: 1px solid black;
+        border-image: linear-gradient(90deg, transparent, black, transparent ) 3;
+    }
+    .product{
+        padding: 1em 0;
+        border-bottom: 1px solid lightgray;
+        border-image: linear-gradient(90deg, transparent, lightgray, transparent ) 3;
+    }
+</style>
+
+
+<h2>Bonjour {{user.username}}</h2>
+<div class="bottomSepThird"></div>
+<p>Merci pour votre commande numéro <strong>{{order}}</strong></p>
+<p><em>Voici un récapitulatif de votre commande</em></p>
+{% for item in cart %}
+    <div class="product">
+        <h3>{{item.product.name}}</h3>
+        <p>{{item.state.state}}</p>
+        <p>{{item.state.price}}€, Qté {{item.quantity}}, Total {{ item.state.price * item.quantity }}€</p>
+    </div>
+{% endfor %}
+<h3>Total {% if loyalty is same as (true) %} après réduction{% endif %}: {{total}}€</h3>
+<p>Votre commande vous a rapporté {{loyaltyAdd}} points de fidélité</p>
+<p>{% if loyalty is same as (true) %}
+    Vous avez utilisé 
+        {%if loyaltyMinus == 5000 %} 5000 {% else %} vos {{loyaltyMinus}} {% endif %}
+        points de fidélité. Votre nouveau solde après cette commande est de {{loyaltyPoints}}.
+    {% else %}
+    Votre nouveau solde après cette commande est de {{loyaltyPoints}}.
+{% endif %}</p>
+
+<p>Nous vous tiendrons informé des changement liés à votre commande.</p>
+<p>Cordialement,</p>
+<p>Winter Is Gaming</p>
+
+<p><strong>Attention : nous vous rappelons que Winter Is Gaming est un site factice, un projet étudiant, et pas un réel site e-commerce ; et que par conséquent cette commande n'est pas une vraie commande.</strong></p>
+
+{% endapply %}
+{% endblock %}

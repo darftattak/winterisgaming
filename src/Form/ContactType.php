@@ -2,11 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use App\Entity\Order;
 use App\Model\Contact;
-use Doctrine\ORM\EntityRepository;
-use App\Repository\OrderRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;

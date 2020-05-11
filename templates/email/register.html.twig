@@ -1,0 +1,32 @@
+{% extends 'email/emailbase.html.twig' %}
+
+{% block bodymail %}
+{% apply inline_css %}
+<style>
+    .bottomSepThird {
+        width: 33%;
+        margin: 0.5em 0;
+        border-bottom: 1px solid black;
+        border-image: linear-gradient(90deg, transparent, black, transparent ) 3;
+    }
+</style>
+
+
+        <h2>Bienvenue chez Winter Is Gaming, {{username}}</h2>
+        <div class="bottomSepThird"></div>
+        <p>Bonjour et bienvenue chez Winter Is Gaming.</p>
+        <p><strong>Nous vous confirmons la création de votre compte utilisateur et de votre mot de passe.</strong></p>
+        <p>Vous pouvez dès à présent vous connecter grâce à votre adresse mail et au mot de passe que vous avez rentré lors de la création de votre compte.</p>
+        <p>En cas d'oubli, vous pouvez demander la réinitialisation de votre mot de passe via le formulaire de connexion.</p>
+        <p><strong>Soyez vigilant:</strong></p>
+        <p>Ne communiquez à personne vos informations confidentielles. Nous ne vous demanderons jamais votre identifiant ou votre mot de passe, que ce soit par mail, courrier ou téléphone, même pour des actions de sécurisation.</p>
+        <p>Cordialement</p>
+        <p>Winter Is Gaming</p>
+        <p><strong>Attention : nous vous rappelons que Winter Is Gaming est un site factice, un projet étudiant, et pas un réel site e-commerce.</strong></p>
+
+
+
+
+
+{% endapply %}
+{% endblock %}

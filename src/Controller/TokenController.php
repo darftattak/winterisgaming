@@ -5,14 +5,15 @@ use DateTime;
 use App\Entity\Token;
 use App\Form\TokenType;
 use App\Model\TokenContact;
-use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TokenController extends AbstractController
 {
@@ -20,7 +21,7 @@ class TokenController extends AbstractController
     /**
      * @Route("/password/reset", name="password_reset")
      */
-    public function resetPass( Request $request, EntityManagerInterface $em, UserRepository $userRepository, MailerInterface $mailer )
+    public function resetPass( Request $request, EntityManagerInterface $em, UserRepository $userRepository, MailerInterface $mailer, ParameterBagInterface $params )
     {
         $tokenContact = new TokenContact;
         $form = $this->createForm( TokenType::class, $tokenContact );
@@ -33,11 +34,12 @@ class TokenController extends AbstractController
 
             //Token generator
             $random = md5(random_bytes(10));
-            $email = (new Email())
-                ->from("winterisgaming2020@gmail.com")
+            $email = (new TemplatedEmail())
+                ->from($params->get('mail'))
                 ->to($user->getEmail())
                 ->subject('Réinitialisation de votre mot de passe')
-                ->text('localhost:8080/password/retrieve/'.$random);
+                ->htmlTemplate('email/tokenmail.html.twig')
+                ->context(array('username' => $user->getUsername(), 'link'=> 'localhost:8080/password/retrieve/'.$random));
 
             $mailer->send($email);
             $token = new Token;

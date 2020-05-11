@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Repository\StateRepository;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +22,16 @@ class AjaxController extends AbstractController
     /**
      * @Route("/ajax/cart/quantity", name="ajax_cart_quantity")
      */
-    public function cartQuantity(Request $request, SessionInterface $session){
+    public function cartQuantity(Request $request, SessionInterface $session, StateRepository $stateRepository){
         $quantity = $request->query->get('quantity');
         $id = $request->query->get('id');
         $cart = $session->get('cart', []);
 
+        $max = $stateRepository->find($id)->getStock();
+
+        if($quantity > $max) {
+            $quantity = $max;
+        }
         
         $cart[$id] = intval($quantity);
 
