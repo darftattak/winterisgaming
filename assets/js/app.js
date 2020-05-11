@@ -127,7 +127,7 @@ function cartTotalUpdate(){
 }
 
 // Test of Security function for all forms
-
+/* 
 $(document).ready(function(){
     $('#order_artSeven').on('click', function(){
         $('#artSevenPop').show()
@@ -185,3 +185,4 @@ function redirectFormFraud(originalArray){
 }
 
 
+ */
