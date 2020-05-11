@@ -28,7 +28,7 @@ class ContactController extends AbstractController
             $user = $this->getUser();
             
             //Gère le message et le réécrit pour une meilleure clareté, un meilleur traitement, et au cas où replyTo ne serait pas pris en charge. 
-            if($contact->getTopic() == "Commande") {
+            if($contact->getTopic() == "Commandes") {
                 $topic = $contact->getTopic() . ", commande numéro : ". $contact->getOrderNumber();
             }else{
                 $topic = $contact->getTopic();
