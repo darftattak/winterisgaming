@@ -6,6 +6,7 @@
 parameters:
     pagination:
         itemPerPage: 18
+    fraud: 'https://meme-api.herokuapp.com/gimme'
     media:
         directory: '%kernel.project_dir%/public/data'
 

@@ -9,9 +9,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AjaxController extends AbstractController
 {
+    private $fraud;
+
+    public function __construct(ParameterBagInterface $params) {
+        $this->fraud = $params->get("fraud");
+    }
     /**
      * @Route("/ajax/cart/quantity", name="ajax_cart_quantity")
      */
@@ -26,6 +32,23 @@ class AjaxController extends AbstractController
         $session->set('cart', $cart);
 
         return new JsonResponse($cart);
+
+    }
+    /**
+     * @Route("/ajax/fraud", name="ajax_fraud")
+     */
+    public function fraud(Request $request, SessionInterface $session){
+        $session->clear();
+
+        $client = HttpClient::create();
+        $url = $this->fraud;
+
+        $response = $client->request('GET', $url);
+        $content = $response->toArray();
+
+        return new JsonResponse(array(
+            'results' => $content['url']
+        ));
 
     }
     /**
