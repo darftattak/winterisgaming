@@ -71,7 +71,7 @@
                                         {% for photo in photos %}
                                                 {% if loop.first %}
                                                         <div class="carousel-item active">
-                                                                <img src="{{ asset("data/" ~ photo.picturePath ) }}" class="d-block w-100 center-block" alt="Image du produit">
+                                                                <img src="{{ asset("data/" ~ photo.picturePath ) }}" class="d-block w-100 " alt="Image du produit">
                                                         </div>
                                                 {% else %}
                                                         <div class="carousel-item">
