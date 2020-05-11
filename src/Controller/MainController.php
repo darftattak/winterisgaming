@@ -68,4 +68,14 @@ class MainController extends AbstractController
             "user" => $this->getUser()
         ]);
     }
+     /**
+     * @Route("/fidelisation", name="fidelisation")
+     */
+    public function fidelisation()
+    {
+        return $this->render('main/fidelisation.html.twig', [
+            'controller_name' => 'fidelisationController',
+            "user" => $this->getUser()
+        ]);
+    }
 }
