@@ -37,7 +37,7 @@ class ProductRepository extends ServiceEntityRepository
         // Installer https://github.com/beberlei/DoctrineExtensions
         // Ajouter une séléction aléatoire
         $stmt->orderBy('RAND()');
-        $stmt->setMaxResults(8);
+        $stmt->setMaxResults(9);
 
         return $stmt->getQuery()->getResult();
     }

@@ -90,7 +90,12 @@ class Photo
     public function setPicturePath(): self
     {
         $name = preg_split( "/public\/data\\\/",$this->getPicture());
-        $picturePath = $name[1];
+        if(!empty($name[1])){
+            $picturePath = $name[1];
+        }else{
+            $name = preg_split( "/public\/data\//",$this->getPicture());
+            $picturePath=$name[1];
+        }
         $this->picturePath = $picturePath;
 
         return $this;
