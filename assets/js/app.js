@@ -23,6 +23,8 @@ $("#contact_topic").on('change', function(){
     }
 })
 
+
+
 //Force password update forms styles
 
 var input= $('#plainPass').children().children().filter(":input")

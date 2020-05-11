@@ -25,6 +25,11 @@
     border-radius: 0.5em 0.5em 0.5em 0.5em;
     padding: 1em;
 }
+.fidelise{
+width: 100%;
+height:300px;
+background-image: url(../img/fidelite.png);
+}
 /*header*/
 
 .navbar-top{
@@ -214,29 +219,21 @@ li {
     width: 60%;
 }
 
-.carousselProduct {
-    width: 80vw;
+.productImage {
     height: calc((80vw * 9) / 16);
     max-width: 400px;
     max-height: calc((400px * 9) / 16);
 
-    background-color: black;
     display: flex;
     flex-direction: column;
     justify-content: center;
     box-shadow: 0 0 10px black;
-    margin: auto 0;
+    margin: 0 auto
+  
 }
 
-.carousselProduct > .carousel-inner {
-    height: 100%;
-}
 
-.carousselProduct > .carousel-inner > .active {
-    height: max-content;
-}
-
-.carousselProduct > .carousel-inner > .active > img {
+.productImage > img {
     height: calc((80vw * 9) / 16);
     max-height: calc((400px * 9) / 16);
     width: unset!important;
