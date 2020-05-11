@@ -3,72 +3,73 @@
 {% block title %}Paiement{% endblock %}
 
 {% block body %}
-<div class="row p-1">
+<div class="row orderDiv">
 
 
-<div class="col-8">
-<h4 class="text-uppercase">Bonjour: {{user.lastname}} {{user.firstname}}</h4>
- 
+  <div class="col-8">
+    <h4 class="">Bonjour {{user.firstname}} {{user.lastname}}</h4>
 
 
-    
-<a href="{{ path ('address_new')}}" class="btn btn-blue btn-lg">Ajouter une adresse</a>
- 
-<!--liste des prodduit-->
 
 
-<table class="table table-bordered">
+    <a href="{{ path ('address_new')}}" class="btn btn-blue btn-lg">Ajouter une adresse</a>
 
- <h5>Récapitulatif de la commande:</h5>
-  
-  
-  
-  <thead>
-    <tr>
-    <td>Nom du produit:</td>
-    <td>Prix</td>
-    <td>Quantité du produit:</td>
-    
-    </tr>
-    </thead>    
-    
-    <thbody>
-    {% for cartWithData in cartWithData %}  
-      <tr>
-        <td>
-        {{ cartWithData.product.name }} - {{ cartWithData.state.state }}
-        </td>
-        <td>
-        {{ cartWithData.state.price }}€
-        </td>
-        <td>
-        {{ cartWithData.quantity }}
-        </td>
-      </tr>
-      {% endfor %}
-      <th>
-        Prix total TTC:
-      </th>
-      <th colspan="2">
-        {{ total }}€
-        <br>
-        Frais de port offerts
-      </th>
-      </thbody>  
-</table>
-</div>
+    <!--liste des prodduit-->
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+
+        <h5>Récapitulatif de la commande:</h5>
 
 
-<div class="col-4" id="payement_form">
-<h4>Paiement:</h4>
+
+        <thead>
+          <tr>
+            <td>Nom du produit:</td>
+            <td>Prix</td>
+            <td>Quantité du produit:</td>
+
+          </tr>
+        </thead>
+
+        <thbody>
+          {% for cartWithData in cartWithData %}
+          <tr>
+            <td>
+              {{ cartWithData.product.name }} - {{ cartWithData.state.state }}
+            </td>
+            <td>
+              {{ cartWithData.state.price }}€
+            </td>
+            <td>
+              {{ cartWithData.quantity }}
+            </td>
+          </tr>
+          {% endfor %}
+          <th>
+            Prix total TTC:
+          </th>
+          <th colspan="2">
+            {{ total }}€
+            <br>
+            Frais de port offerts
+          </th>
+        </thbody>
+      </table>
+    </div>
+  </div>
+
+
+  <div class="col-4" id="payement_form">
+    <h4>Paiement:</h4>
 
     {{ form_start(form, {attr: {id: form.vars.id}}) }}
     <div class="form-group">
-    {{ form_row(form.shippingAddress,{attr:{ 'class': 'custom-select'}})  }} 
+      {{ form_row(form.shippingAddress,{attr:{ 'class': 'custom-select'}}) }}
     </div>
     <div class="form-group">
-    {{ form_row(form.billingAddress, {attr:{ 'class': 'custom-select'}}) }}
-    </div> 
+      {{ form_row(form.billingAddress, {attr:{ 'class': 'custom-select'}}) }}
+    </div>
     <div class="form-group">
       <label for="card-element">
         Credit or Debit Card
@@ -77,45 +78,87 @@
       <div id="card-errors" class="help-block" role="alert"></div>
     </div>
     {{ form_widget(form.paymentToken) }}
+    {{ form_row(form.cgv, {attr:{ 'class': 'form-check-input'}}) }}
+    {{ form_row(form.artSeven, {attr:{ 'class': 'form-check-input'}}) }}
+
     <button class="btn btn-blue btn-lg" type="submit">Payer</button>
     {{ form_end(form) }}
-</div>
+  </div>
 
 </div>
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-   var form = document.getElementById('{{ form.vars.id }}');
-        var errors = document.getElementById('card-errors');
+  var form = document.getElementById('{{ form.vars.id }}');
+  var errors = document.getElementById('card-errors');
 
-        var stripe = Stripe('{{ stripe_public_key }}');
-        var elements = stripe.elements();
-        var card = elements.create('card');
+  var stripe = Stripe('{{ stripe_public_key }}');
+  var elements = stripe.elements();
+  var card = elements.create('card');
 
-        card.mount('#card-element');
-        card.addEventListener('change', function(event) {
-          if (event.error) {
-            errors.textContent = event.error.message;
-            form.classList.add('has-error');
-          } else {
-            errors.textContent = '';
-            form.classList.remove('has-error');
-          }
-        });
+  card.mount('#card-element');
+  card.addEventListener('change', function (event) {
+    if (event.error) {
+      errors.textContent = event.error.message;
+      form.classList.add('has-error');
+    } else {
+      errors.textContent = '';
+      form.classList.remove('has-error');
+    }
+  });
 
-        form.addEventListener('submit', function(event) {
-          event.preventDefault();
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-          stripe.createToken(card).then(function(result) {
-            if (result.error) {
-              errors.textContent = result.error.message;
-              form.classList.add('has-error');
-            } else {
-              document.getElementById('{{ form.children.paymentToken.vars.id }}').setAttribute('value', result.token.id);
-              form.submit();
-            }
-          });
-        });
+    stripe.createToken(card).then(function (result) {
+      if (result.error) {
+        errors.textContent = result.error.message;
+        form.classList.add('has-error');
+      } else {
+        document.getElementById('{{ form.children.paymentToken.vars.id }}').setAttribute('value', result.token
+          .id);
+        form.submit();
+      }
+    });
+  });
 </script>
-{% endblock %}
 
+<div id="artSevenPop">
+  <div>
+    <h1>SITE FACTICE</h1><br>
+    <p>
+      <strong>WinterIsGaming est un site factice, un projet de fin d'études</strong> mené en vue d'une soutenance face à
+      un jury. En acceptant spécifiquement les dispositions de l'article 7 des CGV, je reconnais la nature du site comme
+      telle. De fait, je reconnais que le présent article que je reconnais avoir lu et approuvé en utilisant le site
+      ainsi qu'avant, et en validant ma commande - m'informe explicitement du caractère factice du site, ainsi que des
+      dispositions suivantes :
+      <ul><br>
+        <li>-Les articles, stocks et prix détaillés dans l'ensemble du site ne correspondent en aucun cas à des stocks,
+          articles et prix existant réellements.</li>
+        <li>-A des fins de testing, les coordonnées bancaires suivantes sont mises à ma disposition : Carte 4242 4242
+          4242 4242, Exp 12/99, CVC 123, Zip 76000. Je reconnais que toutes autres coordonnées bancaires, réelles ou
+          factices que je rentrerais dans les champs de payement correspondants constituent une faute, une négligence ou
+          une imprudence volontaires ou involontaires de ma part pour laquelle je décharge les créateurs du site de
+          toute responsabilité juridique. </li>
+        <li>-De par la nature du site, je reconnais que les articles 1 à 6 des conditions générales de vente, ainsi que
+          les articles précédant l'artice 10 des conditions générales d'utilisation du site sont eux aussi factices, et
+          ne sauraient être considérés comme faisant partie d'un réel contrat aux normes avec la législation française,
+          ainsi que les contraintes associées.</li>
+        <li>-Je reconnais que toute commande passée sur le site est factice, que par conséquent aucune commande ne sera
+          honnorée, et qu'aucune commande ne saurait faire l'objet des dispositions et contraintes inhérentes aux CGU,
+          aux CGV, ou à la législation française.</li>
+        <li>-Je reconnais que l'ensemble du contenu faisant l'objet de droits d'auteurs mis en ligne sur le site
+          respecte l'article L 122-5 du code de la propriété intellectuelle, et que leur usage rentre dans le cadre de
+          la représentation et de l'utilisation à des fins pédagogiques et non commerciales ni lucratives. </li>
+      </ul>
+      En utilisant le site, en acceptant spécifiquement l'article 7 des CGV ainsi qu'en validant toute commande, je
+      reconnais avoir lu et approuvé l'intégralité de ces dispositions, et décharge les créateurs du site de toute
+      responsabilité juridique en cas d'erreur, de négligence, ou d'imprudence volontaires ou involontaires de ma part.
+    </p>
+  </div>
+  <div class="row justify-content-center">
+    <a class="btn btn-danger mr-3" href="{{ path('home') }}">Je refuse</a>
+    <button id="artSevenButton" class="btn btn-success ml-3">Je reconfirme mon acceptation</button>
+  </div>
+</div>
+{% endblock %}

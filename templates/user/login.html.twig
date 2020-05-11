@@ -6,7 +6,7 @@
     
     <div class="container">
             <form method="post" class="col-12 col-lg-6 offset-lg-3 row pt-5 pb-5">
-                <div class="w-50">
+                <div class="w-50 formRes">
                     {% if error %}
                         <div class="alert alert-danger">
                             Les identifiants saisis ne sont pas corrects
@@ -21,10 +21,10 @@
                         <a class="nav-link text-center" href="{{ path('password_reset') }}">Mot de passe oublié ?</a>
                     </div>
                 </div>
-                <div>
+                <div class='formRes'>
                     <input type="hidden" name="_target_path" value="{{ path('user_login_success') }}">
 
-                <button type="submit" class="btn btn-blue btn-lg">Connexion</button>
+                <button type="submit" class="btn btn-blue btn-lg btnUpUpdate btnSpec">Connexion</button>
                 </div>
             </form>
     </div>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Votre liste d'envies{{ parent() }}{% endblock %}
+{% block title %}Votre liste d'envies{% endblock %}
 
 {% block body %}
 
@@ -19,8 +19,7 @@
                     {% endif %}
                     <div class="card-body" style="min-height : 15rem">
                         <h4 class="card-title">{{ product.name }}</h4>
-                        <h5>{{ product.states.0.price }} €</h5>
-                        <p class="card-text">{{ product.description|u.truncate(100, '...') }}</p>
+                        <p>A partir de {{product.lowestprice}}€</p>
                         <a href="{{ path( 'product_show', {id: product.id} ) }}" class="btn btn-light">En savoir plus</a>
                         <a href="{{ path( 'wishlist_remove', {id: product.id} ) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                         <a href="{{ path( 'cart_add', {id: product.id} ) }}" class="btn btn-primary"><i class="fas fa-cart-plus"></i></a>

@@ -2,12 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
-use App\Form\AddItemType;
-use App\Repository\ProductRepository;
 use App\Repository\StateRepository;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

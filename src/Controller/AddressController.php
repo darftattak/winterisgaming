@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+
 use App\Entity\Address;
 use App\Form\AddressType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,11 +17,17 @@ class AddressController extends AbstractController
      */
     public function new( Request $request, EntityManagerInterface $em )
     {
+        $user = $this->getUser();
+
+        if(!$user) {
+            return $this->redirectToRoute( 'home' );
+        } 
+
         $address = new Address();
         $form = $this->createForm( AddressType::class, $address );
 
         $form->handleRequest( $request);
-        $user = $this->getUser();
+        
 
         if( $form ->isSubmitted() AND $form->isValid() ) {
             $address->setUser($user);
@@ -54,7 +60,7 @@ class AddressController extends AbstractController
         if( $form ->isSubmitted() AND $form->isValid() ) {
             $em->flush();
             $this->addFlash('success', "Votre adresse a bien été modifiée.");
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('address_list');
         }
 
         return $this->render('address/form.html.twig', array(
@@ -69,7 +75,7 @@ class AddressController extends AbstractController
      */
     public function remove( Address $address, EntityManagerInterface $em )  {
         if( $this->getUser() !== $address->getUser()) {
-            //Return to main menu
+            return $this->redirectToRoute("home");
         }
 
         $em->remove( $address );
@@ -86,6 +92,9 @@ class AddressController extends AbstractController
     public function index()
     {
         $user = $this->getUser();
+        if(!$user){
+            return $this->redirectToRoute("home");
+        }
         $address = $user->getAddresses();
         return $this->render('address/list.html.twig', [
             "user" => $this->getUser(),

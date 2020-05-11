@@ -215,8 +215,11 @@ li {
 }
 
 .carousselProduct {
-    width: 400px;
-    height: calc((400px * 9) / 16);
+    width: 80vw;
+    height: calc((80vw * 9) / 16);
+    max-width: 400px;
+    max-height: calc((400px * 9) / 16);
+
     background-color: black;
     display: flex;
     flex-direction: column;
@@ -234,7 +237,8 @@ li {
 }
 
 .carousselProduct > .carousel-inner > .active > img {
-    height: calc((400px * 9) / 16);
+    height: calc((80vw * 9) / 16);
+    max-height: calc((400px * 9) / 16);
     width: unset!important;
     margin: 0 auto;
 }
@@ -325,6 +329,9 @@ li {
     padding: 1em;
     box-shadow: 0 0 10px black;
     border-radius: 0.5em;
+}
+.infoCatSection > h3{
+    text-align: center;
 }
 
 .infoCatDiv {
@@ -466,7 +473,8 @@ li {
 /* Filters */
 
 .firstSearch > div {
-    margin-right: 3em;
+    margin-right: 1em;
+    margin-top: 0.5em;
 }
 
 .form-check > label{
@@ -499,16 +507,120 @@ li {
 .btnSearchColl:hover {
     color: white!important;
 }
+
+#artSevenPop {
+    position: fixed;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    width: 100%;
+    height: 100vh;
+    top: 0vw;
+    left: 0vw;
+    padding: 4em;
+    display: none;
+}
+
+.orderDiv {
+    padding: 1em;
+}
+
+#navbarSupportedContent2, #navbarSupportedContent1 {
+    padding: 1em;
+}
+
 /* MEDIA QUERIES (pour le responsive) */
 
 @media (max-width: 992px ) 
 {
-    div .cercles 
+    div.cercles 
     {
-        flex-direction: column ;
-        align-items: center;
+        margin: 0;
+        padding: 0.5em;
+    }
+    div.cercles > .userPanelInfos, div.cercles > .userPanelAvatar {
+        width: 80%;
+        margin: 1em auto;
+    }
+    div.formRes {
+        width: 100%!important;
+        flex: unset;
+        max-width: unset;
+        justify-content: center;
+        margin-bottom: 1.5em;
+    }
+    div.formRes > .btnUpUpdate {
+        margin: 1em auto;
+    }
+    div.formRes > .btnSpec {
+        display: block;
+    }
+    div.formRes#plainPass{
+        margin-right: 0!important;
+        padding: 0 0.5em;
+    }
+    form.formRes {
+        padding: 1em!important;
+        margin: auto;
+    }
+    .toaster {
+        width: 100%;
+        left: 0vw;
+    }
+    .logo {
+        margin-left: -15%;
+    }
+
+    /* MANAGING THE PRODUCTS RESPONSIVE - MQ */
+    #productDiv {
+        padding: 1em;
+    }
+    .productGeneric {
+        flex-direction: column;
+    }
+    .productInfo {
+        width: 100%;
+        padding: 0;
+    }
+    .mainInfos {
+        flex-direction: column;
+    }
+    .mainInfos > p {
+        width: 100%;
+        padding: 0;
+    }
+    .mainInfos > div {
+        width: 50%;
+        margin: 0 auto 2em auto;
+    }
+    .carousselProduct {
+        margin: auto;
     }
 }
+@media (max-width: 1200px), (min-width: 993px) {
+    #productDiv {
+        padding: 1em;
+    }
+    .productInfo {
+        padding-right: 1em;
+    }
+    .mainInfos > p {
+        width: 70%;
+    }
+    .mainInfos > div {
+        width: 30%;
+    }
+}  
+
+@media (max-width: 575px ) 
+{
+    div .cercles > .userPanelInfos, div.cercles > .userPanelAvatar {
+        width: 100%;
+        margin: 1em auto;
+    }   
+}
+
+
 /*CSS card caroussel*/
 /* Tablet and up */
 

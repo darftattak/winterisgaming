@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\User;
-use App\Entity\Order;
-use App\Entity\Address;
 use App\Form\ModifyType;
 use App\Form\RegisterType;
 use App\Form\EmailModifyType;
@@ -14,7 +12,6 @@ use App\Service\MediaService;
 
 use App\Form\PasswordModifyType;
 use Symfony\Component\Mime\Email;
-use App\Repository\UserRepository;
 use App\Repository\OrderRepository;
 use App\Repository\TokenRepository;
 use App\Repository\ProductRepository;
@@ -41,7 +38,7 @@ class UserController extends AbstractController
     {
        ;
         if ($this->getUser()) {
-            return $this->redirectToRoute( 'main_home' );
+            return $this->redirectToRoute( 'home' );
         }   
 
         $user = new User();
@@ -115,7 +112,7 @@ class UserController extends AbstractController
      */
     public function login_success(){
         $this->addFlash( 'success', 'Vous êtes bien connecté' );
-        return $this->redirectToRoute( 'main_home' );
+        return $this->redirectToRoute( 'home' );
     }
 
     /**
@@ -123,17 +120,7 @@ class UserController extends AbstractController
      */
     public function logout_success(){
         $this->addFlash( 'success', 'Vous êtes bien déconnecté' );
-        return $this->redirectToRoute( 'main_home' );
-    }
-
-
-    /**
-     * @Route("/", name="main_home")
-     */
-    public function home()
-    {
-        return $this->render('base.html.twig');
-        
+        return $this->redirectToRoute( 'home' );
     }
 
     /**
@@ -144,7 +131,7 @@ class UserController extends AbstractController
         
         $user = $this->getUser();
         if(!($user)) {
-        return $this->redirectToRoute('user_login');
+            return $this->redirectToRoute('user_login');
         }
         return $this->render('user_interface/index.html.twig', [
             'controller_name' => 'UserController',
@@ -161,7 +148,12 @@ class UserController extends AbstractController
     public function follow()
     {
         $user = $this->getUser();
+        if(!($user)) {
+            return $this->redirectToRoute('user_login');
+        }
+
         $orders = $user->getOrders();
+
         return $this->render('user_interface/follow.html.twig', [
             'controller_name' => 'ProductsFollow',
             'user' => $user,
@@ -177,7 +169,17 @@ class UserController extends AbstractController
      */
     public function singleOrder($id, OrderRepository $orderRepository )
     {
+        $user = $this->getUser();
+        if(!($user)) {
+            return $this->redirectToRoute('user_login');
+        }
         $order =  $orderRepository->find( $id );
+
+        if($order->getUser() !== $user) {
+            return $this->redirectToRoute('home');
+        }
+
+
         $orderStatus = $order->getStatus();
         $orderHasProducts = $order->getOrderHasProducts();
         return $this->render('user_interface/singleProduct.html.twig', [
@@ -197,8 +199,12 @@ class UserController extends AbstractController
      */
     public function update( User $user, Request $request, EntityManagerInterface $em )
     {
+        $user = $this->getUser();
+        if(!($user)) {
+            return $this->redirectToRoute('user_login');
+        }
         if( $this->getUser() !== $user ){
-            return $this->redirectToRoute( 'main_home' );
+            return $this->redirectToRoute( 'home' );
         }
 
         $form = $this->createForm( ModifyType::class, $user );
@@ -238,8 +244,12 @@ class UserController extends AbstractController
      */
     public function updatePass( User $user, Request $request,UserPasswordEncoderInterface $encoder, EntityManagerInterface $em )
     {
+        $user = $this->getUser();
+        if(!($user)) {
+            return $this->redirectToRoute('user_login');
+        }
         if( $this->getUser() !== $user ){
-            return $this->redirectToRoute( 'main_home' );
+            return $this->redirectToRoute( 'home' );
         }
 
         $form = $this->createForm( PasswordModifyType::class, $user );
@@ -276,14 +286,14 @@ class UserController extends AbstractController
     {
         $validToken = $tokenRepository->findOneByToken($token);
         if( !$validToken ) {
-            return $this->redirectToRoute( 'main_home' );
+            return $this->redirectToRoute( 'home' );
         }
 
         $date = new DateTime;
         $now = $date->setTimestamp(strtotime('now'));
 
         if($validToken->getEntAt()< $now ) {
-            return $this->redirectToRoute( 'main_home' );
+            return $this->redirectToRoute( 'home' );
         }
 
         $user = $validToken->getUser();
@@ -320,8 +330,12 @@ class UserController extends AbstractController
      */
     public function updateMail( User $user, Request $request,UserPasswordEncoderInterface $encoder, EntityManagerInterface $em )
     {
+        $user = $this->getUser();
+        if(!($user)) {
+            return $this->redirectToRoute('user_login');
+        }
         if( $this->getUser() !== $user ){
-            return $this->redirectToRoute( 'main_home' );
+            return $this->redirectToRoute( 'home' );
         }
 
         $form = $this->createForm( EmailModifyType::class, $user );
@@ -384,12 +398,21 @@ class UserController extends AbstractController
     public function wishListView()
     {
         $user = $this->getUser();
+        if(!($user)) {
+            return $this->redirectToRoute('user_login');
+        }
         $products = $user->getWishlist();
         foreach ($products as $product) {
             $photos = $product->getPhotos();
             foreach ($photos as $photo) {
                 $photo->setPicturePath();
             }
+            $priceCompare = [];
+            $prices = $product->getStates();
+            foreach ($prices as $price) {
+                array_push($priceCompare, $price->getPrice()) ;
+            }
+            $product->setLowestPrice(min($priceCompare));
         }
         return $this->render('user_interface/wishlistview.html.twig', [
             'controller_name' => 'Wishlistview',
