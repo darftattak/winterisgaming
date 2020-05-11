@@ -36,4 +36,28 @@ class ProductService{
     public function findSearch($data){
         return $this->productRepository->findSearch($data);
     }
+
+    public function getParametersString(array $paramsArray) {
+        $paramString = "?";
+        foreach ($paramsArray as $query => $param) {
+            if ($query == "page") {
+                continue;
+            } elseif($query == "categories") {
+                foreach ($param as $category){
+                    if ($paramString == "?"){
+                        $paramString .= "categories[]=".$category;
+                    }else{
+                        $paramString .= "&categories[]=".$category;
+                    }
+                }
+            } else {
+                if ($paramString == "?"){
+                    $paramString .= $query."=".$param;
+                }else{
+                    $paramString .= "&".$query."=".$param;
+                }
+            }
+        }
+        return $paramString;
+    }
 }

@@ -5,27 +5,28 @@
 {% block body %}
     
     <div class="container">
-        <div class="row">
-            <form method="post" class="col-12 col-lg-6 offset-lg-3">
-                {% if error %}
-                    <div class="alert alert-danger">
-                        Les identifiants saisis ne sont pas corrects
-                    </div>
-                {% endif %}
+            <form method="post" class="col-12 col-lg-6 offset-lg-3 row pt-5 pb-5">
+                <div class="w-50">
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            Les identifiants saisis ne sont pas corrects
+                        </div>
+                    {% endif %}
 
-                <div class="form-group">
-                    <input type="text" name="_username" placeholder="E-mail" class="form-control" value="{{ lastUsername }}">
+                    <div class="form-group">
+                        <input type="text" name="_username" placeholder="E-mail" class="form-control" value="{{ lastUsername }}">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="_password" placeholder="Mot de passe" class="form-control">
+                        <a class="nav-link text-center" href="{{ path('password_reset') }}">Mot de passe oublié ?</a>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="password" name="_password" placeholder="Mot de passe" class="form-control">
-                    <a class="nav-link text-center" href="{{ path('password_reset') }}">Mot de passe oublié ?</a>
-                </div>
-                <input type="hidden" name="_target_path" value="{{ path('user_login_success') }}">
+                <div>
+                    <input type="hidden" name="_target_path" value="{{ path('user_login_success') }}">
 
                 <button type="submit" class="btn btn-blue btn-lg">Connexion</button>
-                
+                </div>
             </form>
-        </div>
     </div>
 
 

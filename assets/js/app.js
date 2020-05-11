@@ -22,6 +22,20 @@ $("#contact_topic").change(function(){
         $("#orderNumberContainer").hide()
     }
 })
+
+//Force password update forms styles
+
+var input= $('#plainPass').children().children().filter(":input")
+
+input.each(function(){
+    $(this).addClass('form-control')
+})
+
+var filterCat= $('#catFilterDiv').children().children().children().filter(":input")
+filterCat.each(function(){
+    $(this).addClass('form-check-input')
+})
+
 //fonction du caroussel nouveauté
 
   
@@ -47,17 +61,47 @@ $( '.cgvA' ).each(function() {
    
 });
 
+//Ajax request
+
+$(".cartQuantity").each(function(){
+    $(this).change(function(){
+        if (typeof(parseInt($(this).val(), 10)) !== "number"){
+            $(this).val(1);
+        }
+        if(!Number.isInteger(parseInt($(this).val(), 10))){
+            Math.ceil(parseInt($(this).val(), 10));
+        }
+        if (parseInt($(this).val() < 1)){
+            $(this).val(1);
+        }
+
+        var unit = $(this).attr('unit')
 
 
+        $.ajax('/ajax/cart/quantity', {
+            method: 'get',
+            data: 'id=' + $(this).attr('id') + '&quantity=' + $(this).val(),
+        }).done(updateRow($(this)))
 
+    })
+})
 
+function updateRow (elem){
+    var newPrice = elem.val() * elem.attr('unit')
+    elem.parent().siblings("[totalItem]").html(newPrice + "€");
+    
+    $("#cartTotalValue").html('')
+    $("#cartTotalValue").html(cartTotalUpdate)
+}
 
-
-
-
-
-
-
-
-
-
+function cartTotalUpdate(){
+    var total = 0
+    var allItem = $('.cartQuantity')
+    
+    allItem.each(function() {
+        var quantity = parseInt($(this).val())
+        var unit = parseInt($(this).attr('unit'))
+        total += unit * quantity
+    });
+    return total
+}

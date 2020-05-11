@@ -11,7 +11,7 @@
 <div class="example-wrapper">
 
     <h1>Votre panier</h1>
-
+<div class="table-responsive">
     {% if items | length > 0 %}
         <table class="table">
     <thead>
@@ -29,9 +29,9 @@
         <tr>
             <td>{{ item.product.product.name }}</td>
             <td>{{ item.product.state }}</td>
-            <td>{{ item.quantity }}</td>
+            <td><input class='cartQuantity form-control' type="number" unit="{{ item.product.price }}" name="{{item.product.id}}" id="{{item.product.id}}" min="1" value="{{ item.quantity }}"></td>
             <td>{{ item.product.price }}€</td>
-            <td>{{ item.product.price * item.quantity }}€</td>
+            <td totalitem='totalItem'>{{ item.product.price * item.quantity }}€</td>
             <td>
             <a href="{{ path('cart_remove', {'id' : item.product.id}) }}" class="btn btn-danger btn-sm">
             <i class="fas fa-trash"></i>
@@ -48,14 +48,14 @@
        <td><a class="nav-link btn btn-blue btn-sm" href="{{ path('user_login') }}">Connexion</a></td>
        <td><a class="nav-link btn btn-blue btn-sm" href="{{ path('user_register') }}">Inscription</a></td>
         {% else %}
-            <td colspan="4" class="text-right">Total : {{ total }}€</td>
+            <td colspan="4" class="text-right">Total : <span id="cartTotalValue">{{ total }}</span>€</td>
             <td colspan="2"><a href="{{ path('order') }}" class="btn btn-blue btn-sm"><i class="fas fa-check-circle mr-1"></i>Valider mon panier</a></td>
         {% endif %}
         </tr>
     </tfoot>
 
 </table>
-        
+</div>        
     {% else %}
         <p>Votre panier est vide </p>
     {% endif %}

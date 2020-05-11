@@ -52,7 +52,7 @@ class ContactType extends AbstractType
                     ->add('topic', ChoiceType::class, array(
                         "label" => "Sujet",
                         'choices' => [
-                            "Retours et remplacments" =>  "Retours et remplacments",
+                            "Retours et remplacements" =>  "Retours et remplacments",
                             "Accès, modification, suppression des données personnelles" => "Accès, modification, suppression des données personnelles",
                             "Tarifications" => "Tarifications",
                             "Signaler un problème" => "Signaler un problème",
